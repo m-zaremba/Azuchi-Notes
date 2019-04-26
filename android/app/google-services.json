@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "604347671056",
+    "firebase_url": "https://kyudo-app-c6748.firebaseio.com",
+    "project_id": "kyudo-app-c6748",
+    "storage_bucket": "kyudo-app-c6748.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604347671056:android:5ef49754743a7211",
+        "android_client_info": {
+          "package_name": "com.warsawsilvergraphstudio.kyudoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604347671056-9ebmlca4t7e8tre4lbmmj56s87n40a5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8LhhXDkwOoU9JW0o78z_DawcNX0tHtc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604347671056-9ebmlca4t7e8tre4lbmmj56s87n40a5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
