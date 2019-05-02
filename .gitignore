@@ -38,3 +38,5 @@ buck-out/
 
 *.jsbundle
 ios/Pods
+
+google-services.json
