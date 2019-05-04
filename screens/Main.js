@@ -66,7 +66,7 @@ class Main extends React.Component {
           data={this.state.series}
           renderItem={({ item }) => <Serie {...item} />}
         />
-        <Icon style={{position: 'absolute', bottom: 20, left: 180}}name='ios-add-circle' size={60} color='rgb(245, 66, 66)' onPress={() => this.props.navigation.navigate('AddSerie')}/>
+        <Icon style={{position: 'absolute', bottom: 20, right: 20}}name='ios-add-circle' size={60} color='rgb(245, 66, 66)' onPress={() => this.props.navigation.navigate('AddSerie')}/>
        </View>
        </ImageBackground>
        </>

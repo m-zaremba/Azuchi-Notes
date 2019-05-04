@@ -15,10 +15,10 @@ export default class Serie extends React.PureComponent {
               <View style={styles.serieRow}>
                       <Text style={ styles.text }>{this.props.date}</Text>
                       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      {this.props.accuracy[0]==='hit' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[1]==='hit' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[2]==='hit' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[3]==='hit' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
+                      {this.props.accuracy[0]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
+                      {this.props.accuracy[1]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
+                      {this.props.accuracy[2]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
+                      {this.props.accuracy[3]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
                       </View>
               </View>
         );
@@ -27,18 +27,20 @@ export default class Serie extends React.PureComponent {
 
  const styles = StyleSheet.create({
    serieRow: {
-       height: 40,
+       height: 60,
        marginTop: 3,
        marginLeft: 5,
        paddingLeft: 15,
+       paddingRight: 15,
        marginRight: 5,
        borderRadius: 10,
-       backgroundColor: 'rgba(0, 0, 0, 0.52)',
+       backgroundColor: 'rgba(255, 255, 255, 0.6)',
        justifyContent: 'space-between',
+       alignItems: 'center',
        flexDirection: 'row',
  },
    text: {
-     fontSize: 26,
-     color: 'white',
+     fontSize: 24,
+     color: 'black'
    }
  });

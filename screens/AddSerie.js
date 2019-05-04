@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Svg, { Rect, Circle } from 'react-native-svg';
 //import PinchZoomView from 'react-native-pinch-zoom-view';
 //import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
@@ -55,6 +56,7 @@ export default class AddShots extends React.Component {
     arr.push({posX: locationX, posY: locationY});
     acc.push(message);
 
+
     this.setState({
         coordinates: arr,
         accuracy: acc,
@@ -91,7 +93,7 @@ export default class AddShots extends React.Component {
 
      return (
        <>
-      <View style={{flex: 8, alignItems: 'center', zIndex: 1}}>
+      <View style={{flex: 6, alignItems: 'center', zIndex: 1}}>
 
       {shots}
 
@@ -102,7 +104,7 @@ export default class AddShots extends React.Component {
           height={50}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'miss');
+            this.handleShot(e, 'cross');
           }}
         />
         <Rect
@@ -112,7 +114,7 @@ export default class AddShots extends React.Component {
           x={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'miss');
+            this.handleShot(e, 'cross');
           }}
         />
         <Rect
@@ -122,7 +124,7 @@ export default class AddShots extends React.Component {
           y={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'miss');
+            this.handleShot(e, 'cross');
           }}
         />
         <Rect
@@ -133,7 +135,7 @@ export default class AddShots extends React.Component {
           x={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'miss');
+            this.handleShot(e, 'cross');
           }}
         />
         <Circle
@@ -145,7 +147,7 @@ export default class AddShots extends React.Component {
           cy={26}
           fill="black"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
         <Circle
@@ -157,7 +159,7 @@ export default class AddShots extends React.Component {
           cy={32}
           fill="white"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
         <Circle
@@ -169,7 +171,7 @@ export default class AddShots extends React.Component {
           cy={36}
           fill="black"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
         <Circle
@@ -181,7 +183,7 @@ export default class AddShots extends React.Component {
           cy={38}
           fill="white"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
         <Circle
@@ -193,7 +195,7 @@ export default class AddShots extends React.Component {
           cy={42}
           fill="black"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
         <Circle
@@ -205,13 +207,23 @@ export default class AddShots extends React.Component {
           cy={46}
           fill="white"
           onPress={e => {
-            this.handleShot(e, 'hit');
+            this.handleShot(e, 'circle');
           }}
         />
       </Svg>
       </View>
-      <View style={{flex: 1}}>
-      <Text>Pierwszy strzał: {this.state.accuracy[0]}</Text>
+      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, alignItems: 'flex-end'}}>
+      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>1st Arrow</Text>
+      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>2nd Arrow</Text>
+      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>3rd Arrow</Text>
+      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>4th Arrow</Text>
+      </View>
+      <View style={{flex: 1, flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, alignItems: 'flex-start'}}>
+      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='black'/> : null}
+      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='black'/> : null}
+      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='black'/> : null}
+      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='black'/> : null}
+
       </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
         <Icon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={40} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 66, 66)'} disabled={this.state.btnActive}/>
