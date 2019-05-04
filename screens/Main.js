@@ -1,39 +1,120 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, Button } from 'react-native';
 import firebase from 'react-native-firebase';
 
-export default class Main extends React.Component {
-  state = {
-    currentUser: null
+import { FlatList, ScrollView, View, Text, Image, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native';
+import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
+import {Button} from 'react-native-elements';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import AddSerie from './AddSerie';
+import Stats from './Stats';
+import Logout from './Logout';
+import Serie from './Serie';
+
+class Main extends React.Component {
+   constructor(props) {
+   super(props);
+   this.ref = firebase.firestore().collection('series');
+   this.state = {
+     series: [],
+     loading: true,
+   }
+   }
+
+   onCollectionUpdate = (querySnapshot) => {
+    const series = [];
+    querySnapshot.forEach((doc) => {
+      const { date, accuracy } = doc.data();
+
+      series.push({
+        key: doc.id,
+        doc, // DocumentSnapshot
+        date,
+        accuracy,
+      });
+    });
+
+    this.setState({
+      series: series,
+      loading: false,
+   });
   }
 
-  handleLogout = () => {
-    firebase.auth().signOut();
+
+   componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+   }
+
+   componentWillUnmount() {
+    this.unsubscribe();
+   }
+
+   render(){
+
+     if (this.state.loading) {
+    return null; // or render a loading icon
   }
 
-render() {
-    const { currentUser } = this.state;
+     return (
+       <>
+       <ImageBackground style={ styles.imgBackground }
+               resizeMode='contain'
+               source={require('../img/background_mon.png')}>
+       <View style={ styles.mainWindow }>
+        <FlatList
+          data={this.state.series}
+          renderItem={({ item }) => <Serie {...item} />}
+        />
+        <Icon style={{position: 'absolute', bottom: 20, left: 180}}name='ios-add-circle' size={60} color='rgb(245, 66, 66)' onPress={() => this.props.navigation.navigate('AddSerie')}/>
+       </View>
+       </ImageBackground>
+       </>
 
-return (
-      <View style={styles.container}>
-        <Text>
-          Hi {currentUser && currentUser.email}!
-        </Text>
-        <Button title="Log Out" onPress={this.handleLogout} />
-      </View>
-    )
-  }
+     )
+   }
+ }
 
-  componentDidMount() {
-    const { currentUser } = firebase.auth();
-    this.setState({ currentUser });
-  }
-}
+const TabNavigator = createBottomTabNavigator(
+  {
+  Main: Main,
+  Stats: Stats,
+  Logout: Logout,
+ },
+ {
+   defaultNavigationOptions: ({ navigation }) => ({
+     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+       const { routeName } = navigation.state;
+       let IconComponent = Icon;
+       let iconName;
+       if (routeName === 'Main') {
+         iconName = `${focused ? 'ios-list-box' : 'ios-list'}`;
+       } else if (routeName === 'Stats') {
+         iconName = `${focused ? 'ios-stats' : 'md-stats'}`;
+       } else if (routeName === 'Logout') {
+         iconName = `${focused ? 'ios-log-out' : 'ios-log-in'}`;
+       }
+       return <IconComponent name={iconName} size={40} color={tintColor} />;
+     },
+   }),
+   tabBarOptions: {
+     activeTintColor: 'rgb(245, 66, 66)',
+     inactiveTintColor: 'rgb(190, 134, 134)',
+     showLabel: false,
+   },
+ }
+);
+
+export default createAppContainer(TabNavigator);
 
 const styles = StyleSheet.create({
-  container: {
+  imgBackground: {
+      width: '100%',
+      height: '100%',
+      flex: 1,
+},
+  mainWindow: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    paddingTop: 40,
+  },
+});
