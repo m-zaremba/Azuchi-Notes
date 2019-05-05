@@ -116,5 +116,6 @@ const styles = StyleSheet.create({
   mainWindow: {
     flex: 1,
     paddingTop: 40,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)'
   },
 });

@@ -15,10 +15,10 @@ export default class Serie extends React.PureComponent {
               <View style={styles.serieRow}>
                       <Text style={ styles.text }>{this.props.date}</Text>
                       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      {this.props.accuracy[0]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[1]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[2]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
-                      {this.props.accuracy[3]==='circle' ? <Icon name='circle' size={30} color='black'/> : <Icon name='cross' size={30} color='black'/>}
+                      <Icon name={`${this.props.accuracy[0]}`} size={30} color='black'/>
+                      <Icon name={`${this.props.accuracy[1]}`} size={30} color='black'/>
+                      <Icon name={`${this.props.accuracy[2]}`} size={30} color='black'/>
+                      <Icon name={`${this.props.accuracy[3]}`} size={30} color='black'/>
                       </View>
               </View>
         );
@@ -34,7 +34,7 @@ export default class Serie extends React.PureComponent {
        paddingRight: 15,
        marginRight: 5,
        borderRadius: 10,
-       backgroundColor: 'rgba(255, 255, 255, 0.6)',
+       backgroundColor: 'rgba(255, 255, 255, 0.85)',
        justifyContent: 'space-between',
        alignItems: 'center',
        flexDirection: 'row',

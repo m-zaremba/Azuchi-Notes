@@ -11,6 +11,7 @@ import Serie from './Serie';
 
 let arr = [];
 let acc = [];
+let err = [];
 
 export default class AddShots extends React.Component {
   constructor() {
@@ -20,6 +21,7 @@ export default class AddShots extends React.Component {
       date: '',
       coordinates: [],
       accuracy: '',
+      errors: [],
       x: null,
       y: null,
       svgActive: '',
@@ -33,17 +35,20 @@ export default class AddShots extends React.Component {
    date: this.state.date,
    coordinates: this.state.coordinates,
    accuracy: this.state.accuracy,
+   errors: this.state.errors,
  });
    arr = [];
    acc = [];
+   err = [];
 }
 
   cancel = () => {
     arr = [];
     acc = [];
+    err = [];
   }
 
-  handleShot = (e, message) => {
+  handleShot = (e, message, error) => {
 
     const { nativeEvent } = e;
     const {
@@ -56,10 +61,15 @@ export default class AddShots extends React.Component {
     arr.push({posX: locationX, posY: locationY});
     acc.push(message);
 
+    if(error) {
+      err.push(error)
+    }
+
 
     this.setState({
         coordinates: arr,
         accuracy: acc,
+        errors: err,
         x: locationX,
         y: locationY,
       })
@@ -88,7 +98,7 @@ export default class AddShots extends React.Component {
    render(){
 
      let shots = this.state.coordinates.map((e,i) => {
-       return (<View key={i} style={{width: 16, height: 16, borderRadius: 8, position: 'absolute', top: e.posY - 8, left: e.posX + 14, backgroundColor: 'yellow', zIndex: 2}}/>)
+       return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
      });
 
      return (
@@ -104,7 +114,7 @@ export default class AddShots extends React.Component {
           height={50}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'cross');
+            this.handleShot(e, 'cross', 'UL');
           }}
         />
         <Rect
@@ -114,7 +124,7 @@ export default class AddShots extends React.Component {
           x={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'cross');
+            this.handleShot(e, 'cross', 'UR');
           }}
         />
         <Rect
@@ -124,7 +134,7 @@ export default class AddShots extends React.Component {
           y={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'cross');
+            this.handleShot(e, 'cross', 'LL');
           }}
         />
         <Rect
@@ -135,7 +145,7 @@ export default class AddShots extends React.Component {
           x={49}
           fill='rgb(49, 50, 47)'
           onPress={e => {
-            this.handleShot(e, 'cross');
+            this.handleShot(e, 'cross', 'LR');
           }}
         />
         <Circle
