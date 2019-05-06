@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, ImageBackground, StyleSheet } from 'react-native';
+import { Text, View, Button, ImageBackground, StyleSheet, Modal, TouchableHighlight } from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle } from 'react-native-svg';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -12,6 +12,7 @@ export default class Stats extends React.Component {
    this.state = {
      series: [],
      loading: true,
+     modalVisible: false,
    }
    }
 
@@ -32,6 +33,16 @@ export default class Stats extends React.Component {
       series: series,
       loading: false,
    });
+  }
+
+  handleModal = () => {
+    this.setState({
+      modalVisible: true,
+    })
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: false});
   }
 
 
@@ -61,7 +72,8 @@ export default class Stats extends React.Component {
      // arrows hits coordinates
 
      let coordObj = [];
-     let errQuart = [];
+     let errQuart = []; // error tags 2D array
+     let errList = []; // 1D error 'list'
      this.state.series.map((e,i) => {
        coordObj.push(e.coordinates);
 
@@ -69,6 +81,40 @@ export default class Stats extends React.Component {
          errQuart.push(e.errors);
        }
      })
+
+     let upperL = [];
+     let upperR = [];
+     let lowerL = [];
+     let lowerR = [];
+
+     for(let i = 0; i < errQuart.length; i++){
+       for(let j = 0; j < errQuart[i].length; j++){
+         errList.push(errQuart[i][j]);
+       }
+     }
+
+     errList.map(e => {
+       if(e === 'UL') {
+         upperL.push(e)
+       } else if (e === 'UR') {
+         upperR.push(e)
+       } else if (e === 'LL') {
+         lowerL.push(e)
+       } else if (e === 'LR') {
+         lowerR.push(e)
+       }
+     })
+
+     console.log(upperL.length);
+     console.log(upperR.length);
+     console.log(lowerL.length);
+     console.log(lowerR.length);
+
+
+     console.log('log z jednowymiarowej tablicy błędów');
+     console.log(errList);
+
+
 
      let statCoords = []; // array of shot coordinates
 
@@ -95,10 +141,10 @@ export default class Stats extends React.Component {
 
     // Shot stats per Arrow
 
-    let firstAcc = []; // Accuracy of 1st Arrow as number
-    let secondAcc = []; // Accuracy of 2nd Arrow as number
-    let thirdAcc = []; // Accuracy of 3rd Arrow as number
-    let fourthAcc = []; // Accuracy of 4th Arrow as number
+    let firstAcc = []; // Accuracy of 1st Arrow in all series as 0/1 number necessary for following calculations
+    let secondAcc = []; // Accuracy of 2nd Arrow in all series as 0/1 number necessary for following calculations
+    let thirdAcc = []; // Accuracy of 3rd Arrow in all series as 0/1 number necessary for following calculations
+    let fourthAcc = []; // Accuracy of 4th Arrow in all series as 0/1 number necessary for following calculations
 
     seriesAcc.map((e,i) => {
       if(e[0] === 'circle') {
@@ -124,8 +170,7 @@ export default class Stats extends React.Component {
       } else {
         fourthAcc.push(0);
       }
-    })
-
+    });
 
     //Show all shots markers
 
@@ -140,7 +185,7 @@ export default class Stats extends React.Component {
 
        {statShots}
 
-       <Svg width="90%" height="90%" viewBox="0 0 100 100">
+       <Svg width='90%' height='90%' viewBox='0 0 100 100'>
          <Rect
            disabled='true'
            width={50}
@@ -176,7 +221,7 @@ export default class Stats extends React.Component {
            r={24}
            cx={26}
            cy={26}
-           fill="black"
+           fill='black'
          />
          <Circle
            disabled='true'
@@ -185,7 +230,7 @@ export default class Stats extends React.Component {
            r={18}
            cx={32}
            cy={32}
-           fill="white"
+           fill='white'
          />
          <Circle
            disabled='true'
@@ -194,7 +239,7 @@ export default class Stats extends React.Component {
            r={14}
            cx={36}
            cy={36}
-           fill="black"
+           fill='black'
         />
          <Circle
            disabled='true'
@@ -203,7 +248,7 @@ export default class Stats extends React.Component {
            r={12}
            cx={38}
            cy={38}
-           fill="white"
+           fill='white'
          />
          <Circle
            disabled='true'
@@ -212,7 +257,7 @@ export default class Stats extends React.Component {
            r={8}
            cx={42}
            cy={42}
-           fill="black"
+           fill='black'
          />
          <Circle
            disabled='true'
@@ -221,34 +266,72 @@ export default class Stats extends React.Component {
            r={4}
            cx={46}
            cy={46}
-           fill="white"
+           fill='white'
          />
        </Svg>
        </View>
-       <View style={{flex: 1, flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, justifyContent:'space-around', borderBottomColor: 'red', borderBottomWidth: 1}}>
-        <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
-        <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{typeof shots === 'number' ? `Hits:\n${shots - misses}` : `Hits:\n0`}</Text>
-        <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{`Misses:\n${misses}`}</Text>
-        <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length))/ shots) * 100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
+       <View style={styles.statsView}>
+        <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
+        <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}` : `Hits:\n0`}</Text>
+        <Text style={styles.statText}>{`Misses:\n${misses}`}</Text>
+        <Text style={styles.statText}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length))/ shots) * 100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
        </View>
-       <View style={{flex: 1, flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, justifyContent:'space-around', alignItems: 'center'}}>
-       <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{`1st \n accuracy`}</Text>
-       <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{`2nd \n accuracy`}</Text>
-       <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{`3rd \n accuracy`}</Text>
-       <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{`4th \n accuracy`}</Text>
+       <View style={styles.statsView}>
+       <Text style={styles.statText}>{`1st \n accuracy`}</Text>
+       <Text style={styles.statText}>{`2nd \n accuracy`}</Text>
+       <Text style={styles.statText}>{`3rd \n accuracy`}</Text>
+       <Text style={styles.statText}>{`4th \n accuracy`}</Text>
        </View>
-         <View style={{flex: 1, flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, justifyContent:'space-around'}}>
-         <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <View style={styles.statsView}>
+         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
          </View>
+         <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{marginTop: 22, width: '92%', height: '95%', backgroundColor: 'rgba(244, 222, 107, 0.9)', marginLeft: '4%', borderRadius: 10, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
+            <View>
+              <Text style={{fontSize: 20, color: 'black'}}>{`Upper Left Qurter hits count = ${upperL.length} \n
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`}</Text>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
+        <Icon style={styles.teacherIcon}onPress={() => {this.handleModal()}} name='message1' size={40} color='white'/>
        </>
      )
    }
  }
 
  const styles = StyleSheet.create({
-
-
+   statText: {
+     flex: 1,
+     fontSize: 20,
+     textAlign: 'center'
+   },
+   statsView: {
+     flex: 1,
+     flexDirection: 'row',
+     paddingLeft: 4,
+     paddingRight: 4,
+     justifyContent:'space-around'
+   },
+   teacherIcon: {
+     position: 'absolute',
+     bottom: '45%',
+     right: 45,
+     zIndex: 3,
+   }
  });

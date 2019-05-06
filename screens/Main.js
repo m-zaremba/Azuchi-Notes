@@ -25,13 +25,14 @@ class Main extends React.Component {
    onCollectionUpdate = (querySnapshot) => {
     const series = [];
     querySnapshot.forEach((doc) => {
-      const { date, accuracy } = doc.data();
+      const { date, accuracy, modalVisible } = doc.data();
 
       series.push({
         key: doc.id,
         doc, // DocumentSnapshot
         date,
         accuracy,
+        modalVisible,
       });
     });
 
@@ -53,7 +54,7 @@ class Main extends React.Component {
    render(){
 
      if (this.state.loading) {
-    return null; // or render a loading icon
+    return null;
   }
 
      return (

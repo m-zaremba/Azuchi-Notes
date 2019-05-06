@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Svg, { Rect, Circle } from 'react-native-svg';
@@ -36,6 +36,7 @@ export default class AddShots extends React.Component {
    coordinates: this.state.coordinates,
    accuracy: this.state.accuracy,
    errors: this.state.errors,
+   modalVisible: false,
  });
    arr = [];
    acc = [];
@@ -103,17 +104,17 @@ export default class AddShots extends React.Component {
 
      return (
        <>
-      <View style={{flex: 6, alignItems: 'center', zIndex: 1}}>
+      <View style={styles.mainWindow}>
 
       {shots}
 
-      <Svg width="90%" height="90%" viewBox="0 0 100 100">
+      <Svg width='90%' height='90%' viewBox='0 0 100 100'>
         <Rect
           disabled={this.state.svgActive}
           width={50}
           height={50}
           fill='rgb(49, 50, 47)'
-          onPress={e => {
+          onPressIn={e => {
             this.handleShot(e, 'cross', 'UL');
           }}
         />
@@ -123,7 +124,7 @@ export default class AddShots extends React.Component {
           height={50}
           x={49}
           fill='rgb(49, 50, 47)'
-          onPress={e => {
+          onPressIn={e => {
             this.handleShot(e, 'cross', 'UR');
           }}
         />
@@ -133,7 +134,7 @@ export default class AddShots extends React.Component {
           height={50}
           y={49}
           fill='rgb(49, 50, 47)'
-          onPress={e => {
+          onPressIn={e => {
             this.handleShot(e, 'cross', 'LL');
           }}
         />
@@ -144,7 +145,7 @@ export default class AddShots extends React.Component {
           y={49}
           x={49}
           fill='rgb(49, 50, 47)'
-          onPress={e => {
+          onPressIn={e => {
             this.handleShot(e, 'cross', 'LR');
           }}
         />
@@ -155,7 +156,7 @@ export default class AddShots extends React.Component {
           r={24}
           cx={26}
           cy={26}
-          fill="black"
+          fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
@@ -167,7 +168,7 @@ export default class AddShots extends React.Component {
           r={18}
           cx={32}
           cy={32}
-          fill="white"
+          fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
@@ -179,7 +180,7 @@ export default class AddShots extends React.Component {
           r={14}
           cx={36}
           cy={36}
-          fill="black"
+          fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
@@ -191,7 +192,7 @@ export default class AddShots extends React.Component {
           r={12}
           cx={38}
           cy={38}
-          fill="white"
+          fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
@@ -203,7 +204,7 @@ export default class AddShots extends React.Component {
           r={8}
           cx={42}
           cy={42}
-          fill="black"
+          fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
@@ -215,33 +216,65 @@ export default class AddShots extends React.Component {
           r={4}
           cx={46}
           cy={46}
-          fill="white"
+          fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
           }}
         />
       </Svg>
       </View>
-      <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, alignItems: 'flex-end'}}>
-      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>1st Arrow</Text>
-      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>2nd Arrow</Text>
-      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>3rd Arrow</Text>
-      <Text style={{flex: 1, textAlign: 'center', fontSize: 16, color: 'black'}}>4th Arrow</Text>
+      <View style={styles.arrowsCount}>
+      <Text style={styles.text}>1st Arrow</Text>
+      <Text style={styles.text}>2nd Arrow</Text>
+      <Text style={styles.text}>3rd Arrow</Text>
+      <Text style={styles.text}>4th Arrow</Text>
       </View>
-      <View style={{flex: 1, flexDirection: 'row', paddingLeft: 4, PaddingRight: 10, alignItems: 'flex-start'}}>
+      <View style={styles.icons}>
       {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='black'/> : null}
       {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='black'/> : null}
       {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='black'/> : null}
       {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='black'/> : null}
 
       </View>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
+        <View style={styles.buttonsWrapper}>
         <Icon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={40} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 66, 66)'} disabled={this.state.btnActive}/>
         <Icon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={40} color='rgb(245, 66, 66)'/>
         </View>
        </>
      )
    }
-
-
  }
+
+ const styles = StyleSheet.create({
+   mainWindow: {
+     flex: 6,
+     alignItems: 'center',
+     zIndex: 1
+   },
+   arrowsCount: {
+     flex: 1,
+     justifyContent: 'center',
+     flexDirection: 'row',
+     paddingLeft: 4,
+     paddingRight: 10,
+     alignItems: 'flex-end'
+   },
+   icons: {
+     flex: 1,
+     flexDirection: 'row',
+     paddingLeft: 4,
+     paddingRight: 10,
+     alignItems: 'flex-start'
+   },
+   buttonsWrapper: {
+     flex: 1,
+     flexDirection: 'row',
+     justifyContent:'space-around'
+   },
+   text: {
+     flex: 1,
+     textAlign: 'center',
+     fontSize: 16,
+     color: 'black'
+   }
+ });
