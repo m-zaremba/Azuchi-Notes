@@ -29,24 +29,24 @@ render() {
             {this.state.errorMessage}
           </Text>}
         <TextInput
-          placeholder="EMAIL"
-          autoCapitalize="none"
+          placeholder='EMAIL'
+          autoCapitalize='none'
           style={styles.textInput}
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
         <TextInput
           secureTextEntry
-          placeholder="PASSWORD"
-          autoCapitalize="none"
+          placeholder='PASSWORD'
+          autoCapitalize='none'
           style={styles.textInput}
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button title="Sign Up" onPress={this.handleSignUp} containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}} />
+        <Button title='Sign Up' onPress={this.handleSignUp} containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}} />
         <Text style={styles.text}>Already have an account?</Text>
         <Button
-          title="Login"
+          title='Login'
           onPress={() => this.props.navigation.navigate('Login')}
           containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}}
         />

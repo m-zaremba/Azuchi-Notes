@@ -31,23 +31,23 @@ export default class Login extends React.Component {
           </Text>}
         <TextInput
           style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="EMAIL"
+          autoCapitalize='none'
+          placeholder='EMAIL'
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
         <TextInput
           secureTextEntry
           style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="PASSWORD"
+          autoCapitalize='none'
+          placeholder='PASSWORD'
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button title="Login" onPress={this.handleLogin} containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}}/>
+        <Button title='Login' onPress={this.handleLogin} containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}}/>
         <Text style={styles.text}>Don't have an account?</Text>
         <Button
-          title="Sign Up"
+          title='Sign Up'
           onPress={() => this.props.navigation.navigate('SignUp')}
           containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}}
         />
