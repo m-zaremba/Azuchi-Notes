@@ -42,7 +42,9 @@ export default class Stats extends React.Component {
   }
 
   setModalVisible(visible) {
-    this.setState({modalVisible: false});
+    this.setState({
+      modalVisible: false,
+    });
   }
 
 
@@ -105,16 +107,6 @@ export default class Stats extends React.Component {
        }
      })
 
-     console.log(upperL.length);
-     console.log(upperR.length);
-     console.log(lowerL.length);
-     console.log(lowerR.length);
-
-
-     console.log('log z jednowymiarowej tablicy błędów');
-     console.log(errList);
-
-
 
      let statCoords = []; // array of shot coordinates
 
@@ -174,10 +166,17 @@ export default class Stats extends React.Component {
 
     //Show all shots markers
 
-     let statShots = statCoords.map((e,i) => {
-       return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
-     });
-
+      let statShots = statCoords.map((e,i) => {
+       if(i === 0 || i%4 === 0) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+       } else if (i === 1 || i%4 === 1) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'green', zIndex: 2}}/>)
+       } else if (i === 2 || i%4 === 2) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'blue', zIndex: 2}}/>)
+       } else {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'violet', zIndex: 2}}/>)
+       }
+      });
 
      return (
        <>
@@ -188,30 +187,8 @@ export default class Stats extends React.Component {
        <Svg width='90%' height='90%' viewBox='0 0 100 100'>
          <Rect
            disabled='true'
-           width={50}
-           height={50}
-           fill='rgb(49, 50, 47)'
-         />
-         <Rect
-           disabled='true'
-           width={50}
-           height={50}
-           x={49}
-           fill='rgb(49, 50, 47)'
-         />
-         <Rect
-           disabled='true'
-           width={50}
-           height={50}
-           y={49}
-           fill='rgb(49, 50, 47)'
-         />
-         <Rect
-           disabled='true'
-           width={50}
-           height={50}
-           y={49}
-           x={49}
+           width={100}
+           height={100}
            fill='rgb(49, 50, 47)'
          />
          <Circle
@@ -292,22 +269,18 @@ export default class Stats extends React.Component {
           animationType="slide"
           transparent={true}
           visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{marginTop: 22, width: '92%', height: '95%', backgroundColor: 'rgba(244, 222, 107, 0.9)', marginLeft: '4%', borderRadius: 10, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
+          >
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(!this.state.modalVisible);
+            }}>
+          <View style={{marginTop: 22, width: '92%', height: '95%', backgroundColor: 'rgba(85, 85, 85, 0.95)', marginLeft: '4%', paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
             <View>
-              <Text style={{fontSize: 20, color: 'black'}}>{`Upper Left Qurter hits count = ${upperL.length} \n
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`}</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
+              <Text style={{fontSize: 20, color: 'white'}}>{`Upper Left Qurter hits count = ${upperL.length} \n
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}</Text>
             </View>
           </View>
+          </TouchableHighlight>
         </Modal>
         <Icon style={styles.teacherIcon}onPress={() => {this.handleModal()}} name='message1' size={40} color='white'/>
        </>

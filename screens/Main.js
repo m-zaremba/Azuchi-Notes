@@ -25,13 +25,14 @@ class Main extends React.Component {
    onCollectionUpdate = (querySnapshot) => {
     const series = [];
     querySnapshot.forEach((doc) => {
-      const { date, accuracy, modalVisible } = doc.data();
+      const { date, accuracy, coordinates, modalVisible } = doc.data();
 
       series.push({
         key: doc.id,
         doc, // DocumentSnapshot
         date,
         accuracy,
+        coordinates,
         modalVisible,
       });
     });

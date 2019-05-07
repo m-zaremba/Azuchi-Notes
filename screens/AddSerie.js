@@ -99,7 +99,15 @@ export default class AddShots extends React.Component {
    render(){
 
      let shots = this.state.coordinates.map((e,i) => {
-       return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+       if(i === 0) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+       } else if (i === 1) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'green', zIndex: 2}}/>)
+       } else if (i === 2) {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'blue', zIndex: 2}}/>)
+       } else {
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'violet', zIndex: 2}}/>)
+       }
      });
 
      return (
@@ -230,10 +238,10 @@ export default class AddShots extends React.Component {
       <Text style={styles.text}>4th Arrow</Text>
       </View>
       <View style={styles.icons}>
-      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='black'/> : null}
-      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='black'/> : null}
-      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='black'/> : null}
-      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='black'/> : null}
+      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
+      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
+      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
+      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
 
       </View>
         <View style={styles.buttonsWrapper}>

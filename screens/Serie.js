@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
-
-import { View, Text, StyleSheet, TouchableOpacity,  Modal } from 'react-native';
+import Svg, { Rect, Circle } from 'react-native-svg';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight,  Modal, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import AddSerie from './AddSerie';
@@ -9,17 +9,39 @@ import Main from './Main';
 
 export default class Serie extends React.PureComponent {
 
-  setModalVisible() {
+  handleSerieModal = () => {
     this.props.doc.ref.update({
-            modalVisible: !this.props.modalVisible,
+            modalVisible: true,
         });
+  }
+
+  setModalInvisible(visible) {
+    this.props.doc.ref.update({
+      modalVisible: false,
+    })
+  }
+
+  handleDelete = () => {
+    Alert.alert(
+  '',
+  'Confirm delete',
+  [
+    {
+      text: 'Cancel',
+      onPress: () => null,
+      style: 'cancel',
+    },
+    {text: 'Confirm', onPress: () => this.props.doc.ref.delete()},
+  ],
+  {cancelable: false},
+);
   }
 
    render(){
 
        return (
-         <TouchableOpacity onPress={() => {
-           this.setModalVisible()}} >
+         <TouchableOpacity activeOpacity={1} onPress={() => {
+           this.handleSerieModal()}} onLongPress={() => {this.handleDelete()}}>
            <>
               <View style={styles.serieRow}>
                       <Text style={ styles.text }>{this.props.date}</Text>
@@ -35,18 +57,100 @@ export default class Serie extends React.PureComponent {
                transparent={true}
                visible={this.props.modalVisible}
                >
-               <View style={{marginTop: 22, width: '92%', height: '95%', backgroundColor: 'rgba(244, 222, 107, 0.9)', marginLeft: '4%', borderRadius: 10, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>
-                 <View>
-                   <Text style={{fontSize: 20, color: 'black'}}>{this.props.accuracy}</Text>
-
-                   <TouchableOpacity
-                     onPress={() => {
-                       this.setModalVisible()
-                     }}>
-                     <Text>Hide Modal</Text>
-                   </TouchableOpacity>
+               <TouchableOpacity activeOpacity={1}
+                 onPress={() => {this.setModalInvisible(this.props.modalVisible);}}>
+                 <View style={{width: '100%', height: '100%',backgroundColor: 'rgba(85, 85, 85, 0.95)'}}>
+                 {this.props.coordinates.map((e,i) => {
+                   if(i === 0) {
+                     return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+                   } else if (i === 1) {
+                     return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'green', zIndex: 2}}/>)
+                   } else if (i === 2) {
+                     return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'blue', zIndex: 2}}/>)
+                   } else {
+                     return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'violet', zIndex: 2}}/>)
+                   }
+                 })}
+                 <View style={{flex: 6, alignItems: 'center', zIndex: 1}}>
+                 <Svg width='90%' height='90%' viewBox='0 0 100 100'>
+                   <Rect
+                     disabled='true'
+                     width={100}
+                     height={100}
+                     fill='rgb(49, 50, 47)'
+                   />
+                   <Circle
+                     disabled='true'
+                     x={24}
+                     y={24}
+                     r={24}
+                     cx={26}
+                     cy={26}
+                     fill='black'
+                   />
+                   <Circle
+                     disabled='true'
+                     x={18}
+                     y={18}
+                     r={18}
+                     cx={32}
+                     cy={32}
+                     fill='white'
+                   />
+                   <Circle
+                     disabled='true'
+                     x={14}
+                     y={14}
+                     r={14}
+                     cx={36}
+                     cy={36}
+                     fill='black'
+                  />
+                   <Circle
+                     disabled='true'
+                     x={12}
+                     y={12}
+                     r={12}
+                     cx={38}
+                     cy={38}
+                     fill='white'
+                   />
+                   <Circle
+                     disabled='true'
+                     x={8}
+                     y={8}
+                     r={8}
+                     cx={42}
+                     cy={42}
+                     fill='black'
+                   />
+                   <Circle
+                     disabled='true'
+                     x={4}
+                     y={4}
+                     r={4}
+                     cx={46}
+                     cy={46}
+                     fill='white'
+                   />
+                 </Svg>
                  </View>
-               </View>
+                   <View style={{flex: 3, alignItems: 'center'}}>
+                   <View style={styles.arrowsCount}>
+                   <Text style={styles.modalText}>1st Arrow</Text>
+                   <Text style={styles.modalText}>2nd Arrow</Text>
+                   <Text style={styles.modalText}>3rd Arrow</Text>
+                   <Text style={styles.modalText}>4th Arrow</Text>
+                   </View>
+                   <View style={styles.icons}>
+                   {this.props.accuracy.length >= 1 ? <Icon style={{width: '25%', textAlign: 'center'}} name={`${this.props.accuracy[0]}`} size={40} color='red'/> : null}
+                   {this.props.accuracy.length >= 2 ? <Icon style={{width: '25%', textAlign: 'center'}} name={`${this.props.accuracy[1]}`} size={40} color='green'/> : null}
+                   {this.props.accuracy.length >= 3 ? <Icon style={{width: '25%', textAlign: 'center'}} name={`${this.props.accuracy[2]}`} size={40} color='blue'/> : null}
+                   {this.props.accuracy.length >= 4 ? <Icon style={{width: '25%', textAlign: 'center'}} name={`${this.props.accuracy[3]}`} size={40} color='violet'/> : null}
+                   </View>
+                   </View>
+                 </View>
+               </TouchableOpacity>
              </Modal>
              </>
         </TouchableOpacity>
@@ -69,11 +173,32 @@ export default class Serie extends React.PureComponent {
        flexDirection: 'row',
  },
    text: {
-     fontSize: 24,
+     fontSize: 20,
      color: 'black'
    },
    serieView: {
      flexDirection: 'row',
      alignItems: 'center'
+   },
+   arrowsCount: {
+     flex: 1,
+     justifyContent: 'center',
+     flexDirection: 'row',
+     paddingLeft: 4,
+     paddingRight: 10,
+     alignItems: 'flex-end'
+   },
+   icons: {
+     flex: 1,
+     flexDirection: 'row',
+     paddingLeft: 4,
+     paddingRight: 10,
+     alignItems: 'flex-start'
+   },
+   modalText: {
+     fontSize: 14,
+     color: 'white',
+     textAlign: 'center',
+     flex: 1
    }
  });
