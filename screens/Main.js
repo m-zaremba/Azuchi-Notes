@@ -15,7 +15,7 @@ import Serie from './Serie';
 class Main extends React.Component {
    constructor(props) {
    super(props);
-   this.ref = firebase.firestore().collection('series');
+   this.ref = firebase.firestore().collection('series').orderBy('timestamp', 'desc');
    this.state = {
      series: [],
      loading: true,

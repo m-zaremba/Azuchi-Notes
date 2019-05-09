@@ -29,7 +29,7 @@ render() {
             {this.state.errorMessage}
           </Text>}
         <TextInput
-          placeholder='EMAIL'
+          placeholder='Email'
           autoCapitalize='none'
           style={styles.textInput}
           onChangeText={email => this.setState({ email })}
@@ -37,7 +37,7 @@ render() {
         />
         <TextInput
           secureTextEntry
-          placeholder='PASSWORD'
+          placeholder='Password'
           autoCapitalize='none'
           style={styles.textInput}
           onChangeText={password => this.setState({ password })}
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    borderRadius: 10
+    borderRadius: 8
   },
   imgBackground: {
       width: '100%',

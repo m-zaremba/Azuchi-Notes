@@ -168,19 +168,19 @@ export default class Stats extends React.Component {
 
       let statShots = statCoords.map((e,i) => {
        if(i === 0 || i%4 === 0) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red', zIndex: 2}}/>)
        } else if (i === 1 || i%4 === 1) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'green', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green', zIndex: 2}}/>)
        } else if (i === 2 || i%4 === 2) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'blue', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue', zIndex: 2}}/>)
        } else {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'violet', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet', zIndex: 2}}/>)
        }
       });
 
      return (
        <>
-       <View style={{flex: 6, alignItems: 'center', zIndex: 1, paddingTop: 20}}>
+       <View style={{flex: 6, alignItems: 'center', zIndex: 1, justifyContent: 'flex-end', paddingBottom: 24}}>
 
        {statShots}
 
@@ -192,61 +192,62 @@ export default class Stats extends React.Component {
            fill='rgb(49, 50, 47)'
          />
          <Circle
-           disabled='true'
-           x={24}
-           y={24}
-           r={24}
-           cx={26}
-           cy={26}
+           disabled= 'true'
+           x={23}
+           y={23}
+           r={23}
+           cx={27}
+           cy={40}
            fill='black'
          />
          <Circle
-           disabled='true'
+           disabled= 'true'
            x={18}
            y={18}
            r={18}
            cx={32}
-           cy={32}
+           cy={45}
            fill='white'
          />
          <Circle
-           disabled='true'
+           disabled= 'true'
            x={14}
            y={14}
            r={14}
            cx={36}
-           cy={36}
+           cy={49}
            fill='black'
-        />
+         />
          <Circle
-           disabled='true'
+           disabled= 'true'
            x={12}
            y={12}
            r={12}
            cx={38}
-           cy={38}
+           cy={51}
            fill='white'
          />
          <Circle
-           disabled='true'
+           disabled= 'true'
            x={8}
            y={8}
            r={8}
            cx={42}
-           cy={42}
+           cy={55}
            fill='black'
          />
          <Circle
-           disabled='true'
+           disabled= 'true'
            x={4}
            y={4}
            r={4}
            cx={46}
-           cy={46}
+           cy={59}
            fill='white'
          />
        </Svg>
        </View>
+       <View style={{flex: 4}}>
        <View style={styles.statsView}>
         <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
         <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}` : `Hits:\n0`}</Text>
@@ -254,16 +255,17 @@ export default class Stats extends React.Component {
         <Text style={styles.statText}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length))/ shots) * 100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
        </View>
        <View style={styles.statsView}>
-       <Text style={styles.statText}>{`1st \n accuracy`}</Text>
-       <Text style={styles.statText}>{`2nd \n accuracy`}</Text>
-       <Text style={styles.statText}>{`3rd \n accuracy`}</Text>
-       <Text style={styles.statText}>{`4th \n accuracy`}</Text>
+       <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow\naccuracy`}</Text>
+       <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow\naccuracy`}</Text>
+       <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
+       <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
        </View>
          <View style={styles.statsView}>
-         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-         <Text style={styles.statText}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={{...styles.statText, color: 'green'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+         </View>
          </View>
          <Modal
           animationType="slide"
@@ -283,6 +285,7 @@ export default class Stats extends React.Component {
           </TouchableHighlight>
         </Modal>
         <Icon style={styles.teacherIcon}onPress={() => {this.handleModal()}} name='message1' size={40} color='white'/>
+
        </>
      )
    }
@@ -299,7 +302,7 @@ export default class Stats extends React.Component {
      flexDirection: 'row',
      paddingLeft: 4,
      paddingRight: 4,
-     justifyContent:'space-around'
+     justifyContent:'space-around',
    },
    teacherIcon: {
      position: 'absolute',

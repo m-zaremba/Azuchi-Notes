@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Svg, { Rect, Circle } from 'react-native-svg';
@@ -33,6 +33,7 @@ export default class AddShots extends React.Component {
  addSerie() {
    this.ref.add({
    date: this.state.date,
+   timestamp: new Date(),
    coordinates: this.state.coordinates,
    accuracy: this.state.accuracy,
    errors: this.state.errors,
@@ -83,7 +84,6 @@ export default class AddShots extends React.Component {
     }
   };
 
-
  componentDidMount() {
 
   var date = new Date().getDate()
@@ -100,13 +100,13 @@ export default class AddShots extends React.Component {
 
      let shots = this.state.coordinates.map((e,i) => {
        if(i === 0) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'red', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'red', zIndex: 2}}/>)
        } else if (i === 1) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'green', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'green', zIndex: 2}}/>)
        } else if (i === 2) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'blue', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'blue', zIndex: 2}}/>)
        } else {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY - 7, left: e.posX + 15, backgroundColor: 'violet', zIndex: 2}}/>)
+         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'violet', zIndex: 2}}/>)
        }
      });
 
@@ -159,11 +159,11 @@ export default class AddShots extends React.Component {
         />
         <Circle
           disabled={this.state.svgActive}
-          x={24}
-          y={24}
-          r={24}
-          cx={26}
-          cy={26}
+          x={23}
+          y={23}
+          r={23}
+          cx={27}
+          cy={40}
           fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -175,7 +175,7 @@ export default class AddShots extends React.Component {
           y={18}
           r={18}
           cx={32}
-          cy={32}
+          cy={45}
           fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -187,7 +187,7 @@ export default class AddShots extends React.Component {
           y={14}
           r={14}
           cx={36}
-          cy={36}
+          cy={49}
           fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -199,7 +199,7 @@ export default class AddShots extends React.Component {
           y={12}
           r={12}
           cx={38}
-          cy={38}
+          cy={51}
           fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -211,7 +211,7 @@ export default class AddShots extends React.Component {
           y={8}
           r={8}
           cx={42}
-          cy={42}
+          cy={55}
           fill='black'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -223,7 +223,7 @@ export default class AddShots extends React.Component {
           y={4}
           r={4}
           cx={46}
-          cy={46}
+          cy={59}
           fill='white'
           onPress={e => {
             this.handleShot(e, 'circle');
@@ -231,24 +231,29 @@ export default class AddShots extends React.Component {
         />
       </Svg>
       </View>
+      <View style={{flex: 5}}>
       <View style={styles.arrowsCount}>
       <Text style={styles.text}>1st Arrow</Text>
       <Text style={styles.text}>2nd Arrow</Text>
+      </View>
+      <View style={styles.icons}>
+      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
+      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
+      </View>
+      <View style={styles.arrowsCount}>
       <Text style={styles.text}>3rd Arrow</Text>
       <Text style={styles.text}>4th Arrow</Text>
       </View>
       <View style={styles.icons}>
-      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
-      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
-      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
-      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '25%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
-
+      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
+      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
       </View>
-        <View style={styles.buttonsWrapper}>
-        <Icon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={40} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 66, 66)'} disabled={this.state.btnActive}/>
-        <Icon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={40} color='rgb(245, 66, 66)'/>
-        </View>
-       </>
+      <View style={styles.buttonsWrapper}>
+        <Icon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 66, 66)'} disabled={this.state.btnActive}/>
+        <Icon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 66, 66)'/>
+      </View>
+      </View>
+     </>
      )
    }
  }
@@ -257,32 +262,32 @@ export default class AddShots extends React.Component {
    mainWindow: {
      flex: 6,
      alignItems: 'center',
-     zIndex: 1
+     zIndex: 1,
+     justifyContent: 'flex-end'
    },
    arrowsCount: {
      flex: 1,
      justifyContent: 'center',
      flexDirection: 'row',
-     paddingLeft: 4,
-     paddingRight: 10,
      alignItems: 'flex-end'
    },
    icons: {
      flex: 1,
      flexDirection: 'row',
-     paddingLeft: 4,
-     paddingRight: 10,
-     alignItems: 'flex-start'
+     alignItems: 'flex-start',
+     paddingTop: 5
    },
    buttonsWrapper: {
-     flex: 1,
+     flex: 2,
      flexDirection: 'row',
-     justifyContent:'space-around'
+     justifyContent:'space-around',
+     alignItems: 'flex-end',
+     paddingBottom: 10
    },
    text: {
      flex: 1,
      textAlign: 'center',
-     fontSize: 16,
+     fontSize: 22,
      color: 'black'
    }
  });
