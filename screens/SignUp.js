@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ImageBackground, Image } from 'react-native';
 import {Button} from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
@@ -20,14 +20,13 @@ export default class SignUp extends React.Component {
 
 render() {
     return (
-      <ImageBackground style={ styles.imgBackground }
-              resizeMode='contain'
-              source={require('../img/background_mon.png')}>
+
       <View style={styles.container}>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
+      <Image
+          style={{width: 300, height: 300}}
+          source={require('../img/mon.png')}
+        />
+        {this.state.errorMessage && <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>}
         <TextInput
           placeholder='Email'
           autoCapitalize='none'
@@ -43,15 +42,15 @@ render() {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        <Button title='Sign Up' onPress={this.handleSignUp} containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}} />
+        <Button title='Sign Up' onPress={this.handleSignUp} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} />
         <Text style={styles.text}>Already have an account?</Text>
         <Button
           title='Login'
           onPress={() => this.props.navigation.navigate('Login')}
-          containerStyle={{width: 200, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 66, 66)'}}
+          containerStyle={{width: 100, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}
         />
       </View>
-      </ImageBackground>
+
     )
   }
 }
@@ -63,24 +62,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.6)'
   },
   textInput: {
-    textAlign: 'center',
     color: 'black',
     height: 40,
     width: '90%',
-    borderColor: 'gray',
-    borderWidth: 1,
     marginTop: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.92)',
-    borderRadius: 8
+    paddingLeft: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: 'rgb(245, 71, 71)'
   },
-  imgBackground: {
-      width: '100%',
-      height: '100%',
-      flex: 1,
-},
 text: {
   color: 'black',
   fontSize: 20,
-  marginTop: 60
+  marginTop: 120
 }
 })
