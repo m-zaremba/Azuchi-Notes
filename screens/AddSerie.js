@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Svg, { Rect, Circle } from 'react-native-svg';
-//import PinchZoomView from 'react-native-pinch-zoom-view';
-//import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import firebase from 'react-native-firebase';
 import Main from './Main';
 import Serie from './Serie';
@@ -22,8 +20,6 @@ export default class AddShots extends React.Component {
       coordinates: [],
       accuracy: '',
       errors: [],
-      x: null,
-      y: null,
       svgActive: '',
       btnActive: true,
   };
@@ -43,6 +39,7 @@ export default class AddShots extends React.Component {
    acc = [];
    err = [];
 }
+
 
   cancel = () => {
     arr = [];
@@ -72,8 +69,6 @@ export default class AddShots extends React.Component {
         coordinates: arr,
         accuracy: acc,
         errors: err,
-        x: locationX,
-        y: locationY,
       })
 
     if(this.state.coordinates.length >= 4) {
@@ -112,6 +107,7 @@ export default class AddShots extends React.Component {
 
      return (
        <>
+
       <View style={styles.mainWindow}>
 
       {shots}
@@ -120,41 +116,41 @@ export default class AddShots extends React.Component {
         <Rect
           disabled={this.state.svgActive}
           width={50}
-          height={50}
+          height={64}
           fill='rgb(49, 50, 47)'
           onPressIn={e => {
-            this.handleShot(e, 'cross', 'UL');
+            this.handleShot(e, 'md-close', 'UL');
           }}
         />
         <Rect
           disabled={this.state.svgActive}
           width={50}
-          height={50}
+          height={64}
           x={49}
           fill='rgb(49, 50, 47)'
           onPressIn={e => {
-            this.handleShot(e, 'cross', 'UR');
+            this.handleShot(e, 'md-close', 'UR');
           }}
         />
         <Rect
           disabled={this.state.svgActive}
           width={50}
-          height={50}
-          y={49}
+          height={36}
+          y={63}
           fill='rgb(49, 50, 47)'
           onPressIn={e => {
-            this.handleShot(e, 'cross', 'LL');
+            this.handleShot(e, 'md-close', 'LL');
           }}
         />
         <Rect
           disabled={this.state.svgActive}
           width={50}
-          height={50}
-          y={49}
+          height={36}
+          y={63}
           x={49}
           fill='rgb(49, 50, 47)'
           onPressIn={e => {
-            this.handleShot(e, 'cross', 'LR');
+            this.handleShot(e, 'md-close', 'LR');
           }}
         />
         <Circle
@@ -166,7 +162,7 @@ export default class AddShots extends React.Component {
           cy={40}
           fill='black'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
         <Circle
@@ -178,7 +174,7 @@ export default class AddShots extends React.Component {
           cy={45}
           fill='white'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
         <Circle
@@ -190,7 +186,7 @@ export default class AddShots extends React.Component {
           cy={49}
           fill='black'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
         <Circle
@@ -202,7 +198,7 @@ export default class AddShots extends React.Component {
           cy={51}
           fill='white'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
         <Circle
@@ -214,7 +210,7 @@ export default class AddShots extends React.Component {
           cy={55}
           fill='black'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
         <Circle
@@ -226,7 +222,7 @@ export default class AddShots extends React.Component {
           cy={59}
           fill='white'
           onPress={e => {
-            this.handleShot(e, 'circle');
+            this.handleShot(e, 'ios-radio-button-off');
           }}
         />
       </Svg>
@@ -237,20 +233,20 @@ export default class AddShots extends React.Component {
       <Text style={styles.text}>2nd Arrow</Text>
       </View>
       <View style={styles.icons}>
-      {this.state.accuracy.length >= 1 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
-      {this.state.accuracy.length >= 2 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
+      {this.state.accuracy.length >= 1 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
+      {this.state.accuracy.length >= 2 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
       </View>
       <View style={styles.arrowsCount}>
       <Text style={styles.text}>3rd Arrow</Text>
       <Text style={styles.text}>4th Arrow</Text>
       </View>
       <View style={styles.icons}>
-      {this.state.accuracy.length >= 3 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
-      {this.state.accuracy.length >= 4 ? <EntypoIcon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
+      {this.state.accuracy.length >= 3 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
+      {this.state.accuracy.length >= 4 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
       </View>
       <View style={styles.buttonsWrapper}>
-        <Icon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 66, 66)'} disabled={this.state.btnActive}/>
-        <Icon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 66, 66)'/>
+        <AntDesignIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnActive}/>
+        <AntDesignIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 71, 71)'/>
       </View>
       </View>
      </>
