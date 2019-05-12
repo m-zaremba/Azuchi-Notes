@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import Svg, { Rect, Circle } from 'react-native-svg';
@@ -22,6 +22,7 @@ export default class AddShots extends React.Component {
       errors: [],
       svgActive: '',
       btnActive: true,
+      note: ''
   };
  }
 
@@ -34,6 +35,7 @@ export default class AddShots extends React.Component {
    accuracy: this.state.accuracy,
    errors: this.state.errors,
    modalVisible: false,
+   note: this.state.note
  });
    arr = [];
    acc = [];
@@ -79,6 +81,10 @@ export default class AddShots extends React.Component {
     }
   };
 
+  updateTextInput(value) {
+    this.setState({ note: value });
+  }
+
  componentDidMount() {
 
   var date = new Date().getDate()
@@ -106,8 +112,7 @@ export default class AddShots extends React.Component {
      });
 
      return (
-       <>
-
+      <>
       <View style={styles.mainWindow}>
 
       {shots}
@@ -244,6 +249,11 @@ export default class AddShots extends React.Component {
       {this.state.accuracy.length >= 3 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
       {this.state.accuracy.length >= 4 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
       </View>
+      <TextInput
+        placeholder={'ADD NOTE'}
+        value={this.state.textInput}
+        onChangeText={(text) => this.updateTextInput(text)}
+      />
       <View style={styles.buttonsWrapper}>
         <AntDesignIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnActive}/>
         <AntDesignIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 71, 71)'/>

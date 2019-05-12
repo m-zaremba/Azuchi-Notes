@@ -222,7 +222,9 @@ export default class Serie extends React.PureComponent {
                       />
                     ) : null}
                   </View>
-                  <View style={{ flex: 1 }} />
+                  <View style={styles.note}>
+                    <Text style={{...styles.modalText, fontSize: 20, textAlign: 'left'}}>{`Notes:\n${this.props.note}`}</Text>
+                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -281,5 +283,13 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     width: 30
+  },
+  note: {
+    flex: 2,
+    width: '90%',
+    marginTop: 10,
+    paddingTop: 5,
+    borderTopWidth: 1,
+    borderTopColor: 'black'
   }
 });
