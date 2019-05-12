@@ -198,25 +198,25 @@ export default class Stats extends React.Component {
     let fourthAcc = []; // Accuracy of 4th Arrow in all series as 0/1 number necessary for following calculations
 
     seriesAcc.map((e, i) => {
-      if (e[0] === 'circle') {
+      if (e[0] === 'ios-radio-button-off') {
         firstAcc.push(1);
       } else {
         firstAcc.push(0);
       }
 
-      if (e[1] === 'circle') {
+      if (e[1] === 'ios-radio-button-off') {
         secondAcc.push(1);
       } else {
         secondAcc.push(0);
       }
 
-      if (e[2] === 'circle') {
+      if (e[2] === 'ios-radio-button-off') {
         thirdAcc.push(1);
       } else {
         thirdAcc.push(0);
       }
 
-      if (e[3] === 'circle') {
+      if (e[3] === 'ios-radio-button-off') {
         fourthAcc.push(1);
       } else {
         fourthAcc.push(0);
@@ -400,10 +400,10 @@ export default class Stats extends React.Component {
             <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
           </View>
           <View style={styles.statsView}>
-            <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${((firstAcc.reduce(function(a, b) {return a + b}, 0) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-            <Text style={{...styles.statText, color: 'green' }}>{firstAcc.length > 0 ? `${((secondAcc.reduce(function(a, b) {return a + b}, 0) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-            <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${((thirdAcc.reduce(function(a, b) {return a + b}, 0) / thirdAcc.length) * 100).toFixed(0)}` : '0'}{' '}%</Text>
-            <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${((fourthAcc.reduce(function(a, b) {return a + b}, 0) / fourthAcc.length) * 100).toFixed(0)}` : '0'}{' '}%</Text>
+          <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+          <Text style={{...styles.statText, color: 'green'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+          <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+          <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           </View>
         </View>
         <Modal
