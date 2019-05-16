@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Button,
-  ImageBackground,
-  StyleSheet,
-  Modal,
-  TouchableHighlight,
-  ScrollView
-} from 'react-native';
+import {Text, View, Button, ImageBackground, StyleSheet, Modal, TouchableHighlight, ScrollView} from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -227,68 +218,13 @@ export default class Stats extends React.Component {
 
     let statShots = statCoords.map((e, i) => {
       if (i === 0 || i % 4 === 0) {
-        return (
-          <View key={i}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              position: 'absolute',
-              top: e.posY + 36,
-              left: e.posX + 16,
-              backgroundColor: 'red',
-              zIndex: 2
-            }}
-          />
-        );
+        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
       } else if (i === 1 || i % 4 === 1) {
-        return (
-          <View
-            key={i}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              position: 'absolute',
-              top: e.posY + 36,
-              left: e.posX + 16,
-              backgroundColor: 'green',
-              zIndex: 2
-            }}
-          />
-        );
+        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
       } else if (i === 2 || i % 4 === 2) {
-        return (
-          <View
-            key={i}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              position: 'absolute',
-              top: e.posY + 36,
-              left: e.posX + 16,
-              backgroundColor: 'blue',
-              zIndex: 2
-            }}
-          />
-        );
+        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
       } else {
-        return (
-          <View
-            key={i}
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              position: 'absolute',
-              top: e.posY + 36,
-              left: e.posX + 16,
-              backgroundColor: 'violet',
-              zIndex: 2
-            }}
-          />
-        );
+        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
       }
     });
 
@@ -320,66 +256,13 @@ export default class Stats extends React.Component {
           {statShots}
 
           <Svg width='90%' height='90%' viewBox='0 0 100 100'>
-            <Rect
-              disabled='true'
-              width={100}
-              height={100}
-              fill='rgb(49, 50, 47)'
-            />
-            <Circle
-              disabled='true'
-              x={23}
-              y={23}
-              r={23}
-              cx={27}
-              cy={40}
-              fill='black'
-            />
-            <Circle
-              disabled='true'
-              x={18}
-              y={18}
-              r={18}
-              cx={32}
-              cy={45}
-              fill='white'
-            />
-            <Circle
-              disabled='true'
-              x={14}
-              y={14}
-              r={14}
-              cx={36}
-              cy={49}
-              fill='black'
-            />
-            <Circle
-              disabled='true'
-              x={12}
-              y={12}
-              r={12}
-              cx={38}
-              cy={51}
-              fill='white'
-            />
-            <Circle
-              disabled='true'
-              x={8}
-              y={8}
-              r={8}
-              cx={42}
-              cy={55}
-              fill='black'
-            />
-            <Circle
-              disabled='true'
-              x={4}
-              y={4}
-              r={4}
-              cx={46}
-              cy={59}
-              fill='white'
-            />
+            <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
+            <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
+            <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
+            <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
+            <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
+            <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
+            <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
         </View>
         <View
@@ -431,66 +314,13 @@ export default class Stats extends React.Component {
               }}
             >
               <Svg width='90%' height='90%' viewBox='0 0 100 100'>
-                <Rect
-                  disabled='true'
-                  width={100}
-                  height={100}
-                  fill='rgb(49, 50, 47)'
-                />
-                <Circle
-                  disabled='true'
-                  x={23}
-                  y={23}
-                  r={23}
-                  cx={27}
-                  cy={40}
-                  fill='black'
-                />
-                <Circle
-                  disabled='true'
-                  x={18}
-                  y={18}
-                  r={18}
-                  cx={32}
-                  cy={45}
-                  fill='white'
-                />
-                <Circle
-                  disabled='true'
-                  x={14}
-                  y={14}
-                  r={14}
-                  cx={36}
-                  cy={49}
-                  fill='black'
-                />
-                <Circle
-                  disabled='true'
-                  x={12}
-                  y={12}
-                  r={12}
-                  cx={38}
-                  cy={51}
-                  fill='white'
-                />
-                <Circle
-                  disabled='true'
-                  x={8}
-                  y={8}
-                  r={8}
-                  cx={42}
-                  cy={55}
-                  fill='black'
-                />
-                <Circle
-                  disabled='true'
-                  x={4}
-                  y={4}
-                  r={4}
-                  cx={46}
-                  cy={59}
-                  fill='white'
-                />
+              <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
+              <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
+              <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
+              <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
+              <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
+              <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
+              <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
                 <Rect
                   disabled='true'
                   width={50}
@@ -616,5 +446,12 @@ const styles = StyleSheet.create({
     bottom: '44%',
     right: 35,
     zIndex: 3
+  },
+  shotMarker: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    position: 'absolute',
+    zIndex: 2,
   }
 });

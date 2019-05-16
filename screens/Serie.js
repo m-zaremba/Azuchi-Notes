@@ -1,15 +1,7 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle } from 'react-native-svg';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableHighlight,
-  Modal,
-  Alert
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Modal, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AddSerie from './AddSerie';
 import Main from './Main';
@@ -72,43 +64,19 @@ export default class Serie extends React.PureComponent {
                 {this.props.coordinates.map((e, i) => {
                   if (i === 0) {
                     return (
-                      <View key={i} style={{width: 10,
-                      height: 10,
-                      borderRadius: 5,
-                      position: 'absolute',
-                      top: e.posY + 36,
-                      left: e.posX + 16,
-                      zIndex: 2, backgroundColor: 'red'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}} />
                     );
                   } else if (i === 1) {
                     return (
-                      <View key={i} style={{width: 10,
-                      height: 10,
-                      borderRadius: 5,
-                      position: 'absolute',
-                      top: e.posY + 36,
-                      left: e.posX + 16,
-                      zIndex: 2, backgroundColor: 'green'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />
                     );
                   } else if (i === 2) {
                     return (
-                      <View key={i} style={{width: 10,
-                      height: 10,
-                      borderRadius: 5,
-                      position: 'absolute',
-                      top: e.posY + 36,
-                      left: e.posX + 16,
-                      zIndex: 2, backgroundColor: 'blue'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}} />
                     );
                   } else {
                     return (
-                      <View key={i} style={{width: 10,
-                      height: 10,
-                      borderRadius: 5,
-                      position: 'absolute',
-                      top: e.posY + 36,
-                      left: e.posX + 16,
-                      zIndex: 2, backgroundColor: 'violet'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}} />
                     );
                   }
                 })}
@@ -265,6 +233,13 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 10,
     alignItems: 'center'
+  },
+  shotMarker: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    position: 'absolute',
+    zIndex: 2,
   },
   icons: {
     flex: 1,

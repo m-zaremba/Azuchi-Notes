@@ -101,13 +101,13 @@ export default class AddShots extends React.Component {
 
      let shots = this.state.coordinates.map((e,i) => {
        if(i === 0) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'red', zIndex: 2}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
        } else if (i === 1) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'green', zIndex: 2}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}}/>)
        } else if (i === 2) {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'blue', zIndex: 2}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
        } else {
-         return (<View key={i} style={{width: 10, height: 10, borderRadius: 5, position: 'absolute', top: e.posY +36, left: e.posX + 16, backgroundColor: 'violet', zIndex: 2}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
        }
      });
 
@@ -295,5 +295,12 @@ export default class AddShots extends React.Component {
      textAlign: 'center',
      fontSize: 22,
      color: 'black'
+   },
+   shotMarker: {
+     width: 10,
+     height: 10,
+     borderRadius: 5,
+     position: 'absolute',
+     zIndex: 2,
    }
  });
