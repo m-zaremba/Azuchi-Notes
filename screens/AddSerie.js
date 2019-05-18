@@ -113,153 +113,153 @@ export default class AddShots extends React.Component {
 
      return (
       <>
-      <View style={styles.mainWindow}>
+        <View style={styles.mainWindow}>
 
-      {shots}
+        {shots}
 
-      <Svg width='90%' height='90%' viewBox='0 0 100 100'>
-        <Rect
-          disabled={this.state.svgActive}
-          width={50}
-          height={64}
-          fill='rgb(49, 50, 47)'
-          onPressIn={e => {
-            this.handleShot(e, 'md-close', 'UL');
-          }}
-        />
-        <Rect
-          disabled={this.state.svgActive}
-          width={50}
-          height={64}
-          x={49}
-          fill='rgb(49, 50, 47)'
-          onPressIn={e => {
-            this.handleShot(e, 'md-close', 'UR');
-          }}
-        />
-        <Rect
-          disabled={this.state.svgActive}
-          width={50}
-          height={36}
-          y={63}
-          fill='rgb(49, 50, 47)'
-          onPressIn={e => {
-            this.handleShot(e, 'md-close', 'LL');
-          }}
-        />
-        <Rect
-          disabled={this.state.svgActive}
-          width={50}
-          height={36}
-          y={63}
-          x={49}
-          fill='rgb(49, 50, 47)'
-          onPressIn={e => {
-            this.handleShot(e, 'md-close', 'LR');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={23}
-          y={23}
-          r={23}
-          cx={27}
-          cy={40}
-          fill='black'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={18}
-          y={18}
-          r={18}
-          cx={32}
-          cy={45}
-          fill='white'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={14}
-          y={14}
-          r={14}
-          cx={36}
-          cy={49}
-          fill='black'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={12}
-          y={12}
-          r={12}
-          cx={38}
-          cy={51}
-          fill='white'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={8}
-          y={8}
-          r={8}
-          cx={42}
-          cy={55}
-          fill='black'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-        <Circle
-          disabled={this.state.svgActive}
-          x={4}
-          y={4}
-          r={4}
-          cx={46}
-          cy={59}
-          fill='white'
-          onPress={e => {
-            this.handleShot(e, 'ios-radio-button-off');
-          }}
-        />
-      </Svg>
-      </View>
-      <View style={{flex: 5}}>
-      <View style={styles.arrowsCount}>
-      <Text style={styles.text}>1st Arrow</Text>
-      <Text style={styles.text}>2nd Arrow</Text>
-      </View>
-      <View style={styles.icons}>
-      {this.state.accuracy.length >= 1 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
-      {this.state.accuracy.length >= 2 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
-      </View>
-      <View style={styles.arrowsCount}>
-      <Text style={styles.text}>3rd Arrow</Text>
-      <Text style={styles.text}>4th Arrow</Text>
-      </View>
-      <View style={styles.icons}>
-      {this.state.accuracy.length >= 3 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
-      {this.state.accuracy.length >= 4 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
-      </View>
-      <TextInput
-        placeholder={'ADD NOTE'}
-        value={this.state.textInput}
-        onChangeText={(text) => this.updateTextInput(text)}
-      />
-      <View style={styles.buttonsWrapper}>
-        <AntDesignIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnActive}/>
-        <AntDesignIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 71, 71)'/>
-      </View>
-      </View>
-     </>
+          <Svg width='90%' height='90%' viewBox='0 0 100 100'>
+            <Rect
+              disabled={this.state.svgActive}
+              width={50}
+              height={64}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'UL');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={50}
+              height={64}
+              x={49}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'UR');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={50}
+              height={36}
+              y={63}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'LL');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={50}
+              height={36}
+              y={63}
+              x={49}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'LR');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={23}
+              y={23}
+              r={23}
+              cx={27}
+              cy={40}
+              fill='black'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={18}
+              y={18}
+              r={18}
+              cx={32}
+              cy={45}
+              fill='white'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={14}
+              y={14}
+              r={14}
+              cx={36}
+              cy={49}
+              fill='black'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={12}
+              y={12}
+              r={12}
+              cx={38}
+              cy={51}
+              fill='white'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={8}
+              y={8}
+              r={8}
+              cx={42}
+              cy={55}
+              fill='black'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+            <Circle
+              disabled={this.state.svgActive}
+              x={4}
+              y={4}
+              r={4}
+              cx={46}
+              cy={59}
+              fill='white'
+              onPress={e => {
+                this.handleShot(e, 'ios-radio-button-off');
+              }}
+            />
+          </Svg>
+        </View>
+        <View style={{flex: 5}}>
+          <View style={styles.arrowsCount}>
+            <Text style={styles.text}>1st Arrow</Text>
+            <Text style={styles.text}>2nd Arrow</Text>
+          </View>
+          <View style={styles.icons}>
+            {this.state.accuracy.length >= 1 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[0]}`} size={40} color='red'/> : null}
+            {this.state.accuracy.length >= 2 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[1]}`} size={40} color='green'/> : null}
+          </View>
+          <View style={styles.arrowsCount}>
+            <Text style={styles.text}>3rd Arrow</Text>
+            <Text style={styles.text}>4th Arrow</Text>
+          </View>
+          <View style={styles.icons}>
+            {this.state.accuracy.length >= 3 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[2]}`} size={40} color='blue'/> : null}
+            {this.state.accuracy.length >= 4 ? <Icon style={{width: '50%', textAlign: 'center'}} name={`${this.state.accuracy[3]}`} size={40} color='violet'/> : null}
+          </View>
+          <TextInput
+            placeholder={'ADD NOTE'}
+            value={this.state.textInput}
+            onChangeText={(text) => this.updateTextInput(text)}
+          />
+          <View style={styles.buttonsWrapper}>
+            <AntDesignIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnActive}/>
+            <AntDesignIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 71, 71)'/>
+          </View>
+        </View>
+      </>
      )
    }
  }

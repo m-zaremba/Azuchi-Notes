@@ -3,7 +3,7 @@ import {Text, View, Button, ImageBackground, StyleSheet, Modal, TouchableHighlig
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+//import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 export default class Stats extends React.Component {
   constructor(props) {
@@ -265,11 +265,7 @@ export default class Stats extends React.Component {
             <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
         </View>
-        <View
-          style={{
-            flex: 4
-          }}
-        >
+        <View style={{flex: 4}}>
           <View style={styles.statsView}>
             <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}`: `Hits:\n0`}</Text>
