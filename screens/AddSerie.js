@@ -14,7 +14,8 @@ let err = [];
 export default class AddShots extends React.Component {
   constructor() {
    super();
-   this.ref = firebase.firestore().collection('series');
+   this.uid = firebase.auth().currentUser.uid;
+   this.ref = firebase.firestore().collection(this.uid);
    this.state = {
       date: '',
       coordinates: [],

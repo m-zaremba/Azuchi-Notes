@@ -15,9 +15,10 @@ import Serie from './Serie';
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.uid = firebase.auth().currentUser.uid;
     this.ref = firebase
       .firestore()
-      .collection('series')
+      .collection(this.uid)
       .orderBy('timestamp', 'desc');
     this.state = {
       series: [],
@@ -62,6 +63,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    console.log(this.uid);
   }
 
   componentWillUnmount() {

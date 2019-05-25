@@ -8,7 +8,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 export default class Stats extends React.Component {
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection('series');
+    this.uid = firebase.auth().currentUser.uid;
+    this.ref = firebase.firestore().collection(this.uid);
     this.state = {
       series: [],
       loading: true,

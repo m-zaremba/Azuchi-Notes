@@ -31,5 +31,5 @@ react-native run-android
 This app is still under development. Functionalities to be added:
 * filter data by date range
 * restructure feedback messages on shots accuracy
-* change in the firestore database structure
-* login with google account
+* ~~change in the firestore database structure~~ Done. 
+* login with google account (?)
