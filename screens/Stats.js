@@ -279,7 +279,7 @@ export default class Stats extends React.Component {
         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
       }
     });
-    
+
 
     //Shots error cause list
 
@@ -488,10 +488,7 @@ export default class Stats extends React.Component {
             />
           </View>
         </Modal>
-        {upperL.length > 10 ||
-        upperR.length > 10 ||
-        lowerL.length > 10 ||
-        lowerR > 10 ? (
+        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR > 10 ? (
           <Icon
             style={styles.teacherIcon}
             onPress={() => {
