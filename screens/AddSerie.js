@@ -121,8 +121,8 @@ export default class AddShots extends React.Component {
           <Svg width='90%' height='90%' viewBox='0 0 100 100'>
             <Rect
               disabled={this.state.svgActive}
-              width={50}
-              height={64}
+              width={33}
+              height={51}
               fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'UL');
@@ -130,9 +130,19 @@ export default class AddShots extends React.Component {
             />
             <Rect
               disabled={this.state.svgActive}
-              width={50}
-              height={64}
-              x={49}
+              width={37}
+              height={50}
+              x={32}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'U');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={32}
+              height={51}
+              x={68}
               fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'UR');
@@ -141,8 +151,29 @@ export default class AddShots extends React.Component {
             <Rect
               disabled={this.state.svgActive}
               width={50}
-              height={36}
-              y={63}
+              height={27}
+              y={50}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'L');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={50}
+              height={27}
+              y={50}
+              x={51}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'R');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={33}
+              height={24}
+              y={76}
               fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'LL');
@@ -150,10 +181,21 @@ export default class AddShots extends React.Component {
             />
             <Rect
               disabled={this.state.svgActive}
-              width={50}
-              height={36}
-              y={63}
-              x={49}
+              width={36}
+              height={24}
+              x={32}
+              y={76}
+              fill='rgb(49, 50, 47)'
+              onPressIn={e => {
+                this.handleShot(e, 'md-close', 'L');
+              }}
+            />
+            <Rect
+              disabled={this.state.svgActive}
+              width={33}
+              height={24}
+              x={67}
+              y={76}
               fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'LR');
