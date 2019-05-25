@@ -63,7 +63,6 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    console.log(this.uid);
   }
 
   componentWillUnmount() {

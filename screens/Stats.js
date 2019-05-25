@@ -15,8 +15,12 @@ export default class Stats extends React.Component {
       loading: true,
       modalVisible: false,
       upperLColor: 'rgba(0, 0, 0, 0)',
+      upColor: 'rgba(0, 0, 0, 0)',
       upperRColor: 'rgba(0, 0, 0, 0)',
+      leftColor: 'rgba(0, 0, 0, 0)',
+      rightColor: 'rgba(0, 0, 0, 0)',
       lowerLColor: 'rgba(0, 0, 0, 0)',
+      lowColor: 'rgba(0, 0, 0, 0)',
       lowerRColor: 'rgba(0, 0, 0, 0)'
     };
   }
@@ -54,8 +58,12 @@ export default class Stats extends React.Component {
     });
 
     let upperL = [];
+    let up = [];
     let upperR = [];
+    let left = [];
+    let right = [];
     let lowerL = [];
+    let low = [];
     let lowerR = [];
 
     for (let i = 0; i < errQuart.length; i++) {
@@ -67,37 +75,66 @@ export default class Stats extends React.Component {
     errList.map(e => {
       if (e === 'UL') {
         upperL.push(e);
+      } else if (e === 'U') {
+        up.push(e);
       } else if (e === 'UR') {
         upperR.push(e);
+      } else if (e === 'L') {
+        left.push(e);
+      } else if (e === 'R') {
+        right.push(e);
       } else if (e === 'LL') {
         lowerL.push(e);
+      } else if (e === 'L') {
+        low.push(e);
       } else if (e === 'LR') {
         lowerR.push(e);
       }
     });
 
-    if (upperL.length > upperR.length && upperL.length > lowerL.length && upperL.length > lowerR.length) {
+    let hitsRatio = [upperL.length, up.length, upperR.length, left.length, right.length, lowerL.length, low.length, lowerR.length];
+    console.log(hitsRatio);
+
+    let highestHitRatio = Math.max(...hitsRatio);
+    console.log(highestHitRatio);
+
+    console.log(hitsRatio.indexOf(highestHitRatio));
+
+    if (hitsRatio.indexOf(highestHitRatio) === 0) {
       this.setState({
         upperLColor: 'rgba(255, 0, 0, 0.55)'
-      });
-    }
-
-    if (upperR.length > upperL.length && upperR.length > lowerL.length && upperR.length > lowerR.length) {
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 1) {
+      this.setState({
+        upColor: 'rgba(255, 0, 0, 0.55)'
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 2) {
       this.setState({
         upperRColor: 'rgba(255, 0, 0, 0.55)'
-      });
-    }
-    if (lowerL.length > upperL.length && lowerL.length > upperR.length && lowerL.length > lowerR.length) {
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 3) {
+      this.setState({
+        leftColor: 'rgba(255, 0, 0, 0.55)'
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 4) {
+      this.setState({
+        rightColor: 'rgba(255, 0, 0, 0.55)'
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 5) {
       this.setState({
         lowerLColor: 'rgba(255, 0, 0, 0.55)'
-      });
-    }
-
-    if (lowerR.length > upperL.length && lowerR.length > upperR.length && lowerR.length > lowerL.length) {
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 6) {
+      this.setState({
+        lowColor: 'rgba(255, 0, 0, 0.55)'
+      })
+    } else if (hitsRatio.indexOf(highestHitRatio) === 7) {
       this.setState({
         lowerRColor: 'rgba(255, 0, 0, 0.55)'
-      });
+      })
     }
+
+
   };
 
   setModalVisible(visible) {
@@ -132,7 +169,9 @@ export default class Stats extends React.Component {
     let coordObj = [];
     let errQuart = []; // error tags 2D array
     let errList = []; // 1D error 'list'
+
     this.state.series.map((e, i) => {
+
       coordObj.push(e.coordinates);
 
       if (e.errors) {
@@ -141,8 +180,12 @@ export default class Stats extends React.Component {
     });
 
     let upperL = [];
+    let up = [];
     let upperR = [];
+    let left = [];
+    let right = [];
     let lowerL = [];
+    let low = [];
     let lowerR = [];
 
     for (let i = 0; i < errQuart.length; i++) {
@@ -154,10 +197,18 @@ export default class Stats extends React.Component {
     errList.map(e => {
       if (e === 'UL') {
         upperL.push(e);
+      } else if (e === 'U') {
+        up.push(e);
       } else if (e === 'UR') {
         upperR.push(e);
+      } else if (e === 'L') {
+        left.push(e);
+      } else if (e === 'R') {
+        right.push(e);
       } else if (e === 'LL') {
         lowerL.push(e);
+      } else if (e === 'L') {
+        low.push(e);
       } else if (e === 'LR') {
         lowerR.push(e);
       }
@@ -228,6 +279,7 @@ export default class Stats extends React.Component {
         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
       }
     });
+    
 
     //Shots error cause list
 
@@ -312,40 +364,70 @@ export default class Stats extends React.Component {
             >
               <Svg width='90%' height='90%' viewBox='0 0 100 100'>
               <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
+              <Rect
+                disabled='true'
+                width={33}
+                height={51}
+                fill={this.state.upperLColor}
+              />
+              <Rect
+                disabled='true'
+                width={37}
+                height={50}
+                x={32}
+                fill={this.state.upColor}
+              />
+              <Rect
+                disabled='true'
+                width={32}
+                height={51}
+                x={68}
+                fill={this.state.upperRColor}
+              />
+              <Rect
+                disabled='true'
+                width={50}
+                height={27}
+                y={50}
+                fill={this.state.leftColor}
+              />
+              <Rect
+                disabled='true'
+                width={50}
+                height={27}
+                y={50}
+                x={51}
+                fill={this.state.rightColor}
+              />
+              <Rect
+                disabled='true'
+                width={33}
+                height={24}
+                y={76}
+                fill={this.state.lowerLColor}
+              />
+              <Rect
+                disabled='true'
+                width={36}
+                height={24}
+                x={32}
+                y={76}
+                fill={this.state.lowColor}
+              />
+              <Rect
+                disabled='true'
+                width={33}
+                height={24}
+                x={67}
+                y={76}
+                fill={this.state.lowerRColor}
+              />
               <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
               <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
               <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
               <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
               <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
               <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
-                <Rect
-                  disabled='true'
-                  width={50}
-                  height={64}
-                  fill={this.state.upperLColor}
-                />
-                <Rect
-                  disabled='true'
-                  width={51}
-                  height={64}
-                  x={49}
-                  fill={this.state.upperRColor}
-                />
-                <Rect
-                  disabled='true'
-                  width={50}
-                  height={37}
-                  y={63}
-                  fill={this.state.lowerLColor}
-                />
-                <Rect
-                  disabled='true'
-                  width={51}
-                  height={37}
-                  y={63}
-                  x={49}
-                  fill={this.state.lowerRColor}
-                />
               </Svg>
             </View>
             <View
