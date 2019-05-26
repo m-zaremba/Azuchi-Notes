@@ -187,7 +187,7 @@ export default class AddShots extends React.Component {
               y={76}
               fill='rgb(49, 50, 47)'
               onPressIn={e => {
-                this.handleShot(e, 'md-close', 'L');
+                this.handleShot(e, 'md-close', 'Lo');
               }}
             />
             <Rect

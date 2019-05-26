@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Button, ImageBackground, StyleSheet, Modal, TouchableHighlight, ScrollView} from 'react-native';
 import firebase from 'react-native-firebase';
-import Svg, { Rect, Circle } from 'react-native-svg';
+import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
 //import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
@@ -85,7 +85,7 @@ export default class Stats extends React.Component {
         right.push(e);
       } else if (e === 'LL') {
         lowerL.push(e);
-      } else if (e === 'L') {
+      } else if (e === 'Lo') {
         low.push(e);
       } else if (e === 'LR') {
         lowerR.push(e);
@@ -207,7 +207,7 @@ export default class Stats extends React.Component {
         right.push(e);
       } else if (e === 'LL') {
         lowerL.push(e);
-      } else if (e === 'L') {
+      } else if (e === 'Lo') {
         low.push(e);
       } else if (e === 'LR') {
         lowerR.push(e);
@@ -358,7 +358,7 @@ export default class Stats extends React.Component {
           >
             <View
               style={{
-                flex: 2,
+                flex: 4,
                 alignItems: 'center'
               }}
             >
@@ -428,6 +428,62 @@ export default class Stats extends React.Component {
               <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
               <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
               <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="15"
+                y="25"
+                textAnchor="middle"
+                >{upperL.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="50"
+                y="25"
+                textAnchor="middle"
+                >{up.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="85"
+                y="25"
+                textAnchor="middle"
+                >{upperR.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="15"
+                y="68"
+                textAnchor="middle"
+                >{left.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="85"
+                y="68"
+                textAnchor="middle"
+                >{right.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="15"
+                y="93"
+                textAnchor="middle"
+                >{lowerL.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="50"
+                y="97"
+                textAnchor="middle"
+                >{low.length}</TSpan>
+              <TSpan
+                fill='white'
+                fontSize="13"
+                x="85"
+                y="93"
+                textAnchor="middle"
+                >{lowerR.length}</TSpan>
               </Svg>
             </View>
             <View
@@ -441,7 +497,7 @@ export default class Stats extends React.Component {
                   flexDirection: 'row'
                 }}
               >
-                <Text
+                {/*<Text
                   style={{
                     fontSize: 20,
                     color: 'white',
@@ -459,7 +515,7 @@ export default class Stats extends React.Component {
                   }}
                 >
                   {`${upperL.length} \n${upperR.length} \n${lowerL.length} \n${lowerR.length}`}
-                </Text>
+                </Text>*/}
               </View>
               <ScrollView>
                 <Text
@@ -488,7 +544,7 @@ export default class Stats extends React.Component {
             />
           </View>
         </Modal>
-        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR > 10 ? (
+        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (
           <Icon
             style={styles.teacherIcon}
             onPress={() => {
