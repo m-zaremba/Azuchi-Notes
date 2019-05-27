@@ -31,7 +31,7 @@ export default class AddShots extends React.Component {
  addSerie() {
    this.ref.add({
    date: this.state.date,
-   timestamp: new Date(),
+   timestamp: new Date().getTime(),
    coordinates: this.state.coordinates,
    accuracy: this.state.accuracy,
    errors: this.state.errors,

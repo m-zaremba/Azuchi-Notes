@@ -10,6 +10,7 @@ export default class Stats extends React.Component {
     super(props);
     this.uid = firebase.auth().currentUser.uid;
     this.ref = firebase.firestore().collection(this.uid);
+    this.unsubscribe = null;
     this.state = {
       series: [],
       loading: true,
@@ -93,12 +94,7 @@ export default class Stats extends React.Component {
     });
 
     let hitsRatio = [upperL.length, up.length, upperR.length, left.length, right.length, lowerL.length, low.length, lowerR.length];
-    console.log(hitsRatio);
-
     let highestHitRatio = Math.max(...hitsRatio);
-    console.log(highestHitRatio);
-
-    console.log(hitsRatio.indexOf(highestHitRatio));
 
     if (hitsRatio.indexOf(highestHitRatio) === 0) {
       this.setState({
