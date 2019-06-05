@@ -5,6 +5,8 @@ import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
 //import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
+
+
 export default class Stats extends React.Component {
   constructor(props) {
     super(props);
@@ -279,16 +281,24 @@ export default class Stats extends React.Component {
 
     //Shots error cause list
 
-    let errMessage = '';
+    let errMessage = `\u2022 Too much tension is placed in the hands when shooting\n \u2022 There is too much slack in the body`;
 
     if (this.state.upperLColor === 'rgba(255, 0, 0, 0.55)') {
-      errMessage = `Reasons why You hit mostly Upper Left quarter of azuchi:\n1)Reason One\n2)Reason Two\n3)Reason Three\n4)Reason Four\n5)Reason Five\n6)Reason Six\n7)Reason Seven\n8)Reason Eight\n9)Reason Nine\n10)Reason Ten\n11)Reason Eleven\n12)Reason Twelve\n13)Reason Thireen\n14)Reason Fourteen\n15)Reason Fifteen\n16)Reason Sixteen\n17)Reason Seventeen\n18)Reason Eighteen\n19)Reason Nineteen\n20)Reason Twenty`;
+      errMessage = '';
+    } else if (this.state.upColor === 'rgba(255, 0, 0, 0.55)') {
+      errMessage = `\u2022 Ashibumi is too wide\n\u2022 The right side of pelvis is too high\n\u2022 The upper body is tilted toward the target\n\u2022 The upper body is tilted to the right\n\u2022 The arrow is held too low on the face\n\u2022 The right elbow is held too low in kai\n\u2022 The left wrist is bent upward in kai\n\u2022 The left arm lifts at the hanare\n\u2022 The grip is held too high at nigiri\n`;
     } else if (this.state.upperRColor === 'rgba(255, 0, 0, 0.55)') {
-      errMessage = `Reasons why You hit mostly Upper Right quarter of azuchi:\n1)Reason One\n2)Reason Two\n3)Reason Three\n4)Reason Four\n5)Reason Five\n6)Reason Six\n7)Reason Seven\n8)Reason Eight\n9)Reason Nine\n10)Reason Ten\n11)Reason Eleven\n12)Reason Twelve\n13)Reason Thireen\n14)Reason Fourteen\n15)Reason Fifteen\n16)Reason Sixteen\n17)Reason Seventeen\n18)Reason Eighteen\n19)Reason Nineteen\n20)Reason Twenty\n`;
+      errMessage = `\u2022 The upper body leans to the right\n\u2022 At hanare the arms are moved upward\n`;
+    } else if (this.state.leftColor === 'rgba(255, 0, 0, 0.55)') {
+      errMessage = `\u2022 The right elbow is forward in kai\n\u2022 The right arm gives in at the release\n\u2022 The left wrist is bent to the left\n\u2022 The left foot is set behind the center line\n\u2022 The pelvis is twisted to the left out of the horizontal\n\u2022 The left hand pushes to fast in drawing\n`;
+    } else if (this.state.rightColor === 'rgba(255, 0, 0, 0.55)') {
+      errMessage = `\u2022 The tenouchi is weak\n\u2022 The left wrist is bent to the right\n\u2022 The left arm gives in at the release\n\u2022 The right foot is set behind the center line\n\u2022 The pelvis is twisted to the right out of the center line\n`;
     } else if (this.state.lowerLColor === 'rgba(255, 0, 0, 0.55)') {
-      errMessage = `Reasons why You hit mostly Lower Left quarter of azuchi:\n1)Reason One\n2)Reason Two\n3)Reason Three\n4)Reason Four\n5)Reason Five\n6)Reason Six\n7)Reason Seven\n8)Reason Eight\n9)Reason Nine\n10)Reason Ten\n11)Reason Eleven\n12)Reason Twelve\n13)Reason Thireen\n14)Reason Fourteen\n15)Reason Fifteen\n16)Reason Sixteen\n17)Reason Seventeen\n18)Reason Eighteen\n19)Reason Nineteen\n20)Reason Twenty\n`;
+      errMessage = `\u2022 The upper body leans toward the target\n\u2022 Moving the right hand back at hanare\n`;
+    } else if (this.state.lowColor === 'rgba(255, 0, 0, 0.55)') {
+      errMessage = `\u2022 The arrow is held too hight on the face\n\u2022 The right elbow is held too high in kai\n\u2022 The left wrist is bent downward\n\u2022 The left arm drops at the hanare\n\u2022 Ashibumi is too narrow\n\u2022 The grip is held too low at nigiri\n\u2022 The left side of the pelvis is too high\n\u2022 The upper body is tilted toward the target\n\u2022 The left shoulder is too low\n\u2022 The right shoulder is too far forward\n\u2022 The bow is not drawn far enough\n\u2022 The hozuke is too low\n\u2022 Wrong yugaeri resulting from opening the bow hand\n\u2022 Moving the right elbow back at hanare`;
     } else if (this.state.lowerRColor === 'rgba(255, 0, 0, 0.55)') {
-      errMessage = `Reasons why You hit mostly Lower Right quarter of azuchi:\n1)Reason One\n2)Reason Two\n3)Reason Three\n4)Reason Four\n5)Reason Five\n6)Reason Six\n7)Reason Seven\n8)Reason Eight\n9)Reason Nine\n10)Reason Ten\n11)Reason Eleven\n12)Reason Twelve\n13)Reason Thireen\n14)Reason Fourteen\n15)Reason Fifteen\n16)Reason Sixteen\n17)Reason Seventeen\n18)Reason Eighteen\n19)Reason Nineteen\n20)Reason Twenty\n`;
+      errMessage = `\u2022 The angle of the feet is too great\n\u2022 The upper body is leaning forward\n\u2022 The left wrist is bent too far toward the back of the hand\n\u2022 The bow is not perpendicular\n\u2022 The wrist is bent outward\n\u2022 Wrong midpoint of turning the bow`;
     }
 
     return (
