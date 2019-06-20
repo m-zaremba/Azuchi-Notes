@@ -46,7 +46,7 @@ Register/login to the application using the email address.
 
 Add a series of shots in 6 clicks. You can also add a note to any series of shots. In the main window you can preview or delete each series.
 
-![Add shots](markdown_gifs/add shots.gif?raw=true "Add shots gif")
+![Add shots](markdown_gifs/add_shots.gif?raw=true "Add shots gif")
 
 You can check your stats at any time, but only after a certain number of shots the module will give you feedback info.
 
