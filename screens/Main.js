@@ -81,6 +81,8 @@ class Main extends React.Component {
       return null;
     }
 
+    console.log(this.state.series);
+
     return (
       <>
         <ImageBackground
@@ -91,7 +93,12 @@ class Main extends React.Component {
           <View style={styles.mainWindow}>
             <FlatList
               data={this.state.series}
-              renderItem={({ item }) => <Serie {...item} />}
+              renderItem={({ item }) => <Serie{...item} /> }
+              ListEmptyComponent={() =>
+                <View style={styles.emptyInfo}>
+                  <Text style={styles.emptyInfoText}>No shots yet.</Text>
+                </View>
+              }
             />
             <Icon
               style={{ position: 'absolute', bottom: 20, right: 20 }}
@@ -253,4 +260,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 30
   },
+  emptyInfo: {
+    alignItems: 'center',
+  },
+  emptyInfoText: {
+    fontSize: 40,
+  }
 });

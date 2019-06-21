@@ -91,11 +91,12 @@ export default class AddShots extends React.Component {
   var date = new Date().getDate()
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
+  let hour = new Date().getHours();
+  let minutes = new Date().getMinutes();
 
   this.setState({
-    date: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year}`,
+    date: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year} ${hour < 10 ? '0' + hour : hour}:${minutes < 10 ? '0' + minutes : minutes}`,
   });
-
 }
 
    render(){
