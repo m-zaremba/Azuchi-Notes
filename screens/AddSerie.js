@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Svg, { Rect, Circle } from 'react-native-svg';
 import firebase from 'react-native-firebase';
 import Main from './Main';
@@ -21,8 +21,9 @@ export default class AddShots extends React.Component {
       coordinates: [],
       accuracy: '',
       errors: [],
-      svgActive: '',
-      btnActive: true,
+      svgInactive: '',
+      btnDisabled: true,
+      undoDisabled: true,
       note: ''
   };
  }
@@ -76,11 +77,44 @@ export default class AddShots extends React.Component {
 
     if(this.state.coordinates.length >= 4) {
       this.setState({
-        svgActive: 'true',
-        btnActive: false,
+        svgInactive: 'true',
+        btnDisabled: false,
       })
     }
+
+    if(this.state.coordinates.length+1 >= 1) {
+      this.setState({
+        undoDisabled: false,
+      })
+    }
+
   };
+
+  undo = () => {
+    arr.pop();
+    acc.pop();
+    err.pop();
+
+    this.setState({
+        coordinates: arr,
+        accuracy: acc,
+        errors: err,
+      })
+
+    if(this.state.coordinates.length < 4) {
+      this.setState({
+        svgInactive: '',
+        btnDisabled: true,
+      })
+    }
+
+    if(this.state.coordinates.length+1 <= 1) {
+      this.setState({
+        undoDisabled: true,
+      })
+    }
+
+  }
 
   updateTextInput(value) {
     this.setState({ note: value });
@@ -121,7 +155,7 @@ export default class AddShots extends React.Component {
 
           <Svg width='90%' height='90%' viewBox='0 0 100 100'>
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={33}
               height={51}
               fill='rgb(49, 50, 47)'
@@ -130,7 +164,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={37}
               height={50}
               x={32}
@@ -140,7 +174,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={32}
               height={51}
               x={68}
@@ -150,7 +184,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={50}
               height={27}
               y={50}
@@ -160,7 +194,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={50}
               height={27}
               y={50}
@@ -171,7 +205,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={33}
               height={24}
               y={76}
@@ -181,7 +215,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={36}
               height={24}
               x={32}
@@ -192,7 +226,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Rect
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               width={33}
               height={24}
               x={67}
@@ -203,7 +237,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={23}
               y={23}
               r={23}
@@ -215,7 +249,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={18}
               y={18}
               r={18}
@@ -227,7 +261,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={14}
               y={14}
               r={14}
@@ -239,7 +273,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={12}
               y={12}
               r={12}
@@ -251,7 +285,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={8}
               y={8}
               r={8}
@@ -263,7 +297,7 @@ export default class AddShots extends React.Component {
               }}
             />
             <Circle
-              disabled={this.state.svgActive}
+              disabled={this.state.svgInactive}
               x={4}
               y={4}
               r={4}
@@ -299,8 +333,9 @@ export default class AddShots extends React.Component {
             onChangeText={(text) => this.updateTextInput(text)}
           />
           <View style={styles.buttonsWrapper}>
-            <AntDesignIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='pluscircle' size={48} color={this.state.btnActive === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnActive}/>
-            <AntDesignIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='closecircle' size={48} color='rgb(245, 71, 71)'/>
+            <AwesomeIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='check' size={48} color={this.state.btnDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnDisabled}/>
+            <AwesomeIcon onPress={() => this.undo()} name='undo' size={48} color={this.state.undoDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.undoDisabled}/>
+            <AwesomeIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='times' size={48} color='rgb(245, 71, 71)'/>
           </View>
         </View>
       </>
