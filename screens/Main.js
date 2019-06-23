@@ -5,7 +5,7 @@ import {FlatList, ScrollView, View, Text, ImageBackground, StyleSheet, Modal, To
 import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ModalIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import AddSerie from './AddSerie';
 import Stats from './Stats';
@@ -68,6 +68,7 @@ class Main extends React.Component {
     })
   }
 
+
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
@@ -80,8 +81,6 @@ class Main extends React.Component {
     if (this.state.loading) {
       return null;
     }
-
-    console.log(this.state.series);
 
     return (
       <>
@@ -100,14 +99,14 @@ class Main extends React.Component {
                 </View>
               }
             />
-            <Icon
-              style={{ position: 'absolute', bottom: 20, right: 20 }}
-              name='ios-add-circle'
+            <MaterialIcon
+              style={{ position: 'absolute', bottom: 20, right: 20, backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: 50, padding: 10}}
+              name='bullseye-arrow'
               size={60}
               color='rgb(255, 57, 57)'
               onPress={() => this.props.navigation.navigate('AddSerie')}
             />
-            <Icon style={{position: 'absolute', top: 0, right: 5}} name='ios-help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
+            <MaterialIcon style={{position: 'absolute', top: 0, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
           </View>
         </ImageBackground>
         <Modal animationType='fade' transparent={true} visible={this.state.showModal} >
@@ -123,7 +122,7 @@ class Main extends React.Component {
                 </View>
               </View>
               <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
-                  <ModalIcon name='gesture-tap' size={40} color='rgb(255, 57, 57)'/>
+                  <MaterialIcon name='gesture-tap' size={40} color='rgb(255, 57, 57)'/>
                   <Text style={styles.modalText}>Tap to view details</Text>
               </View>
 
@@ -137,7 +136,7 @@ class Main extends React.Component {
                   </View>
                 </View>
                 <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
-                <ModalIcon name='gesture-tap-hold' size={40} color='rgb(255, 57, 57)'/>
+                <MaterialIcon name='gesture-tap-hold' size={40} color='rgb(255, 57, 57)'/>
                 <Text style={styles.modalText}>Tap and hold to delete serie</Text>
                 </View>
             </View>

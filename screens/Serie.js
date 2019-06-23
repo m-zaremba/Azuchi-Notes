@@ -36,6 +36,7 @@ export default class Serie extends React.PureComponent {
   };
 
   render() {
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   text: {
     fontSize: 20,

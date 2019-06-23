@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, { Rect, Circle } from 'react-native-svg';
 import firebase from 'react-native-firebase';
 import Main from './Main';
@@ -333,9 +333,9 @@ export default class AddShots extends React.Component {
             onChangeText={(text) => this.updateTextInput(text)}
           />
           <View style={styles.buttonsWrapper}>
-            <AwesomeIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='check' size={48} color={this.state.btnDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnDisabled}/>
-            <AwesomeIcon onPress={() => this.undo()} name='undo' size={48} color={this.state.undoDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.undoDisabled}/>
-            <AwesomeIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='times' size={48} color='rgb(245, 71, 71)'/>
+            <MaterialIcon onPress={() => this.addSerie() || this.props.navigation.navigate('Main')} name='check' size={48} color={this.state.btnDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.btnDisabled}/>
+            <MaterialIcon onPress={() => this.undo()} name='undo-variant' size={48} color={this.state.undoDisabled === true ? 'grey' : 'rgb(245, 71, 71)'} disabled={this.state.undoDisabled}/>
+            <MaterialIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='close' size={48} color='rgb(245, 71, 71)'/>
           </View>
         </View>
       </>
