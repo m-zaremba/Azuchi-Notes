@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Svg, { Rect, Circle } from 'react-native-svg';
@@ -24,10 +24,22 @@ export default class AddShots extends React.Component {
       svgInactive: '',
       btnDisabled: true,
       undoDisabled: true,
-      note: ''
+      note: '',
+      showModal: false
   };
  }
 
+ showModal = () => {
+   this.setState({
+     showModal: true
+   })
+ }
+
+ hideModal = () => {
+   this.setState({
+     showModal: false
+   })
+ }
 
  addSerie() {
    this.ref.add({
@@ -338,6 +350,55 @@ export default class AddShots extends React.Component {
             <MaterialIcon onPress={() => this.cancel() || this.props.navigation.navigate('Main')} name='close' size={48} color='rgb(245, 71, 71)'/>
           </View>
         </View>
+        <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
+
+        <Modal animationType='fade' transparent={true} visible={this.state.showModal} >
+
+          <View style={styles.modalView}>
+            <ScrollView style={{width: '100%', height: '100%'}}>
+              <View style={styles.azuchiInfo}>
+                <Svg width='120' height='120' viewBox='0 0 100 100' style={{alignSelf: 'center'}}>
+                  <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
+                  <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
+                  <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
+                  <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
+                  <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
+                  <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
+                  <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
+                </Svg>
+                <Text style={{...styles.modalText, flexShrink: 1, alignSelf: 'center', marginLeft: 15}}>
+                  Tap the azuchi/mato four times to display markers (corresponding to the actual shots)
+                </Text>
+              </View>
+              <View style={styles.noteInfo}>
+                <Text style={styles.modalText}>
+                  Tap the 'ADD NOTE' field to add any useful information concerning fired shots.
+                </Text>
+              </View>
+              <View style={styles.buttonsInfo}>
+                <View style={styles.buttonInfo}>
+                  <MaterialIcon name='check' size={48} color='rgb(245, 71, 71)'/>
+                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                    Press the button to confirm and save shots serie. Button is inactive till all four shots are marked on azuchi.
+                  </Text>
+                </View>
+                <View style={{...styles.buttonInfo, marginTop: 15, marginBottom: 15}}>
+                  <MaterialIcon name='undo-variant' size={48} color='rgb(245, 71, 71)'/>
+                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                    Press the button to remove the last marked shot (inactive till at least one shot is marked on azuchi)
+                  </Text>
+                </View>
+                <View style={styles.buttonInfo}>
+                  <MaterialIcon name='close' size={48} color='rgb(245, 71, 71)'/>
+                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                    Press the button to close the pane (discarding any changes) and return to the main window.
+                  </Text>
+                </View>
+              </View>
+            </ScrollView>
+          </View>
+          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 5, right: 5}} />
+        </Modal>
       </>
      )
    }
@@ -381,5 +442,50 @@ export default class AddShots extends React.Component {
      borderRadius: 5,
      position: 'absolute',
      zIndex: 2,
+   },
+   modalView: {
+     backgroundColor: 'rgba(75, 75, 75, 0.95)',
+     paddingTop: 40,
+     paddingBottom: 10,
+     paddingLeft: 10,
+     paddingRight: 10,
+     height: '100%',
+     width: '100%',
+     justifyContent: 'flex-start',
+     alignItems: 'center'
+   },
+   modalText: {
+     fontSize: 20,
+     color: 'white'
+   },
+   azuchiInfo: {
+     backgroundColor: 'rgba(255, 255, 255, 0.25)',
+     width: '100%',
+     paddingTop: 10,
+     paddingBottom: 10,
+     paddingLeft: 5,
+     paddingRight: 5,
+     flexDirection: 'row',
+   },
+   noteInfo: {
+     backgroundColor: 'rgba(255, 255, 255, 0.25)',
+     marginTop: 40,
+     paddingTop: 10,
+     paddingBottom: 10,
+     paddingLeft: 5,
+     paddingRight: 5,
+   },
+   buttonsInfo: {
+     backgroundColor: 'rgba(255, 255, 255, 0.25)',
+     marginTop: 40,
+     paddingTop: 10,
+     paddingBottom: 10,
+     paddingLeft: 5,
+     paddingRight: 5,
+     width: '100%'
+   },
+   buttonInfo: {
+     flexDirection: 'row',
+     alignItems: 'center',
    }
  });
