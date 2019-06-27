@@ -1,9 +1,10 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 
-import {FlatList, ScrollView, View, Text, ImageBackground, StyleSheet, Modal, TouchableOpacity} from 'react-native';
+import {FlatList, ScrollView, View, Text, ImageBackground, StyleSheet, Modal, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { Button } from 'react-native-elements';
+import CalendarModal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -12,24 +13,28 @@ import Stats from './Stats';
 import Logout from './Logout';
 import Serie from './Serie';
 
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
+
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.uid = firebase.auth().currentUser.uid;
-    this.ref = firebase
-      .firestore()
-      .collection(this.uid)
-      .orderBy('timestamp', 'desc')
-      // .startAt(new Date(2019, 4, 26, 23, 0, 0, 0))
-      // .endAt(new Date(2019, 4, 26, 0, 0, 0, 0))
+    this.ref = firebase.firestore().collection(this.uid).orderBy('timestamp', 'desc')
     this.unsubscribe = null;
+
     this.state = {
       series: [],
       loading: true,
-      showModal: false
-    };
+      showModal: false,
+      showCalendarModal: false,
+      selectedStartDate: null,
+      selectedEndDate: null,
+      defaultStartDate: '',
+      defaultEndDate: '',
+    }
+    this.onDateChange = this.onDateChange.bind(this);
   }
 
   onCollectionUpdate = querySnapshot => {
@@ -44,16 +49,18 @@ class Main extends React.Component {
         accuracy,
         coordinates,
         modalVisible,
+        timestamp,
         note
       });
 
-    //  console.log(timestamp);
     });
 
     this.setState({
       series: series,
       loading: false
     });
+
+
   };
 
   showModal = () => {
@@ -68,9 +75,32 @@ class Main extends React.Component {
     })
   }
 
+  onDateChange(date, type) {
+    if (type === 'END_DATE') {
+      this.setState({
+        selectedEndDate: date,
+      });
+    } else {
+      this.setState({
+        selectedStartDate: date,
+        selectedEndDate: null,
+      });
+    }
+  }
+
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+
+    let now = new Date();
+    let start = moment(now).startOf('day').valueOf();
+    let end = moment(now).endOf('day').valueOf();
+
+    this.setState({
+      defaultStartDate: start,
+      defaultEndDate: end,
+    })
+
   }
 
   componentWillUnmount() {
@@ -78,8 +108,35 @@ class Main extends React.Component {
   }
 
   render() {
+
+
+    let data = [];
+
+    this.state.series.forEach((e,i) => {
+
+      if((this.state.selectedStartDate === null && e.timestamp >= this.state.defaultStartDate) && (this.state.selectedEndDate === null && e.timestamp <= this.state.defaultEndDate)) {
+        data.push(e);
+      } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
+        data.push(e);
+      }
+
+
+    })
+
+    const { selectedStartDate, selectedEndDate } = this.state;
+    const minDate = new Date(2019, 1, 1);
+    const maxDate = new Date(2021, 6, 3);
+    const startDate  =  selectedStartDate ? selectedStartDate.startOf('day').valueOf() : '';
+    const endDate = selectedEndDate ? selectedEndDate.endOf('day').valueOf() : '';
+
+
     if (this.state.loading) {
-      return null;
+      return (
+        <View style={styles.loadingView}>
+        <Text style={{fontSize: 30}}>Loading</Text>
+        <ActivityIndicator size={60} color='rgb(255, 57, 57)' />
+        </View>
+      )
     }
 
     return (
@@ -90,8 +147,17 @@ class Main extends React.Component {
           source={require('../img/background_mon.png')}
         >
           <View style={styles.mainWindow}>
+            <View style={styles.dateChoice}>
+            <MaterialIcon name='calendar-range-outline' size={40} color='rgb(255, 57, 57)' onPress={() => {
+              this.setState({
+                showCalendarModal: true
+              })
+            }} />
+              <Text style={{fontSize: 16, flexShrink: 1}}>Shots from: {this.state.selectedStartDate === null ? moment(this.state.defaultStartDate).format('DD MM YYYY') : moment(this.state.selectedStartDate).format('DD MM YYYY')} to: {this.state.selectedEndDate === null ? moment(this.state.defaultEndDate).format('DD MM YYYY') : moment(this.state.selectedEndDate).format('DD MM YYYY')}</Text>
+
+            </View>
             <FlatList
-              data={this.state.series}
+              data={data}
               renderItem={({ item }) => <Serie{...item} /> }
               ListEmptyComponent={() =>
                 <View style={styles.emptyInfo}>
@@ -150,41 +216,26 @@ class Main extends React.Component {
           </TouchableOpacity>
         </Modal>
 
-          {/*<Calendar
-            // Initially visible month. Default = Date()
-            current={'2019-05-27'}
-            // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-            minDate={'2019-05-01'}
-            // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-            maxDate={'2020-05-31'}
-            // Handler which gets executed on day press. Default = undefined
-            onDayPress={(day) => {console.log('selected day', day)}}
-            // Handler which gets executed on day long press. Default = undefined
-            onDayLongPress={(day) => {console.log('selected day', day)}}
-            // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-            monthFormat={'yyyy MM'}
-            // Handler which gets executed when visible month changes in calendar. Default = undefined
-            onMonthChange={(month) => {console.log('month changed', month)}}
-            // Hide month navigation arrows. Default = false
-            hideArrows={true}
-            // Replace default arrows with custom ones (direction can be 'left' or 'right')
-            renderArrow={(direction) => (<Arrow />)}
-            // Do not show days of other months in month page. Default = false
-            hideExtraDays={true}
-            // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-            // day from another month that is visible in calendar page. Default = false
-            disableMonthChange={true}
-            // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-            firstDay={1}
-            // Hide day names. Default = false
-            hideDayNames={false}
-            // Show week numbers to the left. Default = false
-            showWeekNumbers={false}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-            onPressArrowLeft={substractMonth => substractMonth()}
-            // Handler which gets executed when press arrow icon left. It receive a callback can go next month
-            onPressArrowRight={addMonth => addMonth()}
-          />*/}
+        <CalendarModal visible={this.state.showCalendarModal} style={styles.calendarModal} >
+
+            <View >
+              <CalendarPicker
+                startFromMonday={true}
+                allowRangeSelection={true}
+                minDate={minDate}
+                maxDate={maxDate}
+                todayBackgroundColor="rgb(255, 57, 57)"
+                selectedDayColor="rgb(255, 57, 57)"
+                selectedDayTextColor="#FFF"
+                onDateChange={this.onDateChange}
+              />
+            </View>
+            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+              this.setState({
+                showCalendarModal: false
+              })
+            }}/>
+        </CalendarModal>
       </>
     );
   }
@@ -289,5 +340,24 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 5,
     paddingRight: 5
+  },
+  loadingView: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calendarModal: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.97)',
+    width: '100%',
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: 0
+  },
+  dateChoice: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   }
 });
