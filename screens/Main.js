@@ -123,11 +123,29 @@ class Main extends React.Component {
 
     })
 
+
     const { selectedStartDate, selectedEndDate } = this.state;
     const minDate = new Date(2019, 1, 1);
     const maxDate = new Date(2021, 6, 3);
     const startDate  =  selectedStartDate ? selectedStartDate.startOf('day').valueOf() : '';
     const endDate = selectedEndDate ? selectedEndDate.endOf('day').valueOf() : '';
+
+
+    let listMessage = '';
+
+    if(this.state.selectedStartDate === null) {
+      listMessage = 'No shots today.'
+    } else {
+      listMessage = 'No shots on selected day(s)'
+    }
+
+    let headerMessage = '';
+
+    if(this.state.selectedStartDate === null) {
+      headerMessage = `Shots from: ${moment(this.state.defaultStartDate).format('DD MM YYYY')}`
+    } else {
+      headerMessage = `Shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
+    }
 
 
     if (this.state.loading) {
@@ -148,20 +166,14 @@ class Main extends React.Component {
         >
           <View style={styles.mainWindow}>
             <View style={styles.dateChoice}>
-            <MaterialIcon name='calendar-range-outline' size={40} color='rgb(255, 57, 57)' onPress={() => {
-              this.setState({
-                showCalendarModal: true
-              })
-            }} />
-              <Text style={{fontSize: 16, flexShrink: 1}}>Shots from: {this.state.selectedStartDate === null ? moment(this.state.defaultStartDate).format('DD MM YYYY') : moment(this.state.selectedStartDate).format('DD MM YYYY')} to: {this.state.selectedEndDate === null ? moment(this.state.defaultEndDate).format('DD MM YYYY') : moment(this.state.selectedEndDate).format('DD MM YYYY')}</Text>
-
+              <Text style={{fontSize: 18, alignSelf: 'center'}}>{headerMessage}</Text>
             </View>
             <FlatList
               data={data}
               renderItem={({ item }) => <Serie{...item} /> }
               ListEmptyComponent={() =>
                 <View style={styles.emptyInfo}>
-                  <Text style={styles.emptyInfoText}>No shots yet.</Text>
+                  <Text style={styles.emptyInfoText}> {listMessage} </Text>
                 </View>
               }
             />
@@ -173,6 +185,11 @@ class Main extends React.Component {
               onPress={() => this.props.navigation.navigate('AddSerie')}
             />
             <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
+            <MaterialIcon name='calendar-range-outline' style={{position: 'absolute', top: 5, left: 5}} size={35} color='rgb(255, 57, 57)' onPress={() => {
+              this.setState({
+                showCalendarModal: true
+              })
+            }} />
           </View>
         </ImageBackground>
 
@@ -323,6 +340,7 @@ const styles = StyleSheet.create({
   },
   emptyInfoText: {
     fontSize: 40,
+    paddingLeft: 10
   },
   addSerieInfo: {
     width: '100%',
@@ -356,8 +374,6 @@ const styles = StyleSheet.create({
     marginBottom: 0
   },
   dateChoice: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    textAlign: 'center'
   }
 });
