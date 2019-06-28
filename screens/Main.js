@@ -337,10 +337,14 @@ const styles = StyleSheet.create({
   },
   emptyInfo: {
     alignItems: 'center',
+    height: '100%'
   },
   emptyInfoText: {
-    fontSize: 40,
-    paddingLeft: 10
+    fontSize: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: '68%',
+    color: 'black'
   },
   addSerieInfo: {
     width: '100%',

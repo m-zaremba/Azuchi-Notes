@@ -16,6 +16,7 @@ export default class AddShots extends React.Component {
    super();
    this.uid = firebase.auth().currentUser.uid;
    this.ref = firebase.firestore().collection(this.uid);
+
    this.state = {
       date: '',
       coordinates: [],
@@ -166,156 +167,72 @@ export default class AddShots extends React.Component {
         {shots}
 
           <Svg width='90%' height='90%' viewBox='0 0 100 100'>
-            <Rect
-              disabled={this.state.svgInactive}
-              width={33}
-              height={51}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={33} height={51} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'UL');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={37}
-              height={50}
-              x={32}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={37} height={50} x={32} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'U');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={32}
-              height={51}
-              x={68}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={32} height={51} x={68} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'UR');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={50}
-              height={27}
-              y={50}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={50} height={27} y={50} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'L');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={50}
-              height={27}
-              y={50}
-              x={51}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={50} height={27} y={50} x={51} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'R');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={33}
-              height={24}
-              y={76}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={33} height={24} y={76} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'LL');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={36}
-              height={24}
-              x={32}
-              y={76}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={36} height={24} x={32} y={76} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'Lo');
               }}
             />
-            <Rect
-              disabled={this.state.svgInactive}
-              width={33}
-              height={24}
-              x={67}
-              y={76}
-              fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={33} height={24} x={67} y={76} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'LR');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={23}
-              y={23}
-              r={23}
-              cx={27}
-              cy={40}
-              fill='black'
+            <Circle disabled={this.state.svgInactive} x={23} y={23} r={23} cx={27} cy={40} fill='black'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={18}
-              y={18}
-              r={18}
-              cx={32}
-              cy={45}
-              fill='white'
+            <Circle disabled={this.state.svgInactive}x={18} y={18} r={18} cx={32} cy={45} fill='white'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={14}
-              y={14}
-              r={14}
-              cx={36}
-              cy={49}
-              fill='black'
+            <Circle disabled={this.state.svgInactive} x={14} y={14} r={14} cx={36} cy={49} fill='black'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={12}
-              y={12}
-              r={12}
-              cx={38}
-              cy={51}
-              fill='white'
+            <Circle disabled={this.state.svgInactive} x={12} y={12} r={12} cx={38} cy={51} fill='white'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={8}
-              y={8}
-              r={8}
-              cx={42}
-              cy={55}
-              fill='black'
+            <Circle disabled={this.state.svgInactive} x={8} y={8} r={8} cx={42} cy={55} fill='black'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}
             />
-            <Circle
-              disabled={this.state.svgInactive}
-              x={4}
-              y={4}
-              r={4}
-              cx={46}
-              cy={59}
-              fill='white'
+            <Circle disabled={this.state.svgInactive} x={4} y={4} r={4} cx={46} cy={59} fill='white'
               onPress={e => {
                 this.handleShot(e, 'ios-radio-button-off');
               }}

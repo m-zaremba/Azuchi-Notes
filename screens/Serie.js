@@ -7,6 +7,7 @@ import AddSerie from './AddSerie';
 import Main from './Main';
 
 export default class Serie extends React.PureComponent {
+
   handleSerieModal = () => {
     this.props.doc.ref.update({
       modalVisible: true

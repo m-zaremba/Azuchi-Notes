@@ -1,10 +1,14 @@
 import React from 'react';
-import {Text, View, Button, ImageBackground, StyleSheet, Modal, TouchableHighlight, ScrollView} from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView} from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
-//import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
+import CalendarModal from 'react-native-modal';
+import InfoModal from 'react-native-modal';
+import { Button } from 'react-native-elements';
 
 
 export default class Stats extends React.Component {
@@ -17,6 +21,12 @@ export default class Stats extends React.Component {
       series: [],
       loading: true,
       modalVisible: false,
+      showInfoModal: false,
+      showCalendarModal: false,
+      selectedStartDate: null,
+      selectedEndDate: null,
+      defaultStartDate: '',
+      defaultEndDate: '',
       upperLColor: 'rgba(0, 0, 0, 0)',
       upColor: 'rgba(0, 0, 0, 0)',
       upperRColor: 'rgba(0, 0, 0, 0)',
@@ -25,7 +35,8 @@ export default class Stats extends React.Component {
       lowerLColor: 'rgba(0, 0, 0, 0)',
       lowColor: 'rgba(0, 0, 0, 0)',
       lowerRColor: 'rgba(0, 0, 0, 0)'
-    };
+    }
+    this.onDateChange = this.onDateChange.bind(this);
   }
 
   onCollectionUpdate = querySnapshot => {
@@ -141,8 +152,43 @@ export default class Stats extends React.Component {
     });
   }
 
+  showInfoModal = () => {
+    this.setState({
+      showInfoModal: true
+    })
+  }
+
+  hideInfoModal = () => {
+    this.setState({
+      showInfoModal: false
+    })
+  }
+
+  onDateChange(date, type) {
+    if (type === 'END_DATE') {
+      this.setState({
+        selectedEndDate: date,
+      });
+    } else {
+      this.setState({
+        selectedStartDate: date,
+        selectedEndDate: null,
+      });
+    }
+  }
+
+
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+
+    let now = new Date();
+    let start = moment(now).startOf('day').valueOf();
+    let end = moment(now).endOf('day').valueOf();
+
+    this.setState({
+      defaultStartDate: start,
+      defaultEndDate: end,
+    })
   }
 
   componentWillUnmount() {
@@ -308,6 +354,20 @@ export default class Stats extends React.Component {
       errMessage = `\n\n\u2022 The angle of the feet is too great\n\u2022 The upper body is leaning forward\n\u2022 The left wrist is bent too far toward the back of the hand\n\u2022 The bow is not perpendicular\n\u2022 The wrist is bent outward\n\u2022 Wrong midpoint of turning the bow`;
     }
 
+    const { selectedStartDate, selectedEndDate } = this.state;
+    const minDate = new Date(2019, 1, 1);
+    const maxDate = new Date(2021, 6, 3);
+    const startDate  =  selectedStartDate ? selectedStartDate.startOf('day').valueOf() : '';
+    const endDate = selectedEndDate ? selectedEndDate.endOf('day').valueOf() : '';
+
+    let headerMessage = '';
+
+    if(this.state.selectedStartDate === null) {
+      headerMessage = 'Statistics for all shots'
+    } else {
+      headerMessage = `Stats for shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
+    }
+
     return (
       <>
         <View
@@ -330,8 +390,18 @@ export default class Stats extends React.Component {
             <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
             <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
+          <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showInfoModal()}}/>
         </View>
         <View style={{flex: 4}}>
+
+        <View style={styles.dateChoice}>
+          <MaterialIcon name='calendar-range-outline' size={45} color='rgb(255, 57, 57)' onPress={() => {
+            this.setState({
+              showCalendarModal: true
+            })
+          }} />
+          <Text style={{fontSize: 14, alignSelf: 'center', flexGrow: 1}}>{headerMessage}</Text>
+        </View>
           <View style={styles.statsView}>
             <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}`: `Hits:\n0`}</Text>
@@ -539,6 +609,33 @@ export default class Stats extends React.Component {
             />
           </View>
         </Modal>
+
+        <CalendarModal visible={this.state.showCalendarModal} style={styles.calendarModal} >
+
+            <View >
+              <CalendarPicker
+                startFromMonday={true}
+                allowRangeSelection={true}
+                minDate={minDate}
+                maxDate={maxDate}
+                todayBackgroundColor="rgb(255, 57, 57)"
+                selectedDayColor="rgb(255, 57, 57)"
+                selectedDayTextColor="#FFF"
+                onDateChange={this.onDateChange}
+              />
+            </View>
+            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+              this.setState({
+                showCalendarModal: false
+              })
+            }}/>
+        </CalendarModal>
+
+        <InfoModal style={styles.infoModal} visible={this.state.showInfoModal}>
+        <Button title='Close' onPress={() => {this.hideInfoModal()}} >
+        </Button>
+        </InfoModal>
+
         {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (
           <Icon
             style={styles.teacherIcon}
@@ -550,6 +647,7 @@ export default class Stats extends React.Component {
             color='white'
           />
         ) : null}
+
       </>
     );
   }
@@ -580,5 +678,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     position: 'absolute',
     zIndex: 2,
-  }
+  },
+  calendarModal: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.97)',
+    width: '100%',
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: 0
+  },
+  dateChoice: {
+    textAlign: 'center',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  infoModal: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.97)',
+    width: '100%',
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: 0
+  },
 });
