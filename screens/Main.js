@@ -40,7 +40,7 @@ class Main extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const series = [];
     querySnapshot.forEach(doc => {
-      const { date, accuracy, coordinates, modalVisible, note, timestamp } = doc.data();
+      const { date, accuracy, coordinates, modalVisible, note, timestamp, trainingDay } = doc.data();
 
       series.push({
         key: doc.id,
@@ -50,7 +50,8 @@ class Main extends React.Component {
         coordinates,
         modalVisible,
         timestamp,
-        note
+        note,
+        trainingDay,
       });
 
     });
@@ -157,11 +158,15 @@ class Main extends React.Component {
     }
 
 
-    let trainingDays = [];
+    let trainingMarkers = [];
+    let uniqueTrainingDays = [...new Set(this.state.series.map(e => e.trainingDay))];
 
-    this.state.series.forEach((e,i) => {
-      trainingDays.push({date: moment(new Date(e.timestamp), 'DD-MM-YYYY'), textStyle: {color: 'black'}, style: {backgroundColor: 'rgb(250, 180, 180)'}});
-    })
+    uniqueTrainingDays.forEach((e,i) => {
+      if(e != moment().format('DD.MM.YYYY')){
+        trainingMarkers.push({date: moment(e, 'DD.MM.YYYY'), textStyle: {color: 'black'}, style: {backgroundColor: 'rgb(247, 211, 211)'}});
+      }
+    });
+
 
     if (this.state.loading) {
       return (
@@ -254,7 +259,7 @@ class Main extends React.Component {
                 allowRangeSelection={true}
                 minDate={minDate}
                 maxDate={maxDate}
-                customDatesStyles={trainingDays}
+                customDatesStyles={trainingMarkers}
                 todayBackgroundColor="rgb(254, 109, 109)"
                 selectedDayColor="rgb(255, 57, 57)"
                 selectedDayTextColor="#FFF"

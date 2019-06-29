@@ -19,6 +19,7 @@ export default class AddShots extends React.Component {
 
    this.state = {
       date: '',
+      trainingDay: '',
       coordinates: [],
       accuracy: '',
       errors: [],
@@ -50,7 +51,8 @@ export default class AddShots extends React.Component {
    accuracy: this.state.accuracy,
    errors: this.state.errors,
    modalVisible: false,
-   note: this.state.note
+   note: this.state.note,
+   trainingDay: this.state.trainingDay
  });
    arr = [];
    acc = [];
@@ -143,6 +145,7 @@ export default class AddShots extends React.Component {
 
   this.setState({
     date: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year} ${hour < 10 ? '0' + hour : hour}:${minutes < 10 ? '0' + minutes : minutes}`,
+    trainingDay: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year}`,
   });
 }
 
