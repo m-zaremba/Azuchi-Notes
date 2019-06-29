@@ -387,7 +387,7 @@ export default class Stats extends React.Component {
     }
 
     let trainingMarkers = [];
-    let uniqueTrainingDays = [...new Set(this.state.series.map(e => e.trainingDay))];
+    let uniqueTrainingDays = [...new Set(data.map(e => e.trainingDay))];
 
     uniqueTrainingDays.forEach((e,i) => {
       if(e != moment().format('DD.MM.YYYY')){
@@ -645,15 +645,23 @@ export default class Stats extends React.Component {
                 allowRangeSelection={true}
                 minDate={minDate}
                 maxDate={maxDate}
+                customDatesStyles={trainingMarkers}
                 todayBackgroundColor="rgb(255, 57, 57)"
                 selectedDayColor="rgb(255, 57, 57)"
                 selectedDayTextColor="#FFF"
                 onDateChange={this.onDateChange}
               />
             </View>
-            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15}} onPress={() => {
               this.setState({
                 showCalendarModal: false
+              })
+            }}/>
+            <Button title='RESET' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+              this.setState({
+                selectedStartDate: null,
+                selectedEndDate: null,
+                showCalendarModal: false,
               })
             }}/>
         </CalendarModal>
