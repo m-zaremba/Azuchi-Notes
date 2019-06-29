@@ -42,13 +42,15 @@ export default class Stats extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const series = [];
     querySnapshot.forEach(doc => {
-      const { accuracy, coordinates, errors } = doc.data();
+      const { accuracy, coordinates, errors, timestamp, trainingDay } = doc.data();
 
       series.push({
         doc, // DocumentSnapshot
         accuracy,
         coordinates,
-        errors
+        errors,
+        timestamp,
+        trainingDay
       });
     });
 
@@ -198,10 +200,26 @@ export default class Stats extends React.Component {
   render() {
     // All shots counter
 
+    let data = [];
+
+
+    this.state.series.forEach((e,i) => {
+
+      if(this.state.selectedStartDate === null) {
+        data.push(e);
+      } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
+        data.push(e);
+        console.log(e.timestamp);
+        console.log(this.state.selectedStartDate);
+      }
+    })
+
+    console.log(data);
+
     let seriesAcc = []; // All shots accuracy tags
     let sum = [];
 
-    this.state.series.map((e, i) => {
+    data.map((e, i) => {
       seriesAcc.push(e.accuracy);
       sum.push(e.accuracy.length * (i + 1));
     });
@@ -214,7 +232,7 @@ export default class Stats extends React.Component {
     let errQuart = []; // error tags 2D array
     let errList = []; // 1D error 'list'
 
-    this.state.series.map((e, i) => {
+    data.map((e, i) => {
 
       coordObj.push(e.coordinates);
 
@@ -367,6 +385,15 @@ export default class Stats extends React.Component {
     } else {
       headerMessage = `Stats for shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
     }
+
+    let trainingMarkers = [];
+    let uniqueTrainingDays = [...new Set(this.state.series.map(e => e.trainingDay))];
+
+    uniqueTrainingDays.forEach((e,i) => {
+      if(e != moment().format('DD.MM.YYYY')){
+        trainingMarkers.push({date: moment(e, 'DD.MM.YYYY'), textStyle: {color: 'black'}, style: {backgroundColor: 'rgb(247, 211, 211)'}});
+      }
+    });
 
     return (
       <>
@@ -610,7 +637,7 @@ export default class Stats extends React.Component {
           </View>
         </Modal>
 
-        <CalendarModal visible={this.state.showCalendarModal} style={styles.calendarModal} >
+        <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
 
             <View >
               <CalendarPicker
@@ -631,7 +658,7 @@ export default class Stats extends React.Component {
             }}/>
         </CalendarModal>
 
-        <InfoModal style={styles.infoModal} visible={this.state.showInfoModal}>
+        <InfoModal animationType='slide' style={styles.infoModal} visible={this.state.showInfoModal}>
         <Button title='Close' onPress={() => {this.hideInfoModal()}} >
         </Button>
         </InfoModal>
