@@ -88,6 +88,14 @@ class Main extends React.Component {
     }
   }
 
+  showCalendar = () => {
+
+    this.setState({
+      showCalendarModal: true
+    })
+
+  }
+
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
@@ -111,6 +119,7 @@ class Main extends React.Component {
 
 
     let data = [];
+
 
     this.state.series.forEach((e,i) => {
 
@@ -147,6 +156,12 @@ class Main extends React.Component {
       headerMessage = `Shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
     }
 
+
+    let trainingDays = [];
+
+    this.state.series.forEach((e,i) => {
+      trainingDays.push({date: moment(new Date(e.timestamp), 'DD-MM-YYYY'), textStyle: {color: 'black'}, style: {backgroundColor: 'rgb(250, 180, 180)'}});
+    })
 
     if (this.state.loading) {
       return (
@@ -186,9 +201,7 @@ class Main extends React.Component {
             />
             <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
             <MaterialIcon name='calendar-range-outline' style={{position: 'absolute', top: 5, left: 5}} size={35} color='rgb(255, 57, 57)' onPress={() => {
-              this.setState({
-                showCalendarModal: true
-              })
+              this.showCalendar()
             }} />
           </View>
         </ImageBackground>
@@ -241,7 +254,8 @@ class Main extends React.Component {
                 allowRangeSelection={true}
                 minDate={minDate}
                 maxDate={maxDate}
-                todayBackgroundColor="rgb(255, 57, 57)"
+                customDatesStyles={trainingDays}
+                todayBackgroundColor="rgb(254, 109, 109)"
                 selectedDayColor="rgb(255, 57, 57)"
                 selectedDayTextColor="#FFF"
                 onDateChange={this.onDateChange}
