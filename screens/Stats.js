@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator} from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -72,12 +72,35 @@ export default class Stats extends React.Component {
 
   handleModal = () => {
     this.setState({
-      modalVisible: true
+      modalVisible: true,
+      upperLColor: 'rgba(0, 0, 0, 0)',
+      upColor: 'rgba(0, 0, 0, 0)',
+      upperRColor: 'rgba(0, 0, 0, 0)',
+      leftColor: 'rgba(0, 0, 0, 0)',
+      rightColor: 'rgba(0, 0, 0, 0)',
+      lowerLColor: 'rgba(0, 0, 0, 0)',
+      lowColor: 'rgba(0, 0, 0, 0)',
+      lowerRColor: 'rgba(0, 0, 0, 0)'
     });
+
+    let modalData = [];
+
+
+    this.state.series.forEach((e,i) => {
+
+      if(this.state.selectedStartDate === null && this.state.tag === '') {
+        modalData.push(e);
+      } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
+        modalData.push(e);
+      } else if (this.state.tag != '' && this.state.tag === e.note) {
+        modalData.push(e);
+      }
+
+    })
 
     let errQuart = []; // error tags 2D array
     let errList = []; // 1D error 'list'
-    this.state.series.map((e, i) => {
+    modalData.map((e, i) => {
       if (e.errors) {
         errQuart.push(e.errors);
       }
@@ -223,9 +246,8 @@ export default class Stats extends React.Component {
         data.push(e);
       } else if (this.state.tag != '' && this.state.tag === e.note) {
         data.push(e);
-        console.log(this.state.tag === e.note);
-        console.log(e.note);
       }
+
     })
 
 
@@ -361,7 +383,8 @@ export default class Stats extends React.Component {
     let errMessage = `Reasons Your arrows hits randomly:\n\u2022 Too much tension is placed in the hands when shooting\n \u2022 There is too much slack in the body`;
 
     if (this.state.upperLColor === 'rgba(255, 0, 0, 0.55)') {
-      errMessage = '';
+      errHeader = <Text style={{fontWeight: 'bold'}}>Reasons Your arrows hits above and to the left of the mato:</Text>;
+      errMessage = `\n\n\u2022 To discuss with my instructors`;
     } else if (this.state.upColor === 'rgba(255, 0, 0, 0.55)') {
       errHeader = <Text style={{fontWeight: 'bold'}}>Reasons Your arrows hits above the mato:</Text>;
       errMessage = `\n\n\u2022 Ashibumi is too wide\n\u2022 The right side of pelvis is too high\n\u2022 The upper body is tilted toward the target\n\u2022 The upper body is tilted to the right\n\u2022 The arrow is held too low on the face\n\u2022 The right elbow is held too low in kai\n\u2022 The left wrist is bent upward in kai\n\u2022 The left arm lifts at the hanare\n\u2022 The grip is held too high at nigiri\n`;
@@ -410,6 +433,15 @@ export default class Stats extends React.Component {
       }
     });
 
+    // if (this.state.loading) {
+    //   return (
+    //     <View style={styles.loadingView}>
+    //     <Text style={{fontSize: 30}}>Analyzing</Text>
+    //     <ActivityIndicator size={60} color='rgb(255, 57, 57)' />
+    //     </View>
+    //   )
+    // }
+
     return (
       <>
         <View
@@ -422,6 +454,7 @@ export default class Stats extends React.Component {
           }}
         >
           {statShots}
+          {this.state.loading ? <ActivityIndicator size={100} color='rgb(255, 57, 57)' style={{position:'absolute', top: '45%', zIndex: 200}}/> : null}
 
           <Svg width='90%' height='90%' viewBox='0 0 100 100'>
             <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
@@ -471,12 +504,10 @@ export default class Stats extends React.Component {
         >
           <View
             style={{
-              marginTop: 22,
-              width: '92%',
-              height: '95%',
+              width: '100%',
+              height: '100%',
               backgroundColor: 'rgba(85, 85, 85, 0.98)',
-              marginLeft: '4%',
-              paddingTop: 10,
+              paddingTop: 30,
               paddingLeft: 10,
               paddingRight: 10,
               paddingBottom: 10
@@ -758,5 +789,11 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginTop: 0,
     marginBottom: 0
+  },
+  loadingView: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
