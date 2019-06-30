@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -20,6 +20,7 @@ export default class Stats extends React.Component {
     this.state = {
       series: [],
       loading: true,
+      tag: '',
       modalVisible: false,
       showInfoModal: false,
       showCalendarModal: false,
@@ -42,7 +43,7 @@ export default class Stats extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const series = [];
     querySnapshot.forEach(doc => {
-      const { accuracy, coordinates, errors, timestamp, trainingDay } = doc.data();
+      const { accuracy, coordinates, errors, timestamp, trainingDay, note } = doc.data();
 
       series.push({
         doc, // DocumentSnapshot
@@ -50,7 +51,8 @@ export default class Stats extends React.Component {
         coordinates,
         errors,
         timestamp,
-        trainingDay
+        trainingDay,
+        note
       });
     });
 
@@ -59,6 +61,14 @@ export default class Stats extends React.Component {
       loading: false
     });
   };
+
+  updateTextInput(value) {
+    this.setState({
+      tag: value,
+      selectedStartDate: null,
+      selectedEndDate: null,
+    });
+  }
 
   handleModal = () => {
     this.setState({
@@ -190,7 +200,9 @@ export default class Stats extends React.Component {
     this.setState({
       defaultStartDate: start,
       defaultEndDate: end,
+      tag: ''
     })
+
   }
 
   componentWillUnmount() {
@@ -205,16 +217,17 @@ export default class Stats extends React.Component {
 
     this.state.series.forEach((e,i) => {
 
-      if(this.state.selectedStartDate === null) {
+      if(this.state.selectedStartDate === null && this.state.tag === '') {
         data.push(e);
       } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
         data.push(e);
-        console.log(e.timestamp);
-        console.log(this.state.selectedStartDate);
+      } else if (this.state.tag != '' && this.state.tag === e.note) {
+        data.push(e);
+        console.log(this.state.tag === e.note);
+        console.log(e.note);
       }
     })
 
-    console.log(data);
 
     let seriesAcc = []; // All shots accuracy tags
     let sum = [];
@@ -380,10 +393,12 @@ export default class Stats extends React.Component {
 
     let headerMessage = '';
 
-    if(this.state.selectedStartDate === null) {
-      headerMessage = 'Statistics for all shots'
-    } else {
-      headerMessage = `Stats for shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
+    if(this.state.selectedStartDate === null && this.state.tag === '') {
+      headerMessage = 'Showing statistics for all shots'
+    } else if (this.state.selectedStartDate != null) {
+      headerMessage = `Stats for shots from:\n${moment(this.state.selectedStartDate).format('DD.MM.YYYY')} to: ${moment(this.state.selectedEndDate).format('DD.MM.YYYY')}`
+    } else if (this.state.tag != '') {
+      headerMessage = `Showing statistics for tag: ${this.state.tag}`
     }
 
     let trainingMarkers = [];
@@ -418,35 +433,36 @@ export default class Stats extends React.Component {
             <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
           <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showInfoModal()}}/>
-        </View>
-        <View style={{flex: 4}}>
-
-        <View style={styles.dateChoice}>
-          <MaterialIcon name='calendar-range-outline' size={45} color='rgb(255, 57, 57)' onPress={() => {
+          <MaterialIcon style={{position: 'absolute', top: 5, left: 5}} name='filter-outline' size={35} color='rgb(255, 57, 57)' onPress={() => {
             this.setState({
               showCalendarModal: true
             })
           }} />
-          <Text style={{fontSize: 14, alignSelf: 'center', flexGrow: 1}}>{headerMessage}</Text>
         </View>
-          <View style={styles.statsView}>
+        <View style={{flex: 4}}>
+
+        <View style={{...styles.dateChoice, flex: 1, marginLeft: 10, marginRight: 10, paddingTop: 5, paddingBottom: 5, justifyContent: 'center'}}>
+          <Text style={{fontSize: 20, alignSelf: 'center', flexGrow: 1, textAlign: 'center'}}>{headerMessage}</Text>
+        </View>
+          <View style={{...styles.statsView, flex: 1}}>
             <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}`: `Hits:\n0`}</Text>
             <Text style={styles.statText}> {`Misses:\n${misses}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length)) / shots) *100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
           </View>
-          <View style={styles.statsView}>
-            <Text style={{...styles.statText, color: 'red' }}>{`1st\narrow\naccuracy`}</Text>
+          <View style={{...styles.statsView, flex: 2, alignItems: 'center'}}>
+            <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow\naccuracy`}</Text>
             <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow\naccuracy`}</Text>
             <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
             <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
           </View>
-          <View style={styles.statsView}>
+          <View style={{...styles.statsView, flex: 1}}>
           <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           <Text style={{...styles.statText, color: 'green'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           </View>
+
         </View>
         <Modal
           animationType='slide'
@@ -638,7 +654,7 @@ export default class Stats extends React.Component {
         </Modal>
 
         <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
-
+            <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20, marginBottom: 10}}>FILTER DATA BY DATE RANGE</Text>
             <View >
               <CalendarPicker
                 startFromMonday={true}
@@ -652,7 +668,15 @@ export default class Stats extends React.Component {
                 onDateChange={this.onDateChange}
               />
             </View>
-            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15}} onPress={() => {
+            <View>
+            <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20, marginBottom: 10}}>FILTER DATA BY TAG WORD</Text>
+              <TextInput style={{paddingLeft: 10, backgroundColor: 'rgba(0, 0, 0, 0.14)'}}
+                placeholder={'Enter tag to filter data'}
+                value={this.state.tag}
+                onChangeText={(text) => this.updateTextInput(text)}
+              />
+            </View>
+            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} onPress={() => {
               this.setState({
                 showCalendarModal: false
               })
@@ -662,6 +686,7 @@ export default class Stats extends React.Component {
                 selectedStartDate: null,
                 selectedEndDate: null,
                 showCalendarModal: false,
+                tag: '',
               })
             }}/>
         </CalendarModal>
@@ -695,7 +720,6 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   statsView: {
-    flex: 1,
     flexDirection: 'row',
     paddingLeft: 4,
     paddingRight: 4,

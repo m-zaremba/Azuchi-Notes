@@ -261,7 +261,6 @@ export default class AddShots extends React.Component {
           </View>
           <TextInput
             placeholder={'ADD NOTE'}
-            value={this.state.textInput}
             onChangeText={(text) => this.updateTextInput(text)}
           />
           <View style={styles.buttonsWrapper}>
@@ -272,7 +271,7 @@ export default class AddShots extends React.Component {
         </View>
         <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
 
-        <Modal animationType='fade' transparent={true} visible={this.state.showModal} >
+        <Modal animationType='slide' transparent={true} visible={this.state.showModal} >
 
           <View style={styles.modalView}>
             <ScrollView style={{width: '100%', height: '100%'}}>

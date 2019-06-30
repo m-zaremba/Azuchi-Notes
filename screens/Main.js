@@ -152,9 +152,9 @@ class Main extends React.Component {
     let headerMessage = '';
 
     if(this.state.selectedStartDate === null) {
-      headerMessage = `Shots from: ${moment(this.state.defaultStartDate).format('DD MM YYYY')}`
+      headerMessage = `Shots from: ${moment(this.state.defaultStartDate).format('DD.MM.YYYY')}`
     } else {
-      headerMessage = `Shots from: ${moment(this.state.selectedStartDate).format('DD MM YYYY')} to: ${moment(this.state.selectedEndDate).format('DD MM YYYY')}`
+      headerMessage = `Shots from: ${moment(this.state.selectedStartDate).format('DD.MM.YYYY')} to: ${moment(this.state.selectedEndDate).format('DD.MM.YYYY')}`
     }
 
 
@@ -211,7 +211,7 @@ class Main extends React.Component {
           </View>
         </ImageBackground>
 
-        <Modal animationType='fade' transparent={true} visible={this.state.showModal} >
+        <Modal animationType='slide' transparent={true} visible={this.state.showModal} >
           <TouchableOpacity activeOpacity={1} onPress={() => {this.hideModal()}} >
             <View style={styles.modalView}>
               <View style={styles.addSerieInfo}>
@@ -251,7 +251,7 @@ class Main extends React.Component {
           </TouchableOpacity>
         </Modal>
 
-        <CalendarModal visible={this.state.showCalendarModal} style={styles.calendarModal} >
+        <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
 
             <View >
               <CalendarPicker
