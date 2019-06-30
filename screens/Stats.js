@@ -387,7 +387,7 @@ export default class Stats extends React.Component {
     }
 
     let trainingMarkers = [];
-    let uniqueTrainingDays = [...new Set(data.map(e => e.trainingDay))];
+    let uniqueTrainingDays = [...new Set(this.state.series.map(e => e.trainingDay))];
 
     uniqueTrainingDays.forEach((e,i) => {
       if(e != moment().format('DD.MM.YYYY')){
