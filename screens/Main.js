@@ -205,7 +205,7 @@ class Main extends React.Component {
               onPress={() => this.props.navigation.navigate('AddSerie')}
             />
             <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
-            <MaterialIcon name='calendar-range-outline' style={{position: 'absolute', top: 5, left: 5}} size={35} color='rgb(255, 57, 57)' onPress={() => {
+            <MaterialIcon name='calendar-range-outline' style={{position: 'absolute', top: 5, left: 5}} size={35} color={this.state.selectedStartDate === null ? 'gray' : 'rgb(255, 57, 57)'} onPress={() => {
               this.showCalendar()
             }} />
           </View>
@@ -266,9 +266,16 @@ class Main extends React.Component {
                 onDateChange={this.onDateChange}
               />
             </View>
-            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+            <Button title='ACCEPT' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} onPress={() => {
               this.setState({
                 showCalendarModal: false
+              })
+            }}/>
+            <Button title='RESET' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} onPress={() => {
+              this.setState({
+                selectedStartDate: null,
+                selectedEndDate: null,
+                showCalendarModal: false,
               })
             }}/>
         </CalendarModal>

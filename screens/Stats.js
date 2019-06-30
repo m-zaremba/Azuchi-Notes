@@ -433,14 +433,13 @@ export default class Stats extends React.Component {
       }
     });
 
-    // if (this.state.loading) {
-    //   return (
-    //     <View style={styles.loadingView}>
-    //     <Text style={{fontSize: 30}}>Analyzing</Text>
-    //     <ActivityIndicator size={60} color='rgb(255, 57, 57)' />
-    //     </View>
-    //   )
-    // }
+    let filterColor='';
+
+    if(this.state.selectedStartDate != null || this.state.tag != '') {
+      filterColor = 'rgb(255, 57, 57)'
+    } else {
+      filterColor = 'gray'
+    }
 
     return (
       <>
@@ -466,7 +465,7 @@ export default class Stats extends React.Component {
             <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
           <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showInfoModal()}}/>
-          <MaterialIcon style={{position: 'absolute', top: 5, left: 5}} name='filter-outline' size={35} color='rgb(255, 57, 57)' onPress={() => {
+          <MaterialIcon style={{position: 'absolute', top: 5, left: 5}} name='filter-outline' size={35} color={filterColor} onPress={() => {
             this.setState({
               showCalendarModal: true
             })
