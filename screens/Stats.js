@@ -217,27 +217,75 @@ export default class Stats extends React.Component {
   }
 
   showFirst = () => {
-    this.setState(prevState => ({
-      showFirst: !prevState.showFirst
-    }))
+    // this.setState(prevState => ({
+    //   showFirst: !prevState.showFirst
+    // }))
+    if(this.state.showFirst === false) {
+      this.setState({
+        showFirst: true,
+        showSecond: false,
+        showThird: false,
+        showFourth: false,
+      })
+    } else {
+      this.setState({
+        showFirst: false,
+      })
+    }
   }
 
   showSecond = () => {
-    this.setState(prevState => ({
-      showSecond: !prevState.showSecond
-    }))
+    // this.setState(prevState => ({
+    //   showSecond: !prevState.showSecond
+    // }))
+    if(this.state.showSecond === false) {
+      this.setState({
+        showFirst: false,
+        showSecond: true,
+        showThird: false,
+        showFourth: false,
+      })
+    } else {
+      this.setState({
+        showSecond: false,
+      })
+    }
   }
 
   showThird = () => {
-    this.setState(prevState => ({
-      showThird: !prevState.showThird
-    }))
+    // this.setState(prevState => ({
+    //   showThird: !prevState.showThird
+    // }))
+    if(this.state.showThird === false) {
+      this.setState({
+        showFirst: false,
+        showSecond: false,
+        showThird: true,
+        showFourth: false,
+      })
+    } else {
+      this.setState({
+        showThird: false,
+      })
+    }
   }
 
   showFourth = () => {
-    this.setState(prevState => ({
-      showFourth: !prevState.showFourth
-    }))
+    // this.setState(prevState => ({
+    //   showFourth: !prevState.showFourth
+    // }))
+    if(this.state.showFourth === false) {
+      this.setState({
+        showFirst: false,
+        showSecond: false,
+        showThird: false,
+        showFourth: true,
+      })
+    } else {
+      this.setState({
+        showFourth: false,
+      })
+    }
   }
 
 
@@ -434,19 +482,6 @@ export default class Stats extends React.Component {
     }
 
 
-    // let statShots = statCoords.map((e, i) => {
-    //   if (i === 0 || i % 4 === 0) {
-    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
-    //   } else if (i === 1 || i % 4 === 1) {
-    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
-    //   } else if (i === 2 || i % 4 === 2) {
-    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
-    //   } else {
-    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
-    //   }
-    // });
-
-
     //Shots error cause list
     let errHeader = '';
     let errMessage = `Reasons Your arrows hits randomly:\n\u2022 Too much tension is placed in the hands when shooting\n \u2022 There is too much slack in the body`;
@@ -561,7 +596,7 @@ export default class Stats extends React.Component {
             <TouchableOpacity onPress={this.showThird} style={{paddingTop: 10}}>
               <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10}}>  
+            <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10}}>
               <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
             </TouchableOpacity>
           </View>
