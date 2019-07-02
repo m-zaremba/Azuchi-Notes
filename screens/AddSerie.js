@@ -275,6 +275,7 @@ export default class AddShots extends React.Component {
 
           <View style={styles.modalView}>
             <ScrollView style={{width: '100%', height: '100%'}}>
+              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>SHOTS INPUT SCREEN INFO</Text>
               <View style={styles.azuchiInfo}>
                 <Svg width='120' height='120' viewBox='0 0 100 100' style={{alignSelf: 'center'}}>
                   <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
@@ -291,7 +292,7 @@ export default class AddShots extends React.Component {
               </View>
               <View style={styles.noteInfo}>
                 <Text style={styles.modalText}>
-                  Tap the 'ADD NOTE' field to add any useful information concerning fired shots.
+                  Tap the 'ADD NOTE' field to add any useful information concerning fired shots. Any word from this note may later be used as a filter 'tag' in statistics screen.
                 </Text>
               </View>
               <View style={styles.buttonsInfo}>
@@ -316,7 +317,7 @@ export default class AddShots extends React.Component {
               </View>
             </ScrollView>
           </View>
-          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 5, right: 5}} />
+          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
         </Modal>
       </>
      )

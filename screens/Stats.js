@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator} from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Image} from 'react-native';
 import firebase from 'react-native-firebase';
 import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -244,7 +244,7 @@ export default class Stats extends React.Component {
         data.push(e);
       } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
         data.push(e);
-      } else if (this.state.tag != '' && this.state.tag === e.note) {
+      } else if (this.state.tag != '' && e.note.indexOf(this.state.tag) != -1) {
         data.push(e);
       }
 
@@ -676,8 +676,8 @@ export default class Stats extends React.Component {
               color='black'
               style={{
                 position: 'absolute',
-                top: 6,
-                right: 10
+                top: 3,
+                right: 5
               }}
             />
           </View>
@@ -692,7 +692,7 @@ export default class Stats extends React.Component {
                 minDate={minDate}
                 maxDate={maxDate}
                 customDatesStyles={trainingMarkers}
-                todayBackgroundColor="rgb(255, 57, 57)"
+                todayBackgroundColor="rgb(254, 109, 109)"
                 selectedDayColor="rgb(255, 57, 57)"
                 selectedDayTextColor="#FFF"
                 onDateChange={this.onDateChange}
@@ -722,8 +722,41 @@ export default class Stats extends React.Component {
         </CalendarModal>
 
         <InfoModal animationType='slide' style={styles.infoModal} visible={this.state.showInfoModal}>
-        <Button title='Close' onPress={() => {this.hideInfoModal()}} >
-        </Button>
+          <View style={styles.modalView}>
+            <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>STATS INPUT SCREEN INFO</Text>
+            <ScrollView style={{width: '100%', height: '100%'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.25)', marginBottom: 60, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+                <View style={{flexDirection: 'column', width: 80, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center'}}>
+                  <MaterialIcon name='filter-outline' size={55} color='white' style={{marginBottom: 10}}/>
+                  <MaterialIcon name='filter-outline' size={55} color='rgb(255, 57, 57)'/>
+                </View>
+                <Text style={{...styles.modalText, flexShrink: 1}}>{`By default, stats are calculated for all shots - to filter data tap the funnel icon.\nYou have two options for filtering data: by date/date range (works the same as in main screen) or by 'tag' (as mentioned in info section of shots-input-screen).\nTo indicate that filtering is active the colour of icon turns from grey to red.`}</Text>
+              </View>
+              <View style={{backgroundColor: 'rgba(255, 255, 255, 0.25)', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+                <View style={{flexDirection: 'row', marginBottom: 10}}>
+                <Image
+                  style={{width: 100, height: 100, alignSelf: 'center'}}
+                  resizeMode='contain'
+                  source={require('../img/azuchi.jpg')}
+                />
+                  <Text style={{...styles.modalText, flexShrink: 1, alignSelf: 'center', marginLeft: 5}}>
+                    Markers for all/selected shots will be displayed on the mato/azuchi image.
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                <Image
+                  style={{width: 100, height: 100, alignSelf: 'center'}}
+                  resizeMode='contain'
+                  source={require('../img/azuchi_info.jpg')}
+                />
+                  <Text style={{...styles.modalText, flexShrink: 1, alignSelf: 'center', marginLeft: 5}}>
+                    After 10+ missed shots that will hit a specific region of azuchi a 'message' icon will appear. Tap it to get additional info and comment on your shots.
+                  </Text>
+                </View>
+              </View>
+            </ScrollView>
+          </View>
+          <MaterialIcon onPress={() => {this.hideInfoModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
         </InfoModal>
 
         {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (
@@ -794,5 +827,20 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  modalView: {
+    backgroundColor: 'rgba(75, 75, 75, 0.95)',
+    paddingTop: 40,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: '100%',
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  modalText: {
+    fontSize: 20,
+    color: 'white'
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 
-import {FlatList, ScrollView, View, Text, ImageBackground, StyleSheet, Modal, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {FlatList, ScrollView, View, Text, Image, ImageBackground, StyleSheet, Modal, ActivityIndicator} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
 import { Button } from 'react-native-elements';
 import CalendarModal from 'react-native-modal';
@@ -212,8 +212,39 @@ class Main extends React.Component {
         </ImageBackground>
 
         <Modal animationType='slide' transparent={true} visible={this.state.showModal} >
-          <TouchableOpacity activeOpacity={1} onPress={() => {this.hideModal()}} >
+
             <View style={styles.modalView}>
+            <ScrollView style={{width: '100%', height: '100%'}}>
+              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>MAIN SCREEN INFO</Text>
+              <View style={styles.calendarInfo}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{flexDirection: 'column'}}>
+                    <MaterialIcon name='calendar-range-outline' size={45} color='white'/>
+                    <MaterialIcon name='calendar-range-outline' size={45} color='rgb(255, 57, 57)'/>
+                  </View>
+                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>By default, shots are displayed only for the present day. To filter data by date/date range tap calendar icon. When data filtering is active the colour of calendar icon turns from grey to red.</Text>
+                </View>
+                <View>
+                  <Image
+                    style={{width: 300, height: 250, alignSelf: 'center'}}
+                    resizeMode='contain'
+                    source={require('../img/pr_day.jpg')}
+                  />
+                  <Text style={styles.modalText}>The calendar opens to the present month showing present day (indicated by red circular background).</Text>
+                  <Image
+                    style={{width: 300, height: 250, alignSelf: 'center'}}
+                    resizeMode='contain'
+                    source={require('../img/tr_day.jpg')}
+                  />
+                  <Text style={styles.modalText}>Dates marked by the lightest shade of red are your previous training days.</Text>
+                  <Image
+                    style={{width: 300, height: 250, alignSelf: 'center'}}
+                    resizeMode='contain'
+                    source={require('../img/d_range.jpg')}
+                  />
+                  <Text style={styles.modalText}>To filter data by date range tap the first and last day of the range. The chosen range will be displayed as a dark-red band. To set a single-day-range simply tap the same date twice.</Text>
+                </View>
+              </View>
               <View style={styles.addSerieInfo}>
                 <MaterialIcon name='bullseye-arrow' color='rgb(255, 57, 57)' size={60} />
                 <Text style={styles.modalText}>Tap to start adding the series</Text>
@@ -247,8 +278,10 @@ class Main extends React.Component {
                   <Text style={styles.modalText}>Tap and hold to delete serie</Text>
                   </View>
                 </View>
+            </ScrollView>
             </View>
-          </TouchableOpacity>
+
+          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
         </Modal>
 
         <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
@@ -405,5 +438,14 @@ const styles = StyleSheet.create({
   },
   dateChoice: {
     textAlign: 'center'
-  }
+  },
+  calendarInfo: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginBottom: 60,
+  },
 });
