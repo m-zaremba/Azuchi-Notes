@@ -5,19 +5,29 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, Modal, Al
 import Icon from 'react-native-vector-icons/Ionicons';
 import AddSerie from './AddSerie';
 import Main from './Main';
+import SerieModal from 'react-native-modal';
 
 export default class Serie extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSerieModal: false,
+    }
+
+  }
+
 
   handleSerieModal = () => {
-    this.props.doc.ref.update({
-      modalVisible: true
-    });
+    this.setState({
+      showSerieModal: true,
+    })
   };
 
-  setModalInvisible(visible) {
-    this.props.doc.ref.update({
-      modalVisible: false
-    });
+  setModalInvisible() {
+    this.setState({
+      showSerieModal: false,
+    })
+    console.log('kliknięte pole modala');
   }
 
   handleDelete = () => {
@@ -57,11 +67,9 @@ export default class Serie extends React.PureComponent {
               <Icon name={`${this.props.accuracy[3]}`} size={30} style={styles.listIcon} />
             </View>
           </View>
-          <Modal animationType='slide' transparent={true} visible={this.props.modalVisible} >
+          <SerieModal animationType='slide' transparent={true} visible={this.state.showSerieModal} style={{width: '100%', height: '100%', marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0}} >
             <TouchableOpacity activeOpacity={1}
-              onPress={() => {
-                this.setModalInvisible(this.props.modalVisible);
-              }} >
+              onPress={() => this.setModalInvisible()} >
               <View style={{ width: '100%', height: '100%', backgroundColor: 'rgba(85, 85, 85, 0.95)' }} >
                 {this.props.coordinates.map((e, i) => {
                   if (i === 0) {
@@ -198,7 +206,7 @@ export default class Serie extends React.PureComponent {
                 </View>
               </View>
             </TouchableOpacity>
-          </Modal>
+          </SerieModal>
         </>
       </TouchableOpacity>
     );
