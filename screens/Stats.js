@@ -28,6 +28,10 @@ export default class Stats extends React.Component {
       selectedEndDate: null,
       defaultStartDate: '',
       defaultEndDate: '',
+      showFirst: false,
+      showSecond: false,
+      showThird: false,
+      showFourth: false,
       upperLColor: 'rgba(0, 0, 0, 0)',
       upColor: 'rgba(0, 0, 0, 0)',
       upperRColor: 'rgba(0, 0, 0, 0)',
@@ -212,6 +216,30 @@ export default class Stats extends React.Component {
     }
   }
 
+  showFirst = () => {
+    this.setState(prevState => ({
+      showFirst: !prevState.showFirst
+    }))
+  }
+
+  showSecond = () => {
+    this.setState(prevState => ({
+      showSecond: !prevState.showSecond
+    }))
+  }
+
+  showThird = () => {
+    this.setState(prevState => ({
+      showThird: !prevState.showThird
+    }))
+  }
+
+  showFourth = () => {
+    this.setState(prevState => ({
+      showFourth: !prevState.showFourth
+    }))
+  }
+
 
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
@@ -365,17 +393,58 @@ export default class Stats extends React.Component {
 
     //Show all shots markers
 
-    let statShots = statCoords.map((e, i) => {
-      if (i === 0 || i % 4 === 0) {
-        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
-      } else if (i === 1 || i % 4 === 1) {
-        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
-      } else if (i === 2 || i % 4 === 2) {
-        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
-      } else {
-        return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
-      }
-    });
+    let statShots;
+
+    if (this.state.showFirst === true) {
+      statShots = statCoords.map((e, i) => {
+        if (i === 0 || i % 4 === 0) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
+        }
+      });
+    } else if (this.state.showSecond === true) {
+      statShots = statCoords.map((e, i) => {
+        if (i === 1 || i % 4 === 1) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
+        }
+      });
+    } else if (this.state.showThird === true) {
+      statShots = statCoords.map((e, i) => {
+        if (i === 2 || i % 4 === 2) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
+        }
+      });
+    } else if (this.state.showFourth === true) {
+      statShots = statCoords.map((e, i) => {
+        if (i === 3 || i % 4 === 3) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
+        }
+      });
+    } else {
+      statShots = statCoords.map((e, i) => {
+        if (i === 0 || i % 4 === 0) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
+        } else if (i === 1 || i % 4 === 1) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
+        } else if (i === 2 || i % 4 === 2) {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
+        } else {
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
+        }
+      });
+    }
+
+
+    // let statShots = statCoords.map((e, i) => {
+    //   if (i === 0 || i % 4 === 0) {
+    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
+    //   } else if (i === 1 || i % 4 === 1) {
+    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
+    //   } else if (i === 2 || i % 4 === 2) {
+    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
+    //   } else {
+    //     return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
+    //   }
+    // });
 
 
     //Shots error cause list
@@ -483,10 +552,18 @@ export default class Stats extends React.Component {
             <Text style={styles.statText}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length)) / shots) *100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
           </View>
           <View style={{...styles.statsView, flex: 2, alignItems: 'center'}}>
-            <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow\naccuracy`}</Text>
-            <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow\naccuracy`}</Text>
-            <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
-            <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
+            <TouchableOpacity onPress={this.showFirst} style={{paddingTop: 10}}>
+              <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow\naccuracy`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.showSecond} style={{paddingTop: 10}}>
+              <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow\naccuracy`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.showThird} style={{paddingTop: 10}}>
+              <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10}}>  
+              <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
+            </TouchableOpacity>
           </View>
           <View style={{...styles.statsView, flex: 1}}>
           <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
@@ -721,9 +798,9 @@ export default class Stats extends React.Component {
             }}/>
         </CalendarModal>
 
-        <InfoModal animationType='slide' style={styles.infoModal} visible={this.state.showInfoModal}>
+        <InfoModal animationType='slide' style={styles.infoModal} transparent={true} visible={this.state.showInfoModal}>
           <View style={styles.modalView}>
-            <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>STATS INPUT SCREEN INFO</Text>
+            <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5, fontWeight: 'bold'}}>STATS INPUT SCREEN INFO</Text>
             <ScrollView style={{width: '100%', height: '100%'}}>
               <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.25)', marginBottom: 60, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
                 <View style={{flexDirection: 'column', width: 80, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center'}}>
@@ -816,7 +893,6 @@ const styles = StyleSheet.create({
   },
   infoModal: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.97)',
     width: '100%',
     marginLeft: 0,
     marginTop: 0,
