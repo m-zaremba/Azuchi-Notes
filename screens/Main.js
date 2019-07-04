@@ -3,18 +3,18 @@ import firebase from 'react-native-firebase';
 
 import {FlatList, ScrollView, View, Text, Image, ImageBackground, StyleSheet, Modal, ActivityIndicator} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator, createAppContainer} from 'react-navigation';
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import CalendarModal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
 
 import AddSerie from './AddSerie';
 import Stats from './Stats';
 import Logout from './Logout';
 import Serie from './Serie';
 
-import CalendarPicker from 'react-native-calendar-picker';
-import moment from 'moment';
 
 
 class Main extends React.Component {
@@ -40,15 +40,14 @@ class Main extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const series = [];
     querySnapshot.forEach(doc => {
-      const { date, accuracy, coordinates, modalVisible, note, timestamp, trainingDay } = doc.data();
+      const { date, accuracy, coordinates, note, timestamp, trainingDay } = doc.data();
 
       series.push({
         key: doc.id,
-        doc, // DocumentSnapshot
+        doc,
         date,
         accuracy,
         coordinates,
-        modalVisible,
         timestamp,
         note,
         trainingDay,
@@ -90,11 +89,9 @@ class Main extends React.Component {
   }
 
   showCalendar = () => {
-
     this.setState({
       showCalendarModal: true
     })
-
   }
 
 
@@ -118,21 +115,15 @@ class Main extends React.Component {
 
   render() {
 
-
     let data = [];
 
-
     this.state.series.forEach((e,i) => {
-
       if((this.state.selectedStartDate === null && e.timestamp >= this.state.defaultStartDate) && (this.state.selectedEndDate === null && e.timestamp <= this.state.defaultEndDate)) {
         data.push(e);
       } else if((this.state.selectedStartDate != null && e.timestamp >= this.state.selectedStartDate) && (this.state.selectedEndDate != null && e.timestamp <= this.state.selectedEndDate)) {
         data.push(e);
       }
-
-
     })
-
 
     const { selectedStartDate, selectedEndDate } = this.state;
     const minDate = new Date(2019, 1, 1);
@@ -143,7 +134,7 @@ class Main extends React.Component {
 
     let listMessage = '';
 
-    if(this.state.selectedStartDate === null) {
+    if (this.state.selectedStartDate === null) {
       listMessage = 'No shots today.'
     } else {
       listMessage = 'No shots on selected day(s)'
@@ -151,7 +142,7 @@ class Main extends React.Component {
 
     let headerMessage = '';
 
-    if(this.state.selectedStartDate === null) {
+    if (this.state.selectedStartDate === null) {
       headerMessage = `Shots from: ${moment(this.state.defaultStartDate).format('DD.MM.YYYY')}`
     } else {
       headerMessage = `Shots from: ${moment(this.state.selectedStartDate).format('DD.MM.YYYY')} to: ${moment(this.state.selectedEndDate).format('DD.MM.YYYY')}`
@@ -212,10 +203,9 @@ class Main extends React.Component {
         </ImageBackground>
 
         <Modal animationType='slide' transparent={true} visible={this.state.showModal} >
-
-            <View style={styles.modalView}>
+          <View style={styles.modalView}>
             <ScrollView style={{width: '100%', height: '100%'}}>
-              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>MAIN SCREEN INFO</Text>
+              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5, fontWeight: 'bold'}}>MAIN SCREEN INFO</Text>
               <View style={styles.calendarInfo}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={{flexDirection: 'column'}}>
@@ -260,32 +250,29 @@ class Main extends React.Component {
                   </View>
                 </View>
                 <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
-                    <MaterialIcon name='gesture-tap' size={40} color='rgb(255, 57, 57)'/>
-                    <Text style={styles.modalText}>Tap to view details</Text>
+                  <MaterialIcon name='gesture-tap' size={40} color='rgb(255, 57, 57)'/>
+                  <Text style={styles.modalText}>Tap to view details</Text>
                 </View>
-
-                  <View style={{...styles.serieRow, marginTop: 60}}>
-                    <Text style={{fontSize: 22, color: 'black'}}>12.05.2019 12:00</Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
-                      <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
-                      <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
-                      <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
-                    </View>
+                <View style={{...styles.serieRow, marginTop: 60}}>
+                  <Text style={{fontSize: 22, color: 'black'}}>12.05.2019 12:00</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
+                    <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
+                    <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
+                    <Icon name='ios-radio-button-off' size={30} style={styles.listIcon} />
                   </View>
-                  <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
+                </View>
+                <View style={{flexDirection:'row', alignItems: 'flex-end'}}>
                   <MaterialIcon name='gesture-tap-hold' size={40} color='rgb(255, 57, 57)'/>
                   <Text style={styles.modalText}>Tap and hold to delete serie</Text>
-                  </View>
                 </View>
+              </View>
             </ScrollView>
-            </View>
-
-          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
+          </View>
+          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
         </Modal>
 
         <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
-
             <View >
               <CalendarPicker
                 startFromMonday={true}

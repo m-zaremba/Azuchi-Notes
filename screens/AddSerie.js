@@ -50,7 +50,6 @@ export default class AddShots extends React.Component {
    coordinates: this.state.coordinates,
    accuracy: this.state.accuracy,
    errors: this.state.errors,
-   modalVisible: false,
    note: this.state.note,
    trainingDay: this.state.trainingDay
  });
@@ -275,7 +274,7 @@ export default class AddShots extends React.Component {
 
           <View style={styles.modalView}>
             <ScrollView style={{width: '100%', height: '100%'}}>
-              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5}}>SHOTS INPUT SCREEN INFO</Text>
+              <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5, fontWeight: 'bold'}}>SHOTS INPUT SCREEN INFO</Text>
               <View style={styles.azuchiInfo}>
                 <Svg width='120' height='120' viewBox='0 0 100 100' style={{alignSelf: 'center'}}>
                   <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
@@ -317,7 +316,7 @@ export default class AddShots extends React.Component {
               </View>
             </ScrollView>
           </View>
-          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
+          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
         </Modal>
       </>
      )

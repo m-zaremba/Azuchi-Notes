@@ -537,13 +537,15 @@ export default class Stats extends React.Component {
       }
     });
 
-    let filterColor='';
+    let filterColor = '';
 
     if(this.state.selectedStartDate != null || this.state.tag != '') {
       filterColor = 'rgb(255, 57, 57)'
     } else {
       filterColor = 'gray'
     }
+
+
 
     return (
       <>
@@ -586,19 +588,27 @@ export default class Stats extends React.Component {
             <Text style={styles.statText}> {`Misses:\n${misses}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Accuracy:\n${(((shots - Number(errors.length)) / shots) *100).toFixed(0)}%` : `Accuracy:\n0%`}</Text>
           </View>
-          <View style={{...styles.statsView, flex: 2, alignItems: 'center'}}>
-            <TouchableOpacity onPress={this.showFirst} style={{paddingTop: 10}}>
-              <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow\naccuracy`}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.showSecond} style={{paddingTop: 10}}>
-              <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow\naccuracy`}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.showThird} style={{paddingTop: 10}}>
-              <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow\naccuracy`}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10}}>
-              <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow\naccuracy`}</Text>
-            </TouchableOpacity>
+          <View style={{flex: 2, alignItems: 'center'}}>
+            <View style={{...styles.statsView, flex: 2, alignItems: 'center', width: '100%'}}>
+              <Text style={{...styles.statText, color: 'red'}}>{`1st\narrow`}</Text>
+              <Text style={{...styles.statText, color: 'green'}}>{`2nd\narrow`}</Text>
+              <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow`}</Text>
+              <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow`}</Text>
+            </View>
+            <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginBottom: 10}}>
+              <TouchableOpacity onPress={this.showFirst} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
+                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFirst === true ? 'red' : 'lightgrey' }}></View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.showSecond} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
+                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showSecond === true ? 'green' : 'lightgrey'}}></View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.showThird} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
+                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showThird === true ? 'blue' : 'lightgrey'}}></View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
+                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFourth === true ? 'violet' : 'lightgrey'}}></View>
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={{...styles.statsView, flex: 1}}>
           <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
@@ -844,7 +854,7 @@ export default class Stats extends React.Component {
                 </View>
                 <Text style={{...styles.modalText, flexShrink: 1}}>{`By default, stats are calculated for all shots - to filter data tap the funnel icon.\nYou have two options for filtering data: by date/date range (works the same as in main screen) or by 'tag' (as mentioned in info section of shots-input-screen).\nTo indicate that filtering is active the colour of icon turns from grey to red.`}</Text>
               </View>
-              <View style={{backgroundColor: 'rgba(255, 255, 255, 0.25)', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+              <View style={{backgroundColor: 'rgba(255, 255, 255, 0.25)', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, marginBottom: 60}}>
                 <View style={{flexDirection: 'row', marginBottom: 10}}>
                 <Image
                   style={{width: 100, height: 100, alignSelf: 'center'}}
@@ -866,9 +876,27 @@ export default class Stats extends React.Component {
                   </Text>
                 </View>
               </View>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.25)', marginBottom: 60, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+                <View style={{flexDirection: 'row'}}>
+                <Image
+                  style={{width: 100, height: 100, alignSelf: 'center'}}
+                  resizeMode='contain'
+                  source={require('../img/one_arrow.jpg')}
+                />
+                <View style={{flexDirection: 'column', width: 50, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'red'}}></View>
+                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'green'}}></View>
+                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'blue'}}></View>
+                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'violet'}}></View>
+                </View>
+                  <Text style={{...styles.modalText, flexShrink: 1, alignSelf: 'center', marginLeft: 5}}>
+                    To display the markers for a single arrow (eg. third only) press the corresponding button. To display the markers of all shots, press the active button again.
+                  </Text>
+                </View>
+              </View>
             </ScrollView>
           </View>
-          <MaterialIcon onPress={() => {this.hideInfoModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}} />
+          <MaterialIcon onPress={() => {this.hideInfoModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
         </InfoModal>
 
         {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (
