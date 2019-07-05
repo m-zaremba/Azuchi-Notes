@@ -88,8 +88,8 @@ export default class Serie extends React.PureComponent {
                     );
                   }
                 })}
-                <View style={{flex: 6, alignItems: 'center', zIndex: 1, justifyContent: 'flex-end' }} >
-                  <Svg width='90%' height='90%' viewBox='0 0 100 100'>
+                <View style={{flex: 6, alignItems: 'center', zIndex: 1, justifyContent: 'flex-end', paddingTop: 45}} >
+                  <Svg width='100%' height='100%' viewBox='0 0 100 100'>
                     <Rect
                       disabled='true'
                       width={100}

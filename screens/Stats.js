@@ -1,14 +1,16 @@
 import React from 'react';
-import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Image} from 'react-native';
 import firebase from 'react-native-firebase';
-import Svg, { Rect, Circle, TSpan } from 'react-native-svg';
+import moment from 'moment';
+
+import {Text, View, ImageBackground, StyleSheet, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Image} from 'react-native';
+import {Button} from 'react-native-elements';
+import Svg, {Rect, Circle, TSpan} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CalendarPicker from 'react-native-calendar-picker';
-import moment from 'moment';
 import CalendarModal from 'react-native-modal';
 import InfoModal from 'react-native-modal';
-import { Button } from 'react-native-elements';
+
 
 
 export default class Stats extends React.Component {
@@ -50,7 +52,7 @@ export default class Stats extends React.Component {
       const { accuracy, coordinates, errors, timestamp, trainingDay, note } = doc.data();
 
       series.push({
-        doc, // DocumentSnapshot
+        doc,
         accuracy,
         coordinates,
         errors,
@@ -102,8 +104,8 @@ export default class Stats extends React.Component {
 
     })
 
-    let errQuart = []; // error tags 2D array
-    let errList = []; // 1D error 'list'
+    let errQuart = [];
+    let errList = [];
     modalData.map((e, i) => {
       if (e.errors) {
         errQuart.push(e.errors);
@@ -217,9 +219,6 @@ export default class Stats extends React.Component {
   }
 
   showFirst = () => {
-    // this.setState(prevState => ({
-    //   showFirst: !prevState.showFirst
-    // }))
     if(this.state.showFirst === false) {
       this.setState({
         showFirst: true,
@@ -235,9 +234,6 @@ export default class Stats extends React.Component {
   }
 
   showSecond = () => {
-    // this.setState(prevState => ({
-    //   showSecond: !prevState.showSecond
-    // }))
     if(this.state.showSecond === false) {
       this.setState({
         showFirst: false,
@@ -253,9 +249,6 @@ export default class Stats extends React.Component {
   }
 
   showThird = () => {
-    // this.setState(prevState => ({
-    //   showThird: !prevState.showThird
-    // }))
     if(this.state.showThird === false) {
       this.setState({
         showFirst: false,
@@ -271,9 +264,6 @@ export default class Stats extends React.Component {
   }
 
   showFourth = () => {
-    // this.setState(prevState => ({
-    //   showFourth: !prevState.showFourth
-    // }))
     if(this.state.showFourth === false) {
       this.setState({
         showFirst: false,
@@ -549,19 +539,12 @@ export default class Stats extends React.Component {
 
     return (
       <>
-        <View
-          style={{
-            flex: 6,
-            alignItems: 'center',
-            zIndex: 1,
-            justifyContent: 'flex-end',
-            paddingBottom: 24
-          }}
-        >
-          {statShots}
-          {this.state.loading ? <ActivityIndicator size={100} color='rgb(255, 57, 57)' style={{position:'absolute', top: '45%', zIndex: 200}}/> : null}
+        <View style={styles.matoView}>
 
-          <Svg width='90%' height='90%' viewBox='0 0 100 100'>
+          {statShots}
+          {this.state.loading ? <ActivityIndicator size={100} color='rgb(255, 57, 57)' style={styles.activityIndicator}/> : null}
+
+          <Svg width='100%' height='100%' viewBox='0 0 100 100'>
             <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
             <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
             <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
@@ -571,18 +554,14 @@ export default class Stats extends React.Component {
             <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
           </Svg>
           <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showInfoModal()}}/>
-          <MaterialIcon style={{position: 'absolute', top: 5, left: 5}} name='filter-outline' size={35} color={filterColor} onPress={() => {
-            this.setState({
-              showCalendarModal: true
-            })
-          }} />
+          <MaterialIcon style={{position: 'absolute', top: 5, left: 5}} name='filter-outline' size={35} color={filterColor} onPress={() => {this.setState({showCalendarModal: true})}} />
         </View>
-        <View style={{flex: 4}}>
 
-        <View style={{...styles.dateChoice, flex: 1, marginLeft: 10, marginRight: 10, paddingTop: 5, paddingBottom: 5, justifyContent: 'center'}}>
-          <Text style={{fontSize: 20, alignSelf: 'center', flexGrow: 1, textAlign: 'center'}}>{headerMessage}</Text>
-        </View>
-          <View style={{...styles.statsView, flex: 1}}>
+        <View style={{flex: 5}}>
+          <View style={styles.dateChoice}>
+            <Text style={styles.headerText}>{headerMessage}</Text>
+          </View>
+          <View style={{...styles.statsView}}>
             <Text style={styles.statText}>{typeof shots === 'number' ? `${`Shots:\n${shots}`}` : `${`Shots:\n0`}`}</Text>
             <Text style={styles.statText}>{typeof shots === 'number' ? `Hits:\n${shots - misses}`: `Hits:\n0`}</Text>
             <Text style={styles.statText}> {`Misses:\n${misses}`}</Text>
@@ -595,218 +574,90 @@ export default class Stats extends React.Component {
               <Text style={{...styles.statText, color: 'blue'}}>{`3rd\narrow`}</Text>
               <Text style={{...styles.statText, color: 'violet'}}>{`4th\narrow`}</Text>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginBottom: 10}}>
-              <TouchableOpacity onPress={this.showFirst} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
-                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFirst === true ? 'red' : 'lightgrey' }}></View>
+            <View style={styles.arrowButtons}>
+              <TouchableOpacity onPress={this.showFirst} style={styles.buttonOpacity}>
+                <View style={{...styles.arrowButton, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFirst === true ? 'red' : 'lightgrey' }}></View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.showSecond} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
-                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showSecond === true ? 'green' : 'lightgrey'}}></View>
+              <TouchableOpacity onPress={this.showSecond} style={styles.buttonOpacity}>
+                <View style={{...styles.arrowButton, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showSecond === true ? 'green' : 'lightgrey'}}></View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.showThird} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
-                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showThird === true ? 'blue' : 'lightgrey'}}></View>
+              <TouchableOpacity onPress={this.showThird} style={styles.buttonOpacity}>
+                <View style={{...styles.arrowButton, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showThird === true ? 'blue' : 'lightgrey'}}></View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.showFourth} style={{paddingTop: 10, paddingBottom: 5, paddingLeft: 10, paddingRight: 10}}>
-                <View style={{height: 6, width: 20, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFourth === true ? 'violet' : 'lightgrey'}}></View>
+              <TouchableOpacity onPress={this.showFourth} style={styles.buttonOpacity}>
+                <View style={{...styles.arrowButton, backgroundColor: this.state.showFirst === false && this.state.showSecond === false && this.state.showThird === false && this.state.showFourth === false || this.state.showFourth === true ? 'violet' : 'lightgrey'}}></View>
               </TouchableOpacity>
             </View>
           </View>
           <View style={{...styles.statsView, flex: 1}}>
-          <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-          <Text style={{...styles.statText, color: 'green'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-          <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
-          <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+            <Text style={{...styles.statText, color: 'red'}}>{firstAcc.length > 0 ? `${(((firstAcc.reduce(function(a, b) { return a + b; }, 0)) / firstAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+            <Text style={{...styles.statText, color: 'green'}}>{firstAcc.length > 0 ? `${(((secondAcc.reduce(function(a, b) { return a + b; }, 0)) / secondAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+            <Text style={{...styles.statText, color: 'blue'}}>{firstAcc.length > 0 ? `${(((thirdAcc.reduce(function(a, b) { return a + b; }, 0)) / thirdAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
+            <Text style={{...styles.statText, color: 'violet'}}>{firstAcc.length > 0 ? `${(((fourthAcc.reduce(function(a, b) { return a + b; }, 0)) / fourthAcc.length) * 100).toFixed(0)}` : '0'}%</Text>
           </View>
-
         </View>
-        <Modal
-          animationType='slide'
-          transparent={true}
-          visible={this.state.modalVisible}
-        >
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(85, 85, 85, 0.98)',
-              paddingTop: 30,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 10
-            }}
-          >
-            <View
-              style={{
-                flex: 4,
-                alignItems: 'center'
-              }}
-            >
+
+        <Modal animationType='slide' transparent={true} visible={this.state.modalVisible}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalMato}>
               <Svg width='90%' height='90%' viewBox='0 0 100 100'>
-              <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
-              <Rect
-                disabled='true'
-                width={33}
-                height={51}
-                fill={this.state.upperLColor}
-              />
-              <Rect
-                disabled='true'
-                width={37}
-                height={50}
-                x={32}
-                fill={this.state.upColor}
-              />
-              <Rect
-                disabled='true'
-                width={32}
-                height={51}
-                x={68}
-                fill={this.state.upperRColor}
-              />
-              <Rect
-                disabled='true'
-                width={50}
-                height={27}
-                y={50}
-                fill={this.state.leftColor}
-              />
-              <Rect
-                disabled='true'
-                width={50}
-                height={27}
-                y={50}
-                x={51}
-                fill={this.state.rightColor}
-              />
-              <Rect
-                disabled='true'
-                width={33}
-                height={24}
-                y={76}
-                fill={this.state.lowerLColor}
-              />
-              <Rect
-                disabled='true'
-                width={36}
-                height={24}
-                x={32}
-                y={76}
-                fill={this.state.lowColor}
-              />
-              <Rect
-                disabled='true'
-                width={33}
-                height={24}
-                x={67}
-                y={76}
-                fill={this.state.lowerRColor}
-              />
-              <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
-              <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
-              <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
-              <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
-              <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
-              <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="15"
-                y="25"
-                textAnchor="middle"
-                >{upperL.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="50"
-                y="25"
-                textAnchor="middle"
-                >{up.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="85"
-                y="25"
-                textAnchor="middle"
-                >{upperR.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="15"
-                y="68"
-                textAnchor="middle"
-                >{left.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="85"
-                y="68"
-                textAnchor="middle"
-                >{right.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="15"
-                y="93"
-                textAnchor="middle"
-                >{lowerL.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="50"
-                y="97"
-                textAnchor="middle"
-                >{low.length}</TSpan>
-              <TSpan
-                fill='white'
-                fontSize="13"
-                x="85"
-                y="93"
-                textAnchor="middle"
-                >{lowerR.length}</TSpan>
+                <Rect disabled='true' width={100} height={100} fill='rgb(49, 50, 47)' />
+                <Rect disabled='true' width={33} height={51} fill={this.state.upperLColor} />
+                <Rect disabled='true' width={37} height={50} x={32} fill={this.state.upColor} />
+                <Rect disabled='true' width={32} height={51} x={68} fill={this.state.upperRColor} />
+                <Rect disabled='true' width={50} height={27} y={50} fill={this.state.leftColor} />
+                <Rect disabled='true' width={50} height={27} y={50} x={51} fill={this.state.rightColor} />
+                <Rect disabled='true' width={33} height={24} y={76} fill={this.state.lowerLColor} />
+                <Rect disabled='true' width={36} height={24} x={32} y={76} fill={this.state.lowColor} />
+                <Rect disabled='true' width={33} height={24} x={67} y={76} fill={this.state.lowerRColor} />
+                <Circle disabled='true' x={23} y={23} r={23} cx={27} cy={40} fill='black' />
+                <Circle disabled='true' x={18} y={18} r={18} cx={32} cy={45} fill='white' />
+                <Circle disabled='true' x={14} y={14} r={14} cx={36} cy={49} fill='black' />
+                <Circle disabled='true' x={12} y={12} r={12} cx={38} cy={51} fill='white' />
+                <Circle disabled='true' x={8} y={8} r={8} cx={42} cy={55} fill='black' />
+                <Circle disabled='true' x={4} y={4} r={4} cx={46} cy={59} fill='white' />
+                <TSpan fill='white' fontSize="13" x="15" y="25" textAnchor="middle">
+                  {upperL.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="50" y="25" textAnchor="middle">
+                  {up.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="85" y="25" textAnchor="middle">
+                  {upperR.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="15" y="68" textAnchor="middle">
+                  {left.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="85" y="68" textAnchor="middle">
+                  {right.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="15" y="93" textAnchor="middle">
+                  {lowerL.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="50" y="97" textAnchor="middle">
+                  {low.length}
+                </TSpan>
+                <TSpan fill='white' fontSize="13" x="85" y="93" textAnchor="middle">
+                  {lowerR.length}
+                </TSpan>
               </Svg>
             </View>
-            <View
-              style={{
-                flex: 8,
-                alignItems: 'center'
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: 'row'
-                }}
-              >
+            <View style={{flex: 8,alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
               </View>
               <ScrollView>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: 'white',
-                    lineHeight: 35
-                  }}
-                >
+                <Text style={{...styles.modalText, lineHeight: 35}}>
                   {errHeader}
                   {errMessage}
                 </Text>
               </ScrollView>
             </View>
-            <Icon
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}
-              name='close'
-              size={40}
-              color='black'
-              style={{
-                position: 'absolute',
-                top: 3,
-                right: 5
-              }}
-            />
+            <Icon onPress={() => {this.setModalVisible(!this.state.modalVisible)}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 5}}/>
           </View>
         </Modal>
 
         <CalendarModal animationType='slide' visible={this.state.showCalendarModal} style={styles.calendarModal} >
-            <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20, marginBottom: 10}}>FILTER DATA BY DATE RANGE</Text>
+            <Text style={styles.filterInfoText}>FILTER DATA BY DATE RANGE</Text>
             <View >
               <CalendarPicker
                 startFromMonday={true}
@@ -821,7 +672,7 @@ export default class Stats extends React.Component {
               />
             </View>
             <View>
-            <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20, marginBottom: 10}}>FILTER DATA BY TAG WORD</Text>
+            <Text style={styles.filterInfoText}>FILTER DATA BY TAG WORD</Text>
               <TextInput style={{paddingLeft: 10, backgroundColor: 'rgba(0, 0, 0, 0.14)'}}
                 placeholder={'Enter tag to filter data'}
                 value={this.state.tag}
@@ -847,14 +698,16 @@ export default class Stats extends React.Component {
           <View style={styles.modalView}>
             <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5, fontWeight: 'bold'}}>STATS INPUT SCREEN INFO</Text>
             <ScrollView style={{width: '100%', height: '100%'}}>
-              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.25)', marginBottom: 60, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
-                <View style={{flexDirection: 'column', width: 80, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center'}}>
+              <View style={styles.scrollView}>
+                <View style={styles.scrollviewIcons}>
                   <MaterialIcon name='filter-outline' size={55} color='white' style={{marginBottom: 10}}/>
                   <MaterialIcon name='filter-outline' size={55} color='rgb(255, 57, 57)'/>
                 </View>
-                <Text style={{...styles.modalText, flexShrink: 1}}>{`By default, stats are calculated for all shots - to filter data tap the funnel icon.\nYou have two options for filtering data: by date/date range (works the same as in main screen) or by 'tag' (as mentioned in info section of shots-input-screen).\nTo indicate that filtering is active the colour of icon turns from grey to red.`}</Text>
+                <Text style={{...styles.modalText, flexShrink: 1}}>
+                  {`By default, stats are calculated for all shots - to filter data tap the funnel icon.\nYou have two options for filtering data: by date/date range (works the same as in main screen) or by 'tag' (as mentioned in info section of shots-input-screen).\nTo indicate that filtering is active the colour of icon turns from grey to red.`}
+                </Text>
               </View>
-              <View style={{backgroundColor: 'rgba(255, 255, 255, 0.25)', paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, marginBottom: 60}}>
+              <View style={styles.modalMatoImage}>
                 <View style={{flexDirection: 'row', marginBottom: 10}}>
                 <Image
                   style={{width: 100, height: 100, alignSelf: 'center'}}
@@ -876,18 +729,18 @@ export default class Stats extends React.Component {
                   </Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.25)', marginBottom: 60, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+              <View style={styles.oneArrowContainer}>
                 <View style={{flexDirection: 'row'}}>
                 <Image
                   style={{width: 100, height: 100, alignSelf: 'center'}}
                   resizeMode='contain'
                   source={require('../img/one_arrow.jpg')}
                 />
-                <View style={{flexDirection: 'column', width: 50, paddingTop: 10, paddingBottom: 10, paddingLeft: 5, paddingRight: 5, justifyContent: 'center', alignItems: 'center'}}>
-                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'red'}}></View>
-                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'green'}}></View>
-                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'blue'}}></View>
-                  <View style={{marginTop: 15, marginBottom: 15, height: 6, width: 20, backgroundColor: 'violet'}}></View>
+                <View style={styles.modalButtonContainer}>
+                  <View style={{...styles.modalButton, backgroundColor: 'red'}}></View>
+                  <View style={{...styles.modalButton, backgroundColor: 'green'}}></View>
+                  <View style={{...styles.modalButton, backgroundColor: 'blue'}}></View>
+                  <View style={{...styles.modalButton, backgroundColor: 'violet'}}></View>
                 </View>
                   <Text style={{...styles.modalText, flexShrink: 1, alignSelf: 'center', marginLeft: 5}}>
                     To display the markers for a single arrow (eg. third only) press the corresponding button. To display the markers of all shots, press the active button again.
@@ -899,17 +752,7 @@ export default class Stats extends React.Component {
           <MaterialIcon onPress={() => {this.hideInfoModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
         </InfoModal>
 
-        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (
-          <Icon
-            style={styles.teacherIcon}
-            onPress={() => {
-              this.handleModal();
-            }}
-            name='message1'
-            size={50}
-            color='white'
-          />
-        ) : null}
+        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (<Icon style={styles.teacherIcon} onPress={() => {this.handleModal()}} name='message1' size={50} color='white'/>) : null}
 
       </>
     );
@@ -917,6 +760,31 @@ export default class Stats extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  matoView: {
+    flex: 7,
+    alignItems: 'center',
+    zIndex: 1,
+    justifyContent: 'flex-end',
+    paddingTop: 45
+  },
+  modalContainer: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(85, 85, 85, 0.98)',
+    paddingTop: 30,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10
+  },
+  modalMato: {
+    flex: 4,
+    alignItems: 'center'
+  },
+  activityIndicator: {
+    position:'absolute',
+    top: '45%',
+    zIndex: 200
+  },
   statText: {
     flex: 1,
     fontSize: 20,
@@ -930,8 +798,8 @@ const styles = StyleSheet.create({
   },
   teacherIcon: {
     position: 'absolute',
-    bottom: '44%',
-    right: 35,
+    bottom: '40%',
+    right: 20,
     zIndex: 3
   },
   shotMarker: {
@@ -940,6 +808,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     position: 'absolute',
     zIndex: 2,
+  },
+  arrowButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 10
+  },
+  buttonOpacity: {
+    paddingTop: 10,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  arrowButton: {
+    height: 6,
+    width: 20,
   },
   calendarModal: {
     flex: 1,
@@ -952,7 +836,20 @@ const styles = StyleSheet.create({
   dateChoice: {
     textAlign: 'center',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    //flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    justifyContent: 'center'
+  },
+  headerText: {
+    fontSize: 20,
+    alignSelf: 'center',
+    flexGrow: 1,
+    textAlign:
+    'center'
   },
   infoModal: {
     flex: 1,
@@ -982,4 +879,64 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white'
   },
+  filterInfoText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 10
+  },
+  scrollView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    marginBottom: 60,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5
+  },
+  scrollviewIcons: {
+    flexDirection: 'column',
+    width: 80,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalMatoImage: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginBottom: 60
+  },
+  oneArrowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    marginBottom: 60,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5
+  },
+  modalButtonContainer: {
+    flexDirection: 'column',
+    width: 50,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalButton: {
+    marginTop: 15,
+    marginBottom: 15,
+    height: 6,
+    width: 20,
+  }
 });

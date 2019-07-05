@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import firebase from 'react-native-firebase';
+import moment from 'moment';
+
+import {View, Text, StyleSheet, TextInput, Modal, TouchableOpacity, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Svg, { Rect, Circle } from 'react-native-svg';
-import firebase from 'react-native-firebase';
+import Svg, {Rect, Circle} from 'react-native-svg';
+
 import Main from './Main';
 import Serie from './Serie';
 
@@ -127,7 +130,6 @@ export default class AddShots extends React.Component {
         undoDisabled: true,
       })
     }
-
   }
 
   updateTextInput(value) {
@@ -136,15 +138,12 @@ export default class AddShots extends React.Component {
 
  componentDidMount() {
 
-  var date = new Date().getDate()
-  var month = new Date().getMonth() + 1;
-  var year = new Date().getFullYear();
-  let hour = new Date().getHours();
-  let minutes = new Date().getMinutes();
+  let date = moment(new Date()).format('DD.MM.YYYY HH:mm');
+  let trainingDay = moment(new Date()).format('DD.MM.YYYY');
 
   this.setState({
-    date: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year} ${hour < 10 ? '0' + hour : hour}:${minutes < 10 ? '0' + minutes : minutes}`,
-    trainingDay: `${date < 10 ? '0' + date : date}.${month < 10 ? '0' + month : month}.${year}`,
+    date: date,
+    trainingDay: trainingDay,
   });
 }
 
@@ -168,7 +167,7 @@ export default class AddShots extends React.Component {
 
         {shots}
 
-          <Svg width='90%' height='90%' viewBox='0 0 100 100'>
+          <Svg width='100%' height='100%' viewBox='0 0 100 100'>
             <Rect disabled={this.state.svgInactive} width={33} height={51} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'UL');
@@ -189,7 +188,7 @@ export default class AddShots extends React.Component {
                 this.handleShot(e, 'md-close', 'L');
               }}
             />
-            <Rect disabled={this.state.svgInactive} width={50} height={27} y={50} x={51} fill='rgb(49, 50, 47)'
+            <Rect disabled={this.state.svgInactive} width={50} height={27} y={50} x={50} fill='rgb(49, 50, 47)'
               onPressIn={e => {
                 this.handleShot(e, 'md-close', 'R');
               }}
@@ -271,7 +270,6 @@ export default class AddShots extends React.Component {
         <MaterialIcon style={{position: 'absolute', top: 5, right: 5}} name='help-circle' size={35} color='gray' onPress={() => {this.showModal()}}/>
 
         <Modal animationType='slide' transparent={true} visible={this.state.showModal} >
-
           <View style={styles.modalView}>
             <ScrollView style={{width: '100%', height: '100%'}}>
               <Text style={{...styles.modalText, textAlign: 'center', marginBottom: 5, fontWeight: 'bold'}}>SHOTS INPUT SCREEN INFO</Text>
@@ -297,19 +295,19 @@ export default class AddShots extends React.Component {
               <View style={styles.buttonsInfo}>
                 <View style={styles.buttonInfo}>
                   <MaterialIcon name='check' size={48} color='rgb(245, 71, 71)'/>
-                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                  <Text style={styles.modalText}>
                     Press the button to confirm and save shots serie. Button is inactive till all four shots are marked on azuchi.
                   </Text>
                 </View>
                 <View style={{...styles.buttonInfo, marginTop: 15, marginBottom: 15}}>
                   <MaterialIcon name='undo-variant' size={48} color='rgb(245, 71, 71)'/>
-                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                  <Text style={styles.modalText}>
                     Press the button to remove the last marked shot (inactive till at least one shot is marked on azuchi)
                   </Text>
                 </View>
                 <View style={styles.buttonInfo}>
                   <MaterialIcon name='close' size={48} color='rgb(245, 71, 71)'/>
-                  <Text style={{...styles.modalText, flexShrink: 1, marginLeft: 5}}>
+                  <Text style={styles.modalText}>
                     Press the button to close the pane (discarding any changes) and return to the main window.
                   </Text>
                 </View>
@@ -328,7 +326,8 @@ export default class AddShots extends React.Component {
      flex: 6,
      alignItems: 'center',
      zIndex: 1,
-     justifyContent: 'flex-end'
+     justifyContent: 'flex-end',
+     paddingTop: 45
    },
    arrowsCount: {
      flex: 1,
@@ -375,7 +374,9 @@ export default class AddShots extends React.Component {
    },
    modalText: {
      fontSize: 20,
-     color: 'white'
+     color: 'white',
+     flexShrink: 1,
+     marginLeft: 5
    },
    azuchiInfo: {
      backgroundColor: 'rgba(255, 255, 255, 0.25)',
