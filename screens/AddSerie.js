@@ -151,13 +151,13 @@ export default class AddShots extends React.Component {
 
      let shots = this.state.coordinates.map((e,i) => {
        if(i === 0) {
-         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'red'}}/>)
        } else if (i === 1) {
-         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'green'}}/>)
        } else if (i === 2) {
-         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'blue'}}/>)
        } else {
-         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
+         return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'violet'}}/>)
        }
      });
 
