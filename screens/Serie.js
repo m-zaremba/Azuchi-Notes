@@ -72,19 +72,19 @@ export default class Serie extends React.PureComponent {
                 {this.props.coordinates.map((e, i) => {
                   if (i === 0) {
                     return (
-                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'red'}} />
                     );
                   } else if (i === 1) {
                     return (
-                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'green'}} />
                     );
                   } else if (i === 2) {
                     return (
-                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'blue'}} />
                     );
                   } else {
                     return (
-                      <View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}} />
+                      <View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'violet'}} />
                     );
                   }
                 })}

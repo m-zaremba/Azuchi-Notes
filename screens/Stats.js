@@ -436,25 +436,25 @@ export default class Stats extends React.Component {
     if (this.state.showFirst === true) {
       statShots = statCoords.map((e, i) => {
         if (i === 0 || i % 4 === 0) {
-          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'red'}}/>)
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'red'}}/>)
         }
       });
     } else if (this.state.showSecond === true) {
       statShots = statCoords.map((e, i) => {
         if (i === 1 || i % 4 === 1) {
-          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'green'}} />);
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'green'}} />);
         }
       });
     } else if (this.state.showThird === true) {
       statShots = statCoords.map((e, i) => {
         if (i === 2 || i % 4 === 2) {
-          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'blue'}}/>)
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'blue'}}/>)
         }
       });
     } else if (this.state.showFourth === true) {
       statShots = statCoords.map((e, i) => {
         if (i === 3 || i % 4 === 3) {
-          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 36, left: e.posX + 16, backgroundColor: 'violet'}}/>)
+          return (<View key={i} style={{...styles.shotMarker, top: e.posY + 40, left: e.posX - 4, backgroundColor: 'violet'}}/>)
         }
       });
     } else {
