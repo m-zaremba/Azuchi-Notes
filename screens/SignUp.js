@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import {Button} from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
@@ -43,12 +43,11 @@ render() {
           value={this.state.password}
         />
         <Button title='Sign Up' onPress={this.handleSignUp} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} />
-        <Text style={styles.text}>Already have an account?</Text>
-        <Button
-          title='Login'
-          onPress={() => this.props.navigation.navigate('Login')}
-          containerStyle={{width: 100, marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}
-        />
+
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+          <Text style={styles.text}>Already have an account?</Text>
+        </TouchableOpacity>
+
       </View>
 
     )

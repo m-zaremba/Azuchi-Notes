@@ -1,23 +1,32 @@
 import React from 'react';
-import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-elements';
 import firebase from 'react-native-firebase';
+import {StyleSheet, Text, TextInput, View, Image} from 'react-native';
+import { Button } from 'react-native-elements';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export default class Login extends React.Component {
+
+export default class Reset extends React.Component {
   state = {
     email: '',
-    password: '',
     errorMessage: null
   };
 
-  handleLogin = () => {
-    const { email, password } = this.state;
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({ errorMessage: error.message }));
-  };
+  handleReset = () => {
+    const { email } = this.state;
+    if(this.state.email != '') {
+      firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(function (user) {
+          alert('Please check your email.')
+        }).catch(error => this.setState({ errorMessage: error.message }))
+    } else {
+      this.setState({
+        errorMessage: 'Please enter your email address'
+      })
+    }
+
+  }
 
   render() {
 
@@ -32,28 +41,17 @@ export default class Login extends React.Component {
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
-        <TextInput
-          secureTextEntry
-          style={styles.inputText}
-          autoCapitalize='none'
-          placeholder='Password'
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
-        />
         <Button
-          title='Login'
-          onPress={this.handleLogin}
+          title='Reset'
+          onPress={this.handleReset}
           containerStyle={{ width: '90%', marginTop: 30 }}
           buttonStyle={{ backgroundColor: 'rgb(245, 71, 71)' }}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
-          <Text style={{...styles.text, paddingTop: '20%'}}>Don't have an account?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Reset')}>
-          <Text style={styles.text}>Forgot password?</Text>
-        </TouchableOpacity>
+        <MaterialIcon name='arrow-left-circle' style={{position: 'absolute', top: 5, left: 5}} size={35} color='grey' onPress={() => {
+          this.props.navigation.navigate('Login')
+        }} />
       </View>
+
     );
   }
 }
@@ -78,6 +76,6 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     fontSize: 20,
-    marginTop: 20
+    marginTop: 120
   }
 });
