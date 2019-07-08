@@ -64,10 +64,11 @@ export default class Settings extends React.Component {
            style={{width: 300, height: 300}}
            source={require('../img/mon.png')}
          />
-        <Button title='LOG OUT' onPress={this.handleLogout} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
-        <Button title='Change Password' onPress={this.showModal} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
+        <Button type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} title='Change Password' onPress={this.showModal} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
+        <Button type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} title='LOG OUT' onPress={this.handleLogout} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
 
-        <Modal animationType='slide' transparent={true} visible={this.state.modalVisible} >
+
+        <Modal transparent={true} visible={this.state.modalVisible} >
           <View style={styles.modalView}>
 
             <TextInput style={styles.textInput} value={this.state.currentPassword}
@@ -85,10 +86,10 @@ export default class Settings extends React.Component {
             onChangeText={(text) => { this.setState({repeatPassword: text}) }}
             />
 
-            <Button title='Change Password' onPress={this.onChangePasswordPress} />
-
+            <Button title='Change Password' type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} onPress={this.onChangePasswordPress} />
+            <Button title='Cancel' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} onPress={() => {this.hideModal()}}d />
           </View>
-          <MaterialIcon onPress={() => {this.hideModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
+
         </Modal>
 
       </View>
@@ -103,7 +104,7 @@ export default class Settings extends React.Component {
      flex: 1
    },
    modalView: {
-     backgroundColor: 'rgba(75, 75, 75, 0.95)',
+     backgroundColor: '#FFF',
      paddingTop: 40,
      paddingBottom: 10,
      paddingLeft: 10,
