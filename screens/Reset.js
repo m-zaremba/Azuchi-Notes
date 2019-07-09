@@ -47,9 +47,14 @@ export default class Reset extends React.Component {
           containerStyle={{ width: '90%', marginTop: 30 }}
           buttonStyle={{ backgroundColor: 'rgb(245, 71, 71)' }}
         />
-        <MaterialIcon name='arrow-left-circle' style={{position: 'absolute', top: 5, left: 5}} size={35} color='grey' onPress={() => {
-          this.props.navigation.navigate('Login')
-        }} />
+        <Button
+          title='Cancel'
+          onPress={() => {
+            this.props.navigation.navigate('Login')
+          }}
+          containerStyle={{ width: '90%', marginTop: 30 }}
+          buttonStyle={{ backgroundColor: 'rgb(245, 71, 71)' }}
+        />
       </View>
 
     );

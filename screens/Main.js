@@ -127,7 +127,7 @@ class Main extends React.Component {
 
     const { selectedStartDate, selectedEndDate } = this.state;
     const minDate = new Date(2019, 1, 1);
-    const maxDate = new Date(2021, 6, 3);
+    const maxDate = new Date(2031, 11, 31);
     const startDate  =  selectedStartDate ? selectedStartDate.startOf('day').valueOf() : '';
     const endDate = selectedEndDate ? selectedEndDate.endOf('day').valueOf() : '';
 
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   mainWindow: {
     flex: 1,
     paddingTop: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)'
+    backgroundColor: 'rgba(255, 255, 255, 0.8)'
   },
   modalView: {
     backgroundColor: 'rgba(75, 75, 75, 0.95)',
@@ -383,14 +383,13 @@ const styles = StyleSheet.create({
   },
   emptyInfo: {
     alignItems: 'center',
-    height: '100%'
+    justifyContent: 'center',
   },
   emptyInfoText: {
     fontSize: 30,
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop: '68%',
-    color: 'black'
+    color: 'black',
   },
   addSerieInfo: {
     width: '100%',

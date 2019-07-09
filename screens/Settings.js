@@ -69,7 +69,7 @@ export default class Settings extends React.Component {
          resizeMode='contain'
          source={require('../img/background_mon.png')}
        >
-       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)'}}>
         <Button type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)', marginBottom: 15, marginTop: 15}} title='CHANGE PASSWORD' onPress={this.showModal} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
         <Button type='solid' containerStyle={{width: '90%', alignSelf: 'center'}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}} title='LOG OUT' onPress={this.handleLogout} containerStyle={{width: '90%', marginTop: 30}} buttonStyle={{backgroundColor: 'rgb(245, 71, 71)'}}/>
 
@@ -119,26 +119,28 @@ export default class Settings extends React.Component {
      //backgroundColor: '#FFF',
      paddingTop: 40,
      paddingBottom: 10,
-     paddingLeft: 10,
-     paddingRight: 10,
      height: '100%',
      width: '100%',
      justifyContent: 'center',
-     alignItems: 'center'
+     alignItems: 'center',
+     backgroundColor: 'rgba(255, 255, 255, 0.8)'
    },
    modalText: {
      fontSize: 20,
      color: 'white'
    },
    textInput: {
-     borderWidth:1,
-     borderColor:'gray',
-     marginVertical: 20,
-     padding: 10,
-     height: 40,
-     width: '90%',
+     marginBottom: 20,
+     paddingTop: 10,
+     paddingBottom: 10,
+     height: 50,
+     width: '100%',
      fontSize: 18,
-     backgroundColor: 'white'
+     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+     borderTopWidth: 1,
+     borderBottomWidth: 1,
+     borderTopColor: 'lightgrey',
+     borderBottomColor: 'lightgrey'
    },
 
 
