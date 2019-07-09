@@ -55,8 +55,8 @@ You can check your stats at any time, but only after a certain number of shots t
 ### Note
 
 This app is still under development. Functionalities to be added:
-* ~~filter data by date range.~~ Done for main screen (list of all shots).
-* NEW IDEA: Filter statistics by date range and/or tag (that user can add to shots serie as a note)
+* ~~filter data list by date range.~~ Done.
+* ~~NEW IDEA: Filter statistics by date range and/or tag (that user can add to shots serie as a note)~~ UPDATE: Done
 * restructure feedback messages on shots accuracy UPDATE: 75% done
 * ~~change in the firestore database structure~~ Done.
 * login with google account (?)
