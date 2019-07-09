@@ -6,13 +6,13 @@ import {createBottomTabNavigator, createStackNavigator, createAppContainer} from
 import {Button} from 'react-native-elements';
 import CalendarModal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 
 import AddSerie from './AddSerie';
 import Stats from './Stats';
-import Logout from './Logout';
+import Settings from './Settings';
 import Serie from './Serie';
 
 
@@ -308,20 +308,20 @@ const TabNavigator = createBottomTabNavigator(
   {
     Main: Main,
     Stats: Stats,
-    Logout: Logout
+    Settings: Settings
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;
-        let IconComponent = Icon;
+        let IconComponent = MaterialIcon;
         let iconName;
         if (routeName === 'Main') {
-          iconName = `${focused ? 'ios-list-box' : 'ios-list'}`;
+          iconName = `${focused ? 'clipboard-text' : 'clipboard-text-outline'}`;
         } else if (routeName === 'Stats') {
-          iconName = `${focused ? 'ios-stats' : 'md-stats'}`;
-        } else if (routeName === 'Logout') {
-          iconName = `${focused ? 'ios-exit' : 'ios-log-in'}`;
+          iconName = `${focused ? 'signal-cellular-3' : 'signal-cellular-outline'}`;
+        } else if (routeName === 'Settings') {
+          iconName = `${focused ? 'settings' : 'settings-outline'}`;
         }
         return <IconComponent name={iconName} size={40} color={tintColor} />;
       }

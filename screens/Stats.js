@@ -676,6 +676,7 @@ export default class Stats extends React.Component {
               <TextInput style={{paddingLeft: 10, backgroundColor: 'rgba(0, 0, 0, 0.14)'}}
                 placeholder={'Enter tag to filter data'}
                 value={this.state.tag}
+                autoCapitalize="none"
                 onChangeText={(text) => this.updateTextInput(text)}
               />
             </View>
@@ -752,7 +753,7 @@ export default class Stats extends React.Component {
           <MaterialIcon onPress={() => {this.hideInfoModal()}} name='close' size={40} color='black' style={{ position: 'absolute', top: 3, right: 3}} />
         </InfoModal>
 
-        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (<Icon style={styles.teacherIcon} onPress={() => {this.handleModal()}} name='message1' size={50} color='white'/>) : null}
+        {upperL.length > 10 || up.length > 10 || upperR.length > 10 || left.length > 10 || right.length > 10 || lowerL.length > 10 || low.length > 10 || lowerR.length > 10 ? (<Icon style={styles.teacherIcon} onPress={() => {this.handleModal()}} name='message1' size={40} color='white'/>) : null}
 
       </>
     );

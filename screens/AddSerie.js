@@ -259,6 +259,7 @@ export default class AddShots extends React.Component {
           </View>
           <TextInput
             placeholder={'ADD NOTE'}
+            autoCapitalize="none"
             onChangeText={(text) => this.updateTextInput(text)}
           />
           <View style={styles.buttonsWrapper}>
